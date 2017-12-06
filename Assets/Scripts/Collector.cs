@@ -13,6 +13,8 @@ public class Collector : MonoBehaviour
     Collectable _cube;
     [SerializeField]
     Collectable _sphere;
+    [SerializeField]
+    Collectable _moo;
 
     private void Start()
     {
@@ -47,6 +49,10 @@ public class Collector : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             FireObject(_sphere);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            FireObject(_moo);
         }
     }
 
