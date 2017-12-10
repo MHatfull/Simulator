@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(SpringJoint))]
-public class Collector : MonoBehaviour
+public class Collector : NetworkBehaviour
 {
     bool _holding;
     SpringJoint _spring;
@@ -23,6 +22,7 @@ public class Collector : MonoBehaviour
 
     void Update()
     {
+        if (!isLocalPlayer) return;
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if(!_holding)

@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
-    [RequireComponent(typeof (CharacterController))]
     [RequireComponent(typeof (AudioSource))]
-    public class FirstPersonController : MonoBehaviour
+    public class FirstPersonController : NetworkBehaviour
     {
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
@@ -45,6 +45,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Use this for initialization
         private void Start()
         {
+            if (!isLocalPlayer)
+            {
+
+                var visualisation = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                visualisation.transform.parent = transform;
+                visualisation.transform.localPosition = Vector3.zero;
+                visualisation.transform.rotation = transform.rotation;
+
+                Destroy(GetComponentInChildren<AudioListener>());
+                Destroy(GetComponentInChildren<FlareLayer>());
+                Destroy(GetComponentInChildren<Camera>());
+                Destroy(GetComponent<CharacterController>());
+                Destroy(this);
+            }
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
