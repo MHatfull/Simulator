@@ -9,6 +9,7 @@ public class NavArea : MonoBehaviour {
 
     public void OnDrawGizmos()
     {
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, Radius);
     }
 

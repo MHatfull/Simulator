@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4242086790264940}
   - component: {fileID: 114708963219927480}
   - component: {fileID: 114270973230897520}
+  - component: {fileID: 114503313569396340}
   m_Layer: 0
   m_Name: NavArea
   m_TagString: Untagged
@@ -53,6 +54,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 25
+--- !u!114 &114503313569396340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1723452832498736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d28953dcd96a747b9d9d269b8ee8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnRadius: 25
+  Quantity: 5
+  ToSpawn: {fileID: 114180473653064376, guid: dfc89cd7ae84b914f82255cda36404f6, type: 2}
 --- !u!114 &114708963219927480
 MonoBehaviour:
   m_ObjectHideFlags: 1
