@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(NavArea))]
 
@@ -8,10 +9,10 @@ public class SpawnArea : MonoBehaviour
 {
     public float SpawnRadius;
     public int Quantity;
-    public Spawnable ToSpawn;
+    public Enemy ToSpawn;
 
     private NavArea _navArea;
-    private List<Spawnable> _mobs = new List<Spawnable>();
+    private List<Enemy> _mobs = new List<Enemy>();
 
     private void OnDrawGizmos()
     {
@@ -31,6 +32,7 @@ public class SpawnArea : MonoBehaviour
     private void CreateMob()
     {
         var newMob = Instantiate(ToSpawn);
+        newMob.GetComponent<NavMeshAgent>().Warp(_navArea.GetNextPoint());
         newMob.OnDeath += CreateMob;
         newMob.NavArea = _navArea;
         _mobs.Add(newMob);

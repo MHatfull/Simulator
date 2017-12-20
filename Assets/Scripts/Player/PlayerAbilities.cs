@@ -2,23 +2,21 @@
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(SpringJoint))]
-[RequireComponent(typeof(ItemThrower))]
 public class PlayerAbilities : NetworkBehaviour
 {
     SpringJoint _spring;
-    ItemThrower _itemThrower;
+    CombatHandler _combatHandler = new CombatHandler();
 
     bool _holding;
     float _scrollBy;
 
-    enum ControlMode { Throwing, Collecting }
+    enum ControlMode { Combat, Building }
 
-    ControlMode _currentMode = ControlMode.Throwing;
+    ControlMode _currentMode = ControlMode.Combat;
 
     private void Start()
     {
         _spring = GetComponent<SpringJoint>();
-        _itemThrower = GetComponent<ItemThrower>();
     }
 
     void Update()
@@ -26,7 +24,7 @@ public class PlayerAbilities : NetworkBehaviour
         if (!isLocalPlayer) return;
         switch(_currentMode)
         {
-            case ControlMode.Collecting:
+            case ControlMode.Building:
                 {
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
@@ -49,9 +47,9 @@ public class PlayerAbilities : NetworkBehaviour
                     }
                     break;
                 }
-            case ControlMode.Throwing:
+            case ControlMode.Combat:
                 {
-                    _itemThrower.ThrowItem();
+                    _combatHandler.HandleCombat();
                     break;
                 }
         }

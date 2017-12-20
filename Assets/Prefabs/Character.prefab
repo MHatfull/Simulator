@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 114198302566278926}
   - component: {fileID: 114110507077927466}
   - component: {fileID: 145485737849905102}
-  - component: {fileID: 114917363119680298}
   - component: {fileID: 114311216260996852}
   m_Layer: 0
   m_Name: Character
@@ -383,20 +382,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
---- !u!114 &114917363119680298
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1520626977166748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 745fc005235227847b912846d5b9ddc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _throwingKeys: 31000000
-  _collectables:
-  - {fileID: 114713850852399728, guid: 9d04fd311fa86504091a3faf4df2a473, type: 2}
 --- !u!124 &124490938003669794
 Behaviour:
   m_ObjectHideFlags: 1
