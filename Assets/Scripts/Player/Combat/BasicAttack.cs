@@ -7,6 +7,10 @@ public class BasicAttack : CombatAbility
     const float MELEE_RANGE = 4;
     const float MELEE_DAMAGE = 4;
 
+    public BasicAttack(Transform caster) : base(caster)
+    {
+    }
+
     public override void PerformAbility()
     {
         RaycastHit hit;
@@ -16,7 +20,7 @@ public class BasicAttack : CombatAbility
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.DealDamage(MELEE_DAMAGE);
+                enemy.DealDamage(MELEE_DAMAGE, this);
             }
         }
     }

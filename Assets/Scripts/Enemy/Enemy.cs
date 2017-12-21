@@ -6,7 +6,7 @@ public abstract class Enemy : Character {
 
     public NavArea NavArea { get { return _enemyNavigation.NavArea; } set { _enemyNavigation.NavArea = value; } }
 
-    private EnemyNavigation _enemyNavigation;
+    protected EnemyNavigation _enemyNavigation;
 
     public new void Awake()
     {

@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class PlayerAbilities : NetworkBehaviour
 {
     SpringJoint _spring;
-    CombatHandler _combatHandler = new CombatHandler();
+    CombatHandler _combatHandler;
 
     bool _holding;
     float _scrollBy;
@@ -13,6 +13,11 @@ public class PlayerAbilities : NetworkBehaviour
     enum ControlMode { Combat, Building }
 
     ControlMode _currentMode = ControlMode.Combat;
+
+    private void Awake()
+    {
+        _combatHandler = new CombatHandler(transform);
+    }
 
     private void Start()
     {
