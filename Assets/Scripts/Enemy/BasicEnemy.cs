@@ -1,8 +1,10 @@
-﻿public class BasicEnemy : Enemy
+﻿using UnityEngine;
+
+public class BasicEnemy : Enemy
 {
-    public override void DealDamage(float damage, CombatAbility source)
+    public override void DealDamage(float damage, Transform source)
     {
         base.DealDamage(damage, source);
-        _enemyNavigation.Hunt(source.Caster.transform);
+        _enemyNavigation.Hunt(source);
     }
 }

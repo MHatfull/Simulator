@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(HealthBar))]
+[RequireComponent(typeof(HealthDisplay))]
+[RequireComponent(typeof(AbilityController))]
 public abstract class Character : MonoBehaviour {
 
     public delegate void OnDeathHandler();
@@ -9,30 +10,30 @@ public abstract class Character : MonoBehaviour {
     public delegate void OnHealthChangedHandler(float value);
     public event OnHealthChangedHandler OnHealthChanged;
 
-    private HealthBar _healthBar;
+    private HealthDisplay _healthDisplay;
 
     public float MaxHealth
     {
         get { return _maxHealth; }
-        protected set { _maxHealth = value; _healthBar.MaxHealth = value; }
+        protected set { _maxHealth = value; _healthDisplay.MaxHealth = value; }
     }
     [SerializeField] protected float _maxHealth;
 
     public float CurrentHealth
     {
         get { return _currentHealth; }
-        protected set { _currentHealth = value; _healthBar.CurrentHealth = value; }
+        protected set { _currentHealth = value; _healthDisplay.CurrentHealth = value; }
     }
     protected float _currentHealth;
 
     public void Awake()
     {
-        _healthBar = GetComponent<HealthBar>();
+        _healthDisplay = GetComponent<HealthDisplay>();
     }
 
     public void Start()
     {
-        _healthBar.MaxHealth = _maxHealth;
+        _healthDisplay.MaxHealth = _maxHealth;
         CurrentHealth = MaxHealth;
     }
 
@@ -41,7 +42,7 @@ public abstract class Character : MonoBehaviour {
         if (OnDeath != null) OnDeath();
     }
 
-    public virtual void DealDamage(float damage, CombatAbility source)
+    public virtual void DealDamage(float damage, Transform source)
     {
         CurrentHealth -= damage;
         CheckForDeath();

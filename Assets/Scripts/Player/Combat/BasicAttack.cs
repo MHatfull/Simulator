@@ -1,26 +1,22 @@
 ﻿using UnityEngine;
 
-public class BasicAttack : CombatAbility
+public class BasicAttack : ICombatAbility
 {
-    public override KeyCode HotKey { get { return KeyCode.Mouse0; } }
+    public KeyCode HotKey { get { return KeyCode.Mouse0; } }
 
-    const float MELEE_RANGE = 4;
+    public float Range { get { return 4; } }
+
     const float MELEE_DAMAGE = 4;
 
-    public BasicAttack(Transform caster) : base(caster)
-    {
-    }
-
-    public override void PerformAbility()
+    public void PerformAbility(Transform caster)
     {
         RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit , MELEE_RANGE))
+        if (Physics.Raycast(caster.position, caster.forward, out hit, Range))
         {
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if (enemy != null)
+            Character character = hit.transform.GetComponent<Character>();
+            if (character != null)
             {
-                enemy.DealDamage(MELEE_DAMAGE, this);
+                character.DealDamage(MELEE_DAMAGE, caster);
             }
         }
     }
