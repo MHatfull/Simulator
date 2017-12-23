@@ -2,19 +2,20 @@
 using UnityEngine;
 
 public abstract class AbilityController : MonoBehaviour {
-    protected enum Ability { BasicAttack }
+    public enum Ability { BasicAttack }
     private Dictionary<Ability, System.Func<ICombatAbility>> _abilityFactories = new Dictionary<Ability, System.Func<ICombatAbility>>
     {
         { Ability.BasicAttack, () => { return new BasicAttack(); } }
     };
-    protected List<ICombatAbility> _availableAbilities = new List<ICombatAbility>();
+    protected Dictionary<Ability, ICombatAbility> _availableAbilities = new Dictionary<Ability, ICombatAbility>();
     [SerializeField] protected Ability[] _abilities;
 
-    private void Awake()
+    protected void Awake()
     {
         foreach(var ability in _abilities)
         {
-            _availableAbilities.Add(_abilityFactories[ability]());
+            Debug.Log("adding ability " + ability + " " + name);
+            _availableAbilities.Add(ability, _abilityFactories[ability]());
         }
     }
 }
