@@ -9,11 +9,10 @@ public class EnemyNavigation : MonoBehaviour {
     public NavArea NavArea;
 
     private enum NavMode { Wander, Hunting }
-
     private NavMode _navMode = NavMode.Wander;
     private NavMeshAgent _navMeshAgent;
     private bool _isNavigating = true;
-    private Transform _huntingTarget;
+    public Transform HuntingTarget;
 
     private void Start()
     {
@@ -25,7 +24,7 @@ public class EnemyNavigation : MonoBehaviour {
     public void Hunt(Transform target)
     {
         _navMode = NavMode.Hunting;
-        _huntingTarget = target;
+        HuntingTarget = target;
     }
 
     private void Navigate()
@@ -43,7 +42,7 @@ public class EnemyNavigation : MonoBehaviour {
 
     private void HandleFollow()
     {
-        var targetPos = _huntingTarget.position;
+        var targetPos = HuntingTarget.position;
         if(Vector3.Magnitude(targetPos - NavArea.transform.position) > NavArea.Radius)
         {
             _navMode = NavMode.Wander;

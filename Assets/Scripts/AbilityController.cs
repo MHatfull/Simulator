@@ -10,11 +10,10 @@ public abstract class AbilityController : MonoBehaviour {
     protected Dictionary<Ability, CombatAbility> _availableAbilities = new Dictionary<Ability, CombatAbility>();
     [SerializeField] protected Ability[] _abilities;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         foreach(var ability in _abilities)
         {
-            Debug.Log("adding ability " + ability + " " + name);
             _availableAbilities.Add(ability, _abilityFactories[ability]());
         }
     }
