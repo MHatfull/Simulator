@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 
-public class BasicAttack : ICombatAbility
+public class BasicAttack : CombatAbility
 {
     public KeyCode HotKey { get { return KeyCode.Mouse0; } }
 
-    public float Range { get { return 4; } }
+    public override float Range { get { return 4; } }
+
+    protected override float Cooldown { get { return 4; } }
 
     const float MELEE_DAMAGE = 4;
 
-    public void PerformAbility(Transform caster)
+    public override bool PerformAbility(Transform caster)
     {
+        if (!base.PerformAbility(caster)) return false;
+        base.PerformAbility(caster);
         RaycastHit hit;
         if (Physics.Raycast(caster.position, caster.forward, out hit, Range))
         {
@@ -19,5 +23,6 @@ public class BasicAttack : ICombatAbility
                 character.DealDamage(MELEE_DAMAGE, caster);
             }
         }
+        return true;
     }
 }

@@ -7,9 +7,6 @@ public abstract class Character : MonoBehaviour {
     public delegate void OnDeathHandler();
     public event OnDeathHandler OnDeath;
 
-    public delegate void OnHealthChangedHandler(float value);
-    public event OnHealthChangedHandler OnHealthChanged;
-
     private HealthDisplay _healthDisplay;
 
     public float MaxHealth
