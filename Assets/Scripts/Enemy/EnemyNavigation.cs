@@ -50,6 +50,7 @@ public class EnemyNavigation : MonoBehaviour {
             _navMeshAgent.SetDestination(NavArea.GetNextPoint());
             return;
         }
+        _navMeshAgent.stoppingDistance = 2;
         _navMeshAgent.SetDestination(targetPos);
     }
 
@@ -61,6 +62,7 @@ public class EnemyNavigation : MonoBehaviour {
             StartCoroutine(Wait(Random.Range(0f, 5f),
                 () =>
                 {
+                    _navMeshAgent.stoppingDistance = 0;
                     _navMeshAgent.SetDestination(NavArea.GetNextPoint());
                     _isNavigating = true;
                 }));
