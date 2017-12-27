@@ -5,11 +5,13 @@ public class PlayerAbilityController : AbilityController
 {
     private Transform _owner;
     private HotKeyManager _hotKeyManager;
+    Character _self;
 
     private new void Awake()
     {
         base.Awake();
         _hotKeyManager = GetComponent<HotKeyManager>();
+        _self = GetComponent<Character>();
     }
 
     private void Update()
@@ -26,7 +28,7 @@ public class PlayerAbilityController : AbilityController
                 if (Input.GetKeyDown(mapping.Key))
                 {
                     var casting = _availableAbilities[mapping.Ability];
-                    casting.PerformAbility(transform);
+                    casting.PerformAbility(_self);
                 }
             }
         }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public abstract class CombatAbility {
-    public virtual bool PerformAbility(Transform caster)
+    public virtual bool PerformAbility(Character caster)
     {
         if (isOnCooldown()) return false;
         _lastFireTime = Time.time;

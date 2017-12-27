@@ -39,7 +39,7 @@ public abstract class Character : MonoBehaviour {
         if (OnDeath != null) OnDeath();
     }
 
-    public virtual void DealDamage(float damage, Transform source)
+    public virtual void DealDamage(float damage, Character source)
     {
         CurrentHealth -= damage;
         CheckForDeath();

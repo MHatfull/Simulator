@@ -10,12 +10,12 @@ public class BasicAttack : CombatAbility
 
     const float MELEE_DAMAGE = 4;
 
-    public override bool PerformAbility(Transform caster)
+    public override bool PerformAbility(Character caster)
     {
         if (!base.PerformAbility(caster)) return false;
         base.PerformAbility(caster);
         RaycastHit hit;
-        if (Physics.Raycast(caster.position, caster.forward, out hit, Range))
+        if (Physics.Raycast(caster.transform.position, caster.transform.forward, out hit, Range))
         {
             Character character = hit.transform.GetComponent<Character>();
             if (character != null)
