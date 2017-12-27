@@ -2,11 +2,13 @@
 
 [RequireComponent(typeof(HealthDisplay))]
 [RequireComponent(typeof(AbilityController))]
+[RequireComponent(typeof(Animator))]
 public abstract class Character : MonoBehaviour {
 
     public delegate void OnDeathHandler();
     public event OnDeathHandler OnDeath;
 
+    private Animator _animator;
     private HealthDisplay _healthDisplay;
 
     public float MaxHealth
@@ -25,6 +27,7 @@ public abstract class Character : MonoBehaviour {
 
     public void Awake()
     {
+        _animator = GetComponent<Animator>();
         _healthDisplay = GetComponent<HealthDisplay>();
     }
 
@@ -41,6 +44,7 @@ public abstract class Character : MonoBehaviour {
 
     public virtual void DealDamage(float damage, Character source)
     {
+        _animator.SetTrigger("TakeDamage");
         CurrentHealth -= damage;
         CheckForDeath();
     }
