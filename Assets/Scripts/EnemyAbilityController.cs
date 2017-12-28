@@ -23,7 +23,7 @@ public class EnemyAbilityController : AbilityController {
     {
         if (_enemyNavigation.HuntingTarget && _navMeshAgent.remainingDistance < 4)
         {
-            var cooled = _availableAbilities.Values.Where(v => !v.isOnCooldown()).ToList();
+            var cooled = AvailableAbilities.Values.Where(v => !v.isOnCooldown()).ToList();
             if(cooled.Any()) cooled[0].PerformAbility(_self);
         }
     }

@@ -6,7 +6,7 @@ public class BasicAttack : CombatAbility
 
     public override float Range { get { return 4; } }
 
-    protected override float Cooldown { get { return 4; } }
+    public override float Cooldown { get { return 4; } }
 
     const float MELEE_DAMAGE = 4;
 

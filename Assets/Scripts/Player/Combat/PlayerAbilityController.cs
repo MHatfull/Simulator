@@ -27,7 +27,7 @@ public class PlayerAbilityController : AbilityController
             {
                 if (Input.GetKeyDown(mapping.Key))
                 {
-                    var casting = _availableAbilities[mapping.Ability];
+                    var casting = AvailableAbilities[mapping.Ability];
                     casting.PerformAbility(_self);
                 }
             }
