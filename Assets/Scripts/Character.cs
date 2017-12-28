@@ -5,6 +5,8 @@
 [RequireComponent(typeof(Animator))]
 public abstract class Character : MonoBehaviour {
 
+    [SerializeField] Sprite _miniMapTexture;
+
     public delegate void OnDeathHandler();
     public event OnDeathHandler OnDeath;
 
@@ -37,6 +39,13 @@ public abstract class Character : MonoBehaviour {
     {
         _healthDisplay.MaxHealth = _maxHealth;
         CurrentHealth = MaxHealth;
+        var minimapIcon = new GameObject();
+        minimapIcon.transform.parent = transform;
+        minimapIcon.transform.eulerAngles = new Vector3(90, 0, 0);
+        minimapIcon.transform.localPosition = new Vector3(0, 10, 0);
+        minimapIcon.layer = LayerMask.NameToLayer("MiniMap");
+        var minimapSprite = minimapIcon.AddComponent<SpriteRenderer>();
+        minimapSprite.sprite = _miniMapTexture;
     }
 
     public abstract Vector3 AimDirection();
