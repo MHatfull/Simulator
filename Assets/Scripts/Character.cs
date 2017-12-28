@@ -25,6 +25,8 @@ public abstract class Character : MonoBehaviour {
     }
     protected float _currentHealth;
 
+    public abstract Vector3 FoculPoint { get; }
+
     public void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -36,6 +38,8 @@ public abstract class Character : MonoBehaviour {
         _healthDisplay.MaxHealth = _maxHealth;
         CurrentHealth = MaxHealth;
     }
+
+    public abstract Vector3 AimDirection();
 
     public virtual void Die()
     {

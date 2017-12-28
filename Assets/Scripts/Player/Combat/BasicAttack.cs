@@ -14,8 +14,9 @@ public class BasicAttack : CombatAbility
     {
         if (!base.PerformAbility(caster)) return false;
         base.PerformAbility(caster);
+        Debug.DrawRay(caster.FoculPoint, caster.AimDirection(), Color.red, 2f, false);
         RaycastHit hit;
-        if (Physics.Raycast(caster.transform.position, caster.transform.forward, out hit, Range))
+        if (Physics.Raycast(caster.FoculPoint, caster.AimDirection(), out hit, Range))
         {
             Character character = hit.transform.GetComponent<Character>();
             if (character != null)
