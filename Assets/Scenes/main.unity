@@ -137,7 +137,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 169750354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 215.5, y: 179, z: 0}
+  m_LocalPosition: {x: 206.5, y: 173, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 476978615}
@@ -263,7 +263,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 476978611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 215.5, y: 179, z: 0}
+  m_LocalPosition: {x: 206.5, y: 173, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 528136910}
@@ -439,7 +439,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 528136909}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -110.8, z: 0}
+  m_LocalPosition: {x: 0, y: -104.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 476978615}
@@ -533,9 +533,49 @@ Prefab:
       propertyPath: UIIcons.Array.data[0]
       value: 
       objectReference: {fileID: 1756527622}
+    - target: {fileID: 20779331000716736, guid: 3a02934300a66f24b8d6833160995c94,
+        type: 2}
+      propertyPath: m_RenderingPath
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 20779331000716736, guid: 3a02934300a66f24b8d6833160995c94,
+        type: 2}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20779331000716736, guid: 3a02934300a66f24b8d6833160995c94,
+        type: 2}
+      propertyPath: far clip plane
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1520626977166748, guid: 3a02934300a66f24b8d6833160995c94, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a02934300a66f24b8d6833160995c94, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &793064927 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1053857862639136, guid: 3a02934300a66f24b8d6833160995c94,
+    type: 2}
+  m_PrefabInternal: {fileID: 726697409}
+--- !u!114 &793064929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 793064927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0baa6c5045cfb994595531670d38d3b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SnowTexture: {fileID: 0}
+  SnowColor: {r: 1, g: 1, b: 1, a: 1}
+  SnowTextureScale: 0.1
+  BottomThreshold: 0
+  TopThreshold: 1
 --- !u!1001 &907035746
 Prefab:
   m_ObjectHideFlags: 0
@@ -607,7 +647,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 974378019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 210.5, y: 174, z: 0}
+  m_LocalPosition: {x: 201.5, y: 168, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1130021436}
@@ -664,6 +704,103 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!1 &1092686262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1092686267}
+  - component: {fileID: 1092686266}
+  - component: {fileID: 1092686265}
+  - component: {fileID: 1092686264}
+  - component: {fileID: 1092686263}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1092686263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1092686262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0baa6c5045cfb994595531670d38d3b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SnowTexture: {fileID: 0}
+  SnowColor: {r: 1, g: 1, b: 1, a: 1}
+  SnowTextureScale: 0.1
+  BottomThreshold: 0
+  TopThreshold: 1
+--- !u!81 &1092686264
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1092686262}
+  m_Enabled: 1
+--- !u!124 &1092686265
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1092686262}
+  m_Enabled: 1
+--- !u!20 &1092686266
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1092686262}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &1092686267
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1092686262}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.08, y: -35.413, z: 13.422039}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1130021435
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,6 +868,27 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1130021435}
+--- !u!1 &1632285911 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1447832633478864, guid: 3a02934300a66f24b8d6833160995c94,
+    type: 2}
+  m_PrefabInternal: {fileID: 726697409}
+--- !u!114 &1632285916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1632285911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0baa6c5045cfb994595531670d38d3b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SnowTexture: {fileID: 2800000, guid: 36dd0b22da8874ed38075789055ca664, type: 3}
+  SnowColor: {r: 1, g: 1, b: 1, a: 1}
+  SnowTextureScale: 0.1
+  BottomThreshold: 0.538
+  TopThreshold: 1
 --- !u!1 &1684604087
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +982,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1756527620}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -165.14, z: 0}
+  m_LocalPosition: {x: 0, y: -159.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 476978615}
