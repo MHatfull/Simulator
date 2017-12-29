@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 [RequireComponent(typeof(AbilityController))]
 public class HotKeyManager : MonoBehaviour {
@@ -7,20 +8,25 @@ public class HotKeyManager : MonoBehaviour {
     {
         public KeyCode Key;
         public AbilityController.Ability Ability;
-        public AbilityIcon UIIcon;
         public Sprite Icon;
     }
 
     public HotKeyMapping[] HotKeyMaps;
 
+    [SerializeField] AbilityIcon[] UIIcons;
+
     private void Start()
     {
         var abilityController = GetComponent<AbilityController>();
-        foreach(HotKeyMapping map in HotKeyMaps)
+        foreach (AbilityIcon icon in UIIcons)
         {
-            abilityController.AvailableAbilities[map.Ability].AbilityCast += map.UIIcon.ResetLoadingProgress;
-            map.UIIcon.SetIcon(map.Icon);
-            map.UIIcon.SetCooldown(abilityController.AvailableAbilities[map.Ability].Cooldown);
+            HotKeyMapping? mapping = HotKeyMaps.ToList().Find(m => m.Key == icon.Key);
+            if (mapping.HasValue)
+            {
+                abilityController.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
+                icon.SetIcon(mapping.Value.Icon);
+                icon.SetCooldown(abilityController.AvailableAbilities[mapping.Value.Ability].Cooldown);
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ public abstract class CombatAbility {
     public abstract float Range { get; }
     public abstract float Cooldown { get; }
 
-    private float _lastFireTime = 0;
+    private float _lastFireTime = -Mathf.Infinity;
     public bool isOnCooldown()
     {
         return Time.time - _lastFireTime < Cooldown;
