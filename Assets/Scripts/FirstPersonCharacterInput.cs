@@ -1,11 +1,10 @@
-using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson;
+﻿using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
-public class FirstPersonController : MonoBehaviour
+public class FirstPersonCharacterInput : MonoBehaviour
 {
     [SerializeField] private bool m_IsWalking;
     [SerializeField] private float m_WalkSpeed;
@@ -62,7 +61,7 @@ public class FirstPersonController : MonoBehaviour
         // the jump state needs to read here to make sure it is not missed
         if (!m_Jump)
         {
-            m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
+            m_Jump = InputManager.Jump();
         }
 
         if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -201,8 +200,8 @@ public class FirstPersonController : MonoBehaviour
     private void GetInput(out float speed)
     {
         // Read input
-        float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
-        float vertical = CrossPlatformInputManager.GetAxis("Vertical");
+        float horizontal = InputManager.GetAxis("Horizontal");
+        float vertical = InputManager.GetAxis("Vertical");
 
         bool waswalking = m_IsWalking;
 

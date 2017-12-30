@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 [RequireComponent(typeof(HotKeyManager))] 
 public class PlayerAbilityController : AbilityController
@@ -14,23 +15,15 @@ public class PlayerAbilityController : AbilityController
         _self = GetComponent<Character>();
     }
 
-    private void Update()
+    private void Start()
     {
-        HandleCombat();
+        InputManager.HotKeyDown += HandleCombat;
     }
 
-    public void HandleCombat()
+    public void HandleCombat(KeyCode hotkey)
     {
-        if (Input.anyKeyDown)
-        {
-            foreach (var mapping in _hotKeyManager.HotKeyMaps)
-            {
-                if (Input.GetKeyDown(mapping.Key))
-                {
-                    var casting = AvailableAbilities[mapping.Ability];
-                    casting.PerformAbility(_self);
-                }
-            }
-        }
+        var ability = _hotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == hotkey);
+        var casting = AvailableAbilities[ability.Ability];
+        casting.PerformAbility(_self);
     }
 }
