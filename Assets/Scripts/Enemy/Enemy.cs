@@ -8,6 +8,8 @@ public abstract class Enemy : Character {
 
     protected EnemyNavigation _enemyNavigation;
 
+    public Character Hunting;
+
     public new void Awake()
     {
         base.Awake();

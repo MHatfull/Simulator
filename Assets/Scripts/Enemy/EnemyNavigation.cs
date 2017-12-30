@@ -8,33 +8,26 @@ public class EnemyNavigation : MonoBehaviour {
 
     public NavArea NavArea;
 
-    private enum NavMode { Wander, Hunting }
-    private NavMode _navMode = NavMode.Wander;
     private NavMeshAgent _navMeshAgent;
     private bool _isNavigating = true;
-    public Character HuntingTarget;
+    private Enemy _self;
 
     private void Start()
     {
+        _self = GetComponent<Enemy>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.SetDestination(NavArea.GetNextPoint());
         InvokeRepeating("Navigate", 0, 0.1f);
     }
 
-    public void Hunt(Character target)
-    {
-        _navMode = NavMode.Hunting;
-        HuntingTarget = target;
-    }
-
     private void Navigate()
     {
-        switch(_navMode)
+        switch(_self.Hunting == null)
         {
-            case NavMode.Wander:
+            case true:
                 HandleWandering();
                 break;
-            case NavMode.Hunting:
+            case false:
                 HandleFollow();
                 break;
         }
@@ -42,10 +35,10 @@ public class EnemyNavigation : MonoBehaviour {
 
     private void HandleFollow()
     {
-        var targetPos = HuntingTarget.transform.position;
+        var targetPos = _self.Hunting.transform.position;
         if(Vector3.Magnitude(targetPos - NavArea.transform.position) > NavArea.Radius)
         {
-            _navMode = NavMode.Wander;
+            _self.Hunting = null;
             _navMeshAgent.SetDestination(NavArea.GetNextPoint());
             return;
         }

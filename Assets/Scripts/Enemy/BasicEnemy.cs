@@ -13,7 +13,7 @@ public class BasicEnemy : Enemy
     public override void DealDamage(float damage, Character source)
     {
         base.DealDamage(damage, source);
-        _enemyNavigation.Hunt(source);
+        Hunting = source;
     }
 
     public override Vector3 AimDirection()
