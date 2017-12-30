@@ -49,36 +49,34 @@ Shader "CameraEffects/ScreenSpaceSnow"
 			half4 _SnowColor;
 			fixed _BottomThreshold;
 			fixed _TopThreshold;
-			half3 _CameraPos;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				half3 normal;
 				float depth;
-
+				
 				DecodeDepthNormal(tex2D(_CameraDepthNormalsTexture, i.uv), depth, normal);
 				normal = mul((float3x3) _CamToWorld, normal);
 
+				float isClose = 1 - max(0, sign(depth - 1));
+
 				half snowAmount = normal.g;
 				half scale = (_BottomThreshold + 1 - _TopThreshold) + 1;
-				snowAmount = saturate( (snowAmount - _BottomThreshold) * scale);
+				snowAmount = saturate( (snowAmount - _BottomThreshold) * scale * isClose);
 				
 				float2 p11_22 = float2(unity_CameraProjection._11, unity_CameraProjection._22);
-				float3 vpos = float3(((i.uv * 2) - 1) / p11_22, -1) * depth;
+				float3 vpos = float3(((i.uv * 2) - 1) / p11_22, -1) * depth * _ProjectionParams.z;
 				float4 wpos = mul(_CamToWorld, float4(vpos, 1));
-				wpos += float4(_CameraPos, 0) / _ProjectionParams.z;
-				//wpos *= _ProjectionParams.z;
+				wpos += float4(_WorldSpaceCameraPos, 0) / _ProjectionParams.z;
+				wpos *= _SnowTexScale;
 
-				//float height = wpos.y;
+				float height = wpos.y;
 
-				half3 snowColor = tex2D(_SnowTex, wpos.xz * _SnowTexScale * _ProjectionParams.z) * _SnowColor;
-				return half4(frac(wpos * 1000));
-				//return half4(snowColor, 1);
-				//half4 col = tex2D(_MainTex, i.uv); 
-				//return float4(wpos.xyz, 1);
-				//return lerp(col, _SnowColor, saturate(snowAmount * height));
-				//float3 worldspace = i.worldDirection * depth + _WorldSpaceCameraPos;
-				//return float4(frac((worldspace)) + float3(0,0,0.1), 1.0);
+				snowAmount = saturate(snowAmount * height);
+
+				half4 snowColor = tex2D(_SnowTex, wpos.xz * _SnowTexScale) * _SnowColor;
+				half4 col = tex2D(_MainTex, i.uv); 
+				return lerp(col, snowColor, saturate(snowAmount));
 			}
 			ENDCG
 		}

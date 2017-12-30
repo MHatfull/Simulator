@@ -31,8 +31,6 @@ public class ScreenSpaceSnow : MonoBehaviour {
         _material.SetFloat("_TopThreshold", TopThreshold);
         _material.SetTexture("_SnowTex", SnowTexture);
         _material.SetFloat("_SnowTexScale", SnowTextureScale);
-        _material.SetVector("_CameraPos", _camera.transform.position);
-        Debug.Log(_camera.transform.position);
         Graphics.Blit(source, destination, _material);
     }
 }
