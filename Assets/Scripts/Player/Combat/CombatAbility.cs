@@ -8,7 +8,14 @@ public abstract class CombatAbility {
     public virtual bool PerformAbility(Character caster)
     {
         if (isOnCooldown()) return false;
-        if (AbilityCast != null) AbilityCast();
+        if (AbilityCast != null)
+        {
+            AbilityCast();
+        }
+        else
+        {
+            Debug.Log("casting but not subscribed " + GetHashCode());
+        }
         _lastFireTime = Time.time;
         return true;
     }

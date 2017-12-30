@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(AbilityController))]
 public class HotKeyManager : MonoBehaviour {
     [System.Serializable]
     public struct HotKeyMapping
@@ -11,21 +10,33 @@ public class HotKeyManager : MonoBehaviour {
         public Sprite Icon;
     }
 
-    public HotKeyMapping[] HotKeyMaps;
+    [SerializeField] private HotKeyMapping[] _hotKeyMaps;
 
-    [SerializeField] AbilityIcon[] UIIcons;
+    public static HotKeyMapping[] HotKeyMaps;
+
+    AbilityIcon[] _uiIcons;
+
+    public static KeyCode[] HotKeys { get; private set; }
+
+    private void Awake()
+    {
+        HotKeyMaps = _hotKeyMaps;
+    }
 
     private void Start()
     {
-        var abilityController = GetComponent<AbilityController>();
-        foreach (AbilityIcon icon in UIIcons)
+        _uiIcons = FindObjectsOfType<AbilityIcon>();
+        HotKeys = _uiIcons.Select(icon => icon.Key).ToArray();
+        foreach (AbilityIcon icon in _uiIcons)
         {
-            HotKeyMapping? mapping = HotKeyMaps.ToList().Find(m => m.Key == icon.Key);
+            HotKeyMapping? mapping = _hotKeyMaps.ToList().Find(m => m.Key == icon.Key);
             if (mapping.HasValue)
             {
-                abilityController.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
+                Debug.Log("setting " + mapping.Value.Ability);
+                Debug.Log("found ability with hash " + AbilityController.AvailableAbilities[mapping.Value.Ability].GetHashCode());
+                AbilityController.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
                 icon.SetIcon(mapping.Value.Icon);
-                icon.SetCooldown(abilityController.AvailableAbilities[mapping.Value.Ability].Cooldown);
+                icon.SetCooldown(AbilityController.AvailableAbilities[mapping.Value.Ability].Cooldown);
             }
         }
     }

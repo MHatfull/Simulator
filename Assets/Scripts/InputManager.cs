@@ -8,7 +8,6 @@ public class InputManager : MonoBehaviour {
     public delegate void InventoryToggledHandler();
     public static event InventoryToggledHandler InventoryToggled;
 
-    public static readonly KeyCode[] PossibleHotKeys = { KeyCode.Mouse0 };
     public static readonly KeyCode OpenMenu = KeyCode.I;
     public static readonly KeyCode JumpKey = KeyCode.Space;
     
@@ -16,7 +15,7 @@ public class InputManager : MonoBehaviour {
     {
         if (Input.anyKeyDown)
         {
-            foreach(KeyCode key in PossibleHotKeys)
+            foreach(KeyCode key in HotKeyManager.HotKeys)
             {
                 if (Input.GetKeyDown(key))
                 {

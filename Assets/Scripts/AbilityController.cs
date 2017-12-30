@@ -7,11 +7,12 @@ public abstract class AbilityController : MonoBehaviour {
     {
         { Ability.BasicAttack, () => { return new BasicAttack(); } }
     };
-    public Dictionary<Ability, CombatAbility> AvailableAbilities = new Dictionary<Ability, CombatAbility>();
+    public static Dictionary<Ability, CombatAbility> AvailableAbilities = new Dictionary<Ability, CombatAbility>();
     [SerializeField] protected Ability[] _abilities;
 
     protected virtual void Awake()
     {
+        AvailableAbilities.Clear();
         foreach(var ability in _abilities)
         {
             AvailableAbilities.Add(ability, _abilityFactories[ability]());
