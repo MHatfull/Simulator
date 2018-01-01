@@ -12,10 +12,6 @@ public abstract class CombatAbility {
         {
             AbilityCast();
         }
-        else
-        {
-            Debug.Log("casting but not subscribed " + GetHashCode());
-        }
         _lastFireTime = Time.time;
         return true;
     }

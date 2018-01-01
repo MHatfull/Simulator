@@ -22,7 +22,6 @@ public class AbilityIcon : MonoBehaviour {
 
     public void ResetLoadingProgress()
     {
-        Debug.Log("resetting progress");
         _image.fillAmount = 0;
         _image.color = new Color(.5f, .5f, .5f, .5f);
     }

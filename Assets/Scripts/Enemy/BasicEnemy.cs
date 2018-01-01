@@ -18,6 +18,6 @@ public class BasicEnemy : Enemy
 
     public override Vector3 AimDirection()
     {
-        return transform.forward;
+        return (Hunting.transform.position - transform.position).normalized;
     }
 }

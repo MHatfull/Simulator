@@ -1227,6 +1227,23 @@ Prefab:
       propertyPath: UIIcons.Array.data[0]
       value: 
       objectReference: {fileID: 1756527622}
+    - target: {fileID: 114763664720276686, guid: 3a02934300a66f24b8d6833160995c94,
+        type: 2}
+      propertyPath: m_WalkSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447832633478864, guid: 3a02934300a66f24b8d6833160995c94, type: 2}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053857862639136, guid: 3a02934300a66f24b8d6833160995c94, type: 2}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1520626977166748, guid: 3a02934300a66f24b8d6833160995c94, type: 2}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114296662622781586, guid: 3a02934300a66f24b8d6833160995c94, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 3a02934300a66f24b8d6833160995c94, type: 2}

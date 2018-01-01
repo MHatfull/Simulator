@@ -3,10 +3,8 @@
 public class BasicAttack : CombatAbility
 {
     public KeyCode HotKey { get { return KeyCode.Mouse0; } }
-
     public override float Range { get { return 4; } }
-
-    public override float Cooldown { get { return 4; } }
+    public override float Cooldown { get { return 1; } }
 
     const float MELEE_DAMAGE = 4;
 
@@ -14,7 +12,7 @@ public class BasicAttack : CombatAbility
     {
         if (!base.PerformAbility(caster)) return false;
         base.PerformAbility(caster);
-        Debug.DrawRay(caster.FoculPoint, caster.AimDirection(), Color.red, 2f, false);
+        Debug.DrawRay(caster.FoculPoint, caster.AimDirection() * Range, Color.red, 2f, false);
         RaycastHit hit;
         if (Physics.Raycast(caster.FoculPoint, caster.AimDirection(), out hit, Range))
         {

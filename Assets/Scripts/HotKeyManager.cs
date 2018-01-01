@@ -18,6 +18,8 @@ public class HotKeyManager : MonoBehaviour {
 
     public static KeyCode[] HotKeys { get; private set; }
 
+    [SerializeField] AbilityController _ownAbilities;
+
     private void Awake()
     {
         HotKeyMaps = _hotKeyMaps;
@@ -32,11 +34,9 @@ public class HotKeyManager : MonoBehaviour {
             HotKeyMapping? mapping = _hotKeyMaps.ToList().Find(m => m.Key == icon.Key);
             if (mapping.HasValue)
             {
-                Debug.Log("setting " + mapping.Value.Ability);
-                Debug.Log("found ability with hash " + AbilityController.AvailableAbilities[mapping.Value.Ability].GetHashCode());
-                AbilityController.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
+                _ownAbilities.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
                 icon.SetIcon(mapping.Value.Icon);
-                icon.SetCooldown(AbilityController.AvailableAbilities[mapping.Value.Ability].Cooldown);
+                icon.SetCooldown(_ownAbilities.AvailableAbilities[mapping.Value.Ability].Cooldown);
             }
         }
     }
