@@ -1923,6 +1923,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _window: {fileID: 1639894336}
+--- !u!1 &1118859194 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1520626977166748, guid: 3a02934300a66f24b8d6833160995c94,
+    type: 2}
+  m_PrefabInternal: {fileID: 726697409}
+--- !u!114 &1118859198 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114460342768455962, guid: 3a02934300a66f24b8d6833160995c94,
+    type: 2}
+  m_PrefabInternal: {fileID: 726697409}
+  m_Script: {fileID: 11500000, guid: 745fc005235227847b912846d5b9ddc1, type: 3}
+--- !u!95 &1118859204
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1118859194}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1130021435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2799,6 +2827,7 @@ MonoBehaviour:
   - Key: 323
     Ability: 0
     Icon: {fileID: 21300000, guid: 9866a92691696b346901281f2b329034, type: 3}
+  _ownAbilities: {fileID: 1118859198}
 --- !u!114 &1805453373
 MonoBehaviour:
   m_ObjectHideFlags: 0

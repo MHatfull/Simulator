@@ -34,7 +34,7 @@ public class SpawnArea : MonoBehaviour
         var newMob = Instantiate(ToSpawn);
         newMob.GetComponent<NavMeshAgent>().Warp(_navArea.GetNextPoint());
         newMob.OnDeath += CreateMob;
-        newMob.NavArea = _navArea;
+        newMob.GetComponent<EnemyNavigation>().NavArea = _navArea;
         _mobs.Add(newMob);
     }
 }

@@ -3,17 +3,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyNavigation))]
 public abstract class Enemy : Character {
-
-    public NavArea NavArea { get { return _enemyNavigation.NavArea; } set { _enemyNavigation.NavArea = value; } }
-
-    protected EnemyNavigation _enemyNavigation;
-
     public Character Hunting;
 
     public new void Awake()
     {
         base.Awake();
-        _enemyNavigation = GetComponent<EnemyNavigation>();
     }
-
 }

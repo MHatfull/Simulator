@@ -125,8 +125,6 @@ public class FirstPersonCharacterInput : MonoBehaviour
 
         ProgressStepCycle(speed);
         UpdateCameraPosition(speed);
-
-        m_MouseLook.UpdateCursorLock();
     }
 
 
