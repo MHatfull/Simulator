@@ -3,11 +3,7 @@ using UnityEngine;
 
 public class PlayerHealth : HealthDisplay
 {
-    Text _text;
-    private void Awake()
-    {
-        _text = FindObjectOfType<Text>();
-    }
+    [SerializeField] Text _text;
 
     protected override void RenderHealth()
     {
