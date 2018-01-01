@@ -2,6 +2,14 @@
 
 public class PlayerCharacter : Character
 {
+    public static PlayerCharacter Me;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Me = this;
+    }
+
     public override Vector3 FoculPoint
     {
         get

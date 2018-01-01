@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-
     [SerializeField] RectTransform _window;
 
     void Start()
     {
         InputManager.InventoryToggled += ToggleInventory;
-
+        _window.gameObject.SetActive(false);
     }
 
     void ToggleInventory()

@@ -29,7 +29,7 @@ public abstract class Character : MonoBehaviour {
 
     public abstract Vector3 FoculPoint { get; }
 
-    public void Awake()
+    protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
         _healthDisplay = GetComponent<HealthDisplay>();

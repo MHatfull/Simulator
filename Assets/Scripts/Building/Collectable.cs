@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 public class Collectable : MonoBehaviour {
-    public Rigidbody Rigidbody;
-    private void Awake()
+    public Sprite Icon;
+
+    private void OnTriggerEnter(Collider other)
     {
-        Rigidbody = GetComponent<Rigidbody>();
+        if (other.transform == PlayerCharacter.Me.transform)
+        {
+            InventoryManager.AddToInventory(this);
+            gameObject.SetActive(false);
+        }
     }
 }

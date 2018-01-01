@@ -18,6 +18,15 @@ public class MenuDropDown : MonoBehaviour {
         _dropdown.onValueChanged.AddListener(delegate { OnValueChanged(); });
 	}
 
+    private void Start()
+    {
+        foreach(RectTransform content in _contents)
+        {
+            content.gameObject.SetActive(false);
+        }
+        _contents[_dropdown.value].gameObject.SetActive(true);
+    }
+
     private void OnValueChanged()
     {
         _scrollRect.content.gameObject.SetActive(false);

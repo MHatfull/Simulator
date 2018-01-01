@@ -1,24 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class AbilityIcon : MonoBehaviour {
-
-    Image _image;
+public class AbilityIcon : UISlot {
 
     public KeyCode Key;
 
     float _cooldown = 1;
 
-    private void Awake()
-    {
-        _image = GetComponent<Image>();
-    }
-
-    public void SetIcon(Sprite icon)
-    {
-        _image.overrideSprite = icon;
-    }
 
     public void ResetLoadingProgress()
     {
