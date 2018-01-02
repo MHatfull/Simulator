@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class BasicAttack : CombatAbility
 {
@@ -13,13 +14,15 @@ public class BasicAttack : CombatAbility
         if (!base.PerformAbility(caster)) return false;
         base.PerformAbility(caster);
         Debug.DrawRay(caster.FoculPoint, caster.AimDirection() * Range, Color.red, 2f, false);
-        RaycastHit hit;
-        if (Physics.Raycast(caster.FoculPoint, caster.AimDirection(), out hit, Range))
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(caster.FoculPoint, caster.AimDirection(), Range);
+        RaycastHit? firstImpact = hits.ToList().Where(hit => hit.transform != caster.transform).OrderByDescending(hit => hit.distance).LastOrDefault();
+        if (firstImpact.HasValue)
         {
-            Character character = hit.transform.GetComponent<Character>();
+            Character character = firstImpact.Value.transform.GetComponent<Character>();
             if (character != null)
             {
-                character.DealDamage(MELEE_DAMAGE, caster);
+                character.DealDamage(MELEE_DAMAGE + caster.DamageBonus(), caster);
             }
         }
         return true;

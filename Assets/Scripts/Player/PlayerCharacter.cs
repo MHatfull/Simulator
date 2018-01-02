@@ -22,4 +22,14 @@ public class PlayerCharacter : Character
     {
         return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1)) - Camera.main.transform.position;
     }
+
+    public override void DealDamage(float damage, Character source)
+    {
+        base.DealDamage(Mathf.Clamp(damage - EquipmentManager.DamageReduction(), 0, Mathf.Infinity), source);
+    }
+
+    internal override float DamageBonus()
+    {
+        return EquipmentManager.Damage();
+    }
 }

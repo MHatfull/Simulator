@@ -20,4 +20,9 @@ public class BasicEnemy : Enemy
     {
         return (Hunting.transform.position - transform.position).normalized;
     }
+
+    internal override float DamageBonus()
+    {
+        return 0;
+    }
 }

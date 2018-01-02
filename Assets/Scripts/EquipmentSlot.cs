@@ -6,6 +6,8 @@ public class EquipmentSlot : ItemSlot
 {
     protected override void OnRightClick()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("right clicked");
+        InventoryManager.AddToInventory(Content);
+        EmptySlot();
     }
 }

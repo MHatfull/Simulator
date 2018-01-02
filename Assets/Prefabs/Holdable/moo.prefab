@@ -22,9 +22,8 @@ GameObject:
   - component: {fileID: 33175801153060112}
   - component: {fileID: 23219089613018956}
   - component: {fileID: 95491998806082368}
-  - component: {fileID: 54198482917089694}
-  - component: {fileID: 114713850852399728}
   - component: {fileID: 65043179331846812}
+  - component: {fileID: 114011410919876160}
   m_Layer: 0
   m_Name: moo
   m_TagString: Untagged
@@ -39,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1432791659443042}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 217.86487, y: 16.23728, z: 83.83572}
+  m_LocalPosition: {x: 17.68899, y: -41.28871, z: -39.001694}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,21 +85,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1432791659443042}
   m_Mesh: {fileID: 4300000, guid: 33bee4529afa2d740bfcc71a4c9f1f2c, type: 3}
---- !u!54 &54198482917089694
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432791659443042}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &65043179331846812
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -108,7 +92,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1432791659443042}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.92018014, y: 1.5878397, z: 2.2048335}
@@ -130,7 +114,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114713850852399728
+--- !u!114 &114011410919876160
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -138,7 +122,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1432791659443042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4be3f1304aa1724ea78a4a5a70c14b6, type: 3}
+  m_Script: {fileID: 11500000, guid: bedab317b1a9646459c57fc69c0f18b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rigidbody: {fileID: 0}
+  Icon: {fileID: 21300012, guid: feda0c18015b3284cabbc0da85254f9a, type: 3}
+  Damage: 5
+  DamageReduction: 2

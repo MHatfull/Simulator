@@ -7,7 +7,7 @@ public abstract class UISlot : MonoBehaviour
 {
     protected Image _image;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _image = GetComponent<Image>();
     }

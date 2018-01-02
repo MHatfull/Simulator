@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour {
     public delegate void InventoryToggledHandler();
     public static event InventoryToggledHandler InventoryToggled;
 
-    public static readonly KeyCode OpenMenu = KeyCode.I;
+    public static readonly KeyCode[] OpenMenu = { KeyCode.I, KeyCode.Escape };
     public static readonly KeyCode JumpKey = KeyCode.Space;
     
     enum InputMode { Playing, Menus }
@@ -37,11 +37,14 @@ public class InputManager : MonoBehaviour {
                     break;
                 case InputMode.Menus: break;
             }
-            if (Input.GetKeyDown(OpenMenu))
+            foreach (var key in OpenMenu)
             {
-                _currentMode = _currentMode == InputMode.Playing ? InputMode.Menus : InputMode.Playing;
-                LockCursor(_currentMode == InputMode.Playing);
-                if (InventoryToggled != null) InventoryToggled();
+                if (Input.GetKeyDown(key))
+                {
+                    _currentMode = _currentMode == InputMode.Playing ? InputMode.Menus : InputMode.Playing;
+                    LockCursor(_currentMode == InputMode.Playing);
+                    if (InventoryToggled != null) InventoryToggled();
+                }
             }
         }
     }

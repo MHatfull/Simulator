@@ -1,13 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(EventTrigger))]
 public abstract class ItemSlot : UISlot {
     public bool IsEmpty { get { return Content == null; } }
-    protected Collectable Content;
+    public Collectable Content { get; protected set; }
 
-    private void OnGUI()
+    protected override void Awake()
     {
-        var e = Event.current;
-        if(e.type == EventType.MouseUp && e.button == 1)
+        base.Awake();
+        var trigger = GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((data) => OnPointerClick((PointerEventData)data));
+        trigger.triggers.Add(entry);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Right)
         {
             OnRightClick();
         }

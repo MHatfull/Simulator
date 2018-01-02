@@ -29,6 +29,8 @@ public abstract class Character : MonoBehaviour {
 
     public abstract Vector3 FoculPoint { get; }
 
+    internal abstract float DamageBonus();
+
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();

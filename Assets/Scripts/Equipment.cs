@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class Equipment : Collectable
+﻿public abstract class Equipment : Collectable
 {
+    public float Damage;
+    public float DamageReduction;
 }

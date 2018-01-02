@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 143256003452164574}
   - component: {fileID: 54771243880599124}
   - component: {fileID: 82554754520592488}
-  - component: {fileID: 145485737849905102}
   - component: {fileID: 114460342768455962}
   - component: {fileID: 114589311326243206}
   - component: {fileID: 114080814380834794}
@@ -493,25 +492,3 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
---- !u!145 &145485737849905102
-SpringJoint:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1520626977166748}
-  m_ConnectedBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 14.2, y: -40.34, z: -43.5}
-  serializedVersion: 2
-  m_Spring: 10
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
