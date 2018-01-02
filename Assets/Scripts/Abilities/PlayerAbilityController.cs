@@ -4,12 +4,10 @@ using UnityEngine;
 public class PlayerAbilityController : AbilityController
 {
     private Transform _owner;
-    Character _self;
 
     private new void Awake()
     {
         base.Awake();
-        _self = GetComponent<Character>();
     }
 
     private void Start()
@@ -21,6 +19,6 @@ public class PlayerAbilityController : AbilityController
     {
         var ability = HotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == hotkey);
         var casting = AvailableAbilities[ability.Ability];
-        casting.PerformAbility(_self);
+        casting.PerformAbility(PlayerCharacter.Me);
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(HealthDisplay))]
 [RequireComponent(typeof(AbilityController))]
@@ -12,6 +13,8 @@ public abstract class Character : MonoBehaviour {
 
     private Animator _animator;
     private HealthDisplay _healthDisplay;
+
+    public abstract void PlayWeaponAttackAnimation();
 
     public float MaxHealth
     {

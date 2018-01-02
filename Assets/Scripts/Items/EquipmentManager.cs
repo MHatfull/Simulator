@@ -6,6 +6,8 @@ public class EquipmentManager : MonoBehaviour {
     static WeaponSlot _weaponSlot;
     static BodySlot _bodySlot;
 
+    public static Weapon Weapon { get; private set; }
+
     private void Awake()
     {
         _weaponSlot = FindObjectOfType<WeaponSlot>();
@@ -14,12 +16,19 @@ public class EquipmentManager : MonoBehaviour {
 
     public static void Equip(Equipment equipment)
     {
-        if(equipment is Weapon)
+        equipment.gameObject.SetActive(true);
+        equipment.GetComponent<Collider>().enabled = false;
+        equipment.transform.SetParent(PlayerCharacter.Me.transform);
+        if (equipment is Weapon)
         {
+            Weapon = equipment as Weapon;
+            equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
+            Debug.Log("local pos is " + equipment.transform.localPosition);
             _weaponSlot.Add(equipment);
         }
         if(equipment is Body)
         {
+            equipment.transform.localPosition = Vector3.zero;
             _bodySlot.Add(equipment);
         }
     }

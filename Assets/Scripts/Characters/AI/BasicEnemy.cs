@@ -25,4 +25,9 @@ public class BasicEnemy : Enemy
     {
         return 0;
     }
+
+    public override void PlayWeaponAttackAnimation()
+    {
+        
+    }
 }

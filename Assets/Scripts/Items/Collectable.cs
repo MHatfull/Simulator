@@ -4,6 +4,11 @@
 public class Collectable : MonoBehaviour {
     public Sprite Icon;
 
+    protected virtual void Awake()
+    {
+        GetComponent<Collider>().isTrigger = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform == PlayerCharacter.Me.transform)

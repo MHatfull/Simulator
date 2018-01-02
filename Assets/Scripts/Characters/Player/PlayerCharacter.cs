@@ -3,7 +3,7 @@
 public class PlayerCharacter : Character
 {
     public static PlayerCharacter Me;
-
+    public static readonly Vector3 WeaponOffset = Vector3.forward;
     protected override void Awake()
     {
         base.Awake();
@@ -31,5 +31,10 @@ public class PlayerCharacter : Character
     internal override float DamageBonus()
     {
         return EquipmentManager.Damage();
+    }
+
+    public override void PlayWeaponAttackAnimation()
+    {
+        EquipmentManager.Weapon.Swing();
     }
 }

@@ -11,6 +11,7 @@ public class BasicAttack : CombatAbility
 
     public override bool PerformAbility(Character caster)
     {
+        caster.PlayWeaponAttackAnimation();
         if (!base.PerformAbility(caster)) return false;
         base.PerformAbility(caster);
         Debug.DrawRay(caster.FoculPoint, caster.AimDirection() * Range, Color.red, 2f, false);
