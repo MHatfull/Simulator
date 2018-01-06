@@ -2,8 +2,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(HealthDisplay))]
-[RequireComponent(typeof(AbilityController))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AbilityController))]
 public abstract class Character : MonoBehaviour {
 
     [SerializeField] Sprite _miniMapTexture;

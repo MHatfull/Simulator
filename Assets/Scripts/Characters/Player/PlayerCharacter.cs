@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(PlayerAbilityController))]
 public class PlayerCharacter : Character
 {
     public static PlayerCharacter Me;
@@ -35,6 +36,6 @@ public class PlayerCharacter : Character
 
     public override void PlayWeaponAttackAnimation()
     {
-        if(EquipmentManager.Weapon) EquipmentManager.Weapon.Swing();
+        Debug.Log("should be animating swing weapon");
     }
 }

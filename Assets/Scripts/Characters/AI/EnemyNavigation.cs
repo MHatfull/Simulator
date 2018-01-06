@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(Animator))]
 public class EnemyNavigation : MonoBehaviour {
 
     public NavArea NavArea;
@@ -12,10 +13,13 @@ public class EnemyNavigation : MonoBehaviour {
     private bool _isNavigating = true;
     private Enemy _self;
 
+    private Animator _animator;
+
     private void Start()
     {
         _self = GetComponent<Enemy>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
         _navMeshAgent.SetDestination(NavArea.GetNextPoint());
         InvokeRepeating("Navigate", 0, 0.1f);
     }
@@ -31,6 +35,7 @@ public class EnemyNavigation : MonoBehaviour {
                 HandleFollow();
                 break;
         }
+        _animator.SetFloat("MoveSpeed", _navMeshAgent.velocity.magnitude / _navMeshAgent.speed);
     }
 
     private void HandleFollow()

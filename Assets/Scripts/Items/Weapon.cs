@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class Weapon : Equipment {
     Animator _animator;
 
@@ -10,10 +9,5 @@ public class Weapon : Equipment {
     {
         base.Awake();
         _animator = GetComponent<Animator>();
-    }
-
-    public void Swing()
-    {
-        _animator.SetTrigger("Attack");
     }
 }
