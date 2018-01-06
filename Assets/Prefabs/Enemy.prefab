@@ -129,8 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1292d2dc78d119040a6b7fbcd4fa4e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _miniMapTexture: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
+  _miniMapTexture: {fileID: 21300000, guid: 41c6f94d80f9e034a9c63dcf97d30f5c, type: 3}
+  _iconColor: {r: 1, g: 0, b: 0, a: 1}
   _maxHealth: 100
+  Hunting: {fileID: 0}
 --- !u!114 &114265977476084412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,7 +145,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NavArea: {fileID: 0}
-  HuntingTarget: {fileID: 0}
 --- !u!114 &114291809225669164
 MonoBehaviour:
   m_ObjectHideFlags: 1

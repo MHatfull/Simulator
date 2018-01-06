@@ -27,7 +27,7 @@ public abstract class ItemSlot : UISlot {
     internal void Add(Collectable collectable)
     {
         Content = collectable;
-        SetIcon(collectable.Icon);
+        SetIcon(collectable.Icon, Color.white);
     }
 
     protected void EmptySlot()

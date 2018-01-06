@@ -8,6 +8,7 @@ public class HotKeyManager : MonoBehaviour {
         public KeyCode Key;
         public AbilityController.Ability Ability;
         public Sprite Icon;
+        public Color Color;
     }
 
     [SerializeField] private HotKeyMapping[] _hotKeyMaps;
@@ -35,7 +36,7 @@ public class HotKeyManager : MonoBehaviour {
             if (mapping.HasValue)
             {
                 _ownAbilities.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
-                icon.SetIcon(mapping.Value.Icon);
+                icon.SetIcon(mapping.Value.Icon, mapping.Value.Color);
                 icon.SetCooldown(_ownAbilities.AvailableAbilities[mapping.Value.Ability].Cooldown);
             }
         }

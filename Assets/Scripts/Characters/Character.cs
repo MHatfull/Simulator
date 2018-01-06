@@ -7,6 +7,9 @@ using UnityEngine;
 public abstract class Character : MonoBehaviour {
 
     [SerializeField] Sprite _miniMapTexture;
+    [SerializeField] Color _iconColor;
+
+    const float MINIMAP_ICON_SCALE = 5f;
 
     public delegate void OnDeathHandler();
     public event OnDeathHandler OnDeath;
@@ -49,8 +52,10 @@ public abstract class Character : MonoBehaviour {
         minimapIcon.transform.eulerAngles = new Vector3(90, 0, 0);
         minimapIcon.transform.localPosition = new Vector3(0, 10, 0);
         minimapIcon.layer = LayerMask.NameToLayer("MiniMap");
+        minimapIcon.transform.localScale = Vector3.one * MINIMAP_ICON_SCALE;
         var minimapSprite = minimapIcon.AddComponent<SpriteRenderer>();
         minimapSprite.sprite = _miniMapTexture;
+        minimapSprite.color = _iconColor;
     }
 
     public abstract Vector3 AimDirection();

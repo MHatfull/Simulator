@@ -16,4 +16,10 @@ public abstract class UISlot : MonoBehaviour
     {
         _image.overrideSprite = icon;
     }
+
+    public void SetIcon(Sprite icon, Color color)
+    {
+        _image.overrideSprite = icon;
+        _image.color = color;
+    }
 }
