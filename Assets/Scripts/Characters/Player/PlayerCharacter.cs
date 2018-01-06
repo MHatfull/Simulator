@@ -35,6 +35,6 @@ public class PlayerCharacter : Character
 
     public override void PlayWeaponAttackAnimation()
     {
-        EquipmentManager.Weapon.Swing();
+        if(EquipmentManager.Weapon) EquipmentManager.Weapon.Swing();
     }
 }
