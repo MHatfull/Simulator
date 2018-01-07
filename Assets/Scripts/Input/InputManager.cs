@@ -1,81 +1,86 @@
-﻿using UnityEngine;
+﻿using Simulator.Items;
+using UnityEngine;
 
-public class InputManager : MonoBehaviour {
-
-    public delegate void HotKeyDownHandler(KeyCode key);
-    public static event HotKeyDownHandler HotKeyDown;
-
-    public delegate void InventoryToggledHandler();
-    public static event InventoryToggledHandler InventoryToggled;
-
-    public static readonly KeyCode[] OpenMenu = { KeyCode.I, KeyCode.Escape };
-    public static readonly KeyCode JumpKey = KeyCode.Space;
-    
-    enum InputMode { Playing, Menus }
-    static InputMode _currentMode = InputMode.Playing;
-
-    private void Start()
+namespace Simulator.Input
+{
+    public class InputManager : MonoBehaviour
     {
-        LockCursor(true);
-    }
 
-    private void Update()
-    {
-        if (Input.anyKeyDown)
+        public delegate void HotKeyDownHandler(KeyCode key);
+        public static event HotKeyDownHandler HotKeyDown;
+
+        public delegate void InventoryToggledHandler();
+        public static event InventoryToggledHandler InventoryToggled;
+
+        public static readonly KeyCode[] OpenMenu = { KeyCode.I, KeyCode.Escape };
+        public static readonly KeyCode JumpKey = KeyCode.Space;
+
+        enum InputMode { Playing, Menus }
+        static InputMode _currentMode = InputMode.Playing;
+
+        private void Start()
         {
-            switch (_currentMode)
-            {
-                case InputMode.Playing:
-                    foreach (KeyCode key in HotKeyManager.HotKeys)
-                    {
-                        if (Input.GetKeyDown(key))
-                        {
-                            if (HotKeyDown != null) HotKeyDown(key);
+            LockCursor(true);
+        }
 
-                        }
-                    }
-                    break;
-                case InputMode.Menus: break;
-            }
-            foreach (var key in OpenMenu)
+        private void Update()
+        {
+            if (UnityEngine.Input.anyKeyDown)
             {
-                if (Input.GetKeyDown(key))
+                switch (_currentMode)
                 {
-                    _currentMode = _currentMode == InputMode.Playing ? InputMode.Menus : InputMode.Playing;
-                    LockCursor(_currentMode == InputMode.Playing);
-                    if (InventoryToggled != null) InventoryToggled();
+                    case InputMode.Playing:
+                        foreach (KeyCode key in HotKeyManager.HotKeys)
+                        {
+                            if (UnityEngine.Input.GetKeyDown(key))
+                            {
+                                if (HotKeyDown != null) HotKeyDown(key);
+
+                            }
+                        }
+                        break;
+                    case InputMode.Menus: break;
+                }
+                foreach (var key in OpenMenu)
+                {
+                    if (UnityEngine.Input.GetKeyDown(key))
+                    {
+                        _currentMode = _currentMode == InputMode.Playing ? InputMode.Menus : InputMode.Playing;
+                        LockCursor(_currentMode == InputMode.Playing);
+                        if (InventoryToggled != null) InventoryToggled();
+                    }
                 }
             }
         }
-    }
 
-    void LockCursor(bool locked)
-    {
-        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !locked;
-    }
+        void LockCursor(bool locked)
+        {
+            Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.visible = !locked;
+        }
 
-    public static float GetAxis(string name)
-    {
-        if (_currentMode == InputMode.Playing)
+        public static float GetAxis(string name)
         {
-            return Input.GetAxis(name);
+            if (_currentMode == InputMode.Playing)
+            {
+                return UnityEngine.Input.GetAxis(name);
+            }
+            else
+            {
+                return 0;
+            }
         }
-        else
-        {
-            return 0;
-        }
-    }
 
-    public static bool Jump()
-    {
-        if (_currentMode == InputMode.Playing)
+        public static bool Jump()
         {
-            return Input.GetKeyDown(JumpKey);
-        }
-        else
-        {
-            return false;
+            if (_currentMode == InputMode.Playing)
+            {
+                return UnityEngine.Input.GetKeyDown(JumpKey);
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

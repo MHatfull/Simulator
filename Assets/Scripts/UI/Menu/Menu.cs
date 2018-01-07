@@ -1,20 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Simulator.Input;
 using UnityEngine;
 
-public class Menu : MonoBehaviour
+namespace Simulator.UI.Menu
 {
-    [SerializeField] RectTransform _window;
-
-    void Start()
+    public class Menu : MonoBehaviour
     {
-        InputManager.InventoryToggled += ToggleInventory;
-        _window.gameObject.SetActive(false);
-    }
+        [SerializeField] RectTransform _window;
 
-    void ToggleInventory()
-    {
-        _window.gameObject.SetActive(!_window.gameObject.activeSelf);
-    }
+        void Start()
+        {
+            InputManager.InventoryToggled += ToggleInventory;
+            _window.gameObject.SetActive(false);
+        }
 
+        void ToggleInventory()
+        {
+            _window.gameObject.SetActive(!_window.gameObject.activeSelf);
+        }
+
+    }
 }

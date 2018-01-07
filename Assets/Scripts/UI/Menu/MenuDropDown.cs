@@ -4,33 +4,38 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Dropdown))]
-public class MenuDropDown : MonoBehaviour {
-
-    Dropdown _dropdown;
-    [SerializeField] ScrollRect _scrollRect;
-
-    [SerializeField] RectTransform[] _contents;
-
-	void Awake () {
-        _dropdown = GetComponent<Dropdown>();
-        _dropdown.AddOptions(_contents.ToList().Select(c => c.name).ToList());
-        _dropdown.onValueChanged.AddListener(delegate { OnValueChanged(); });
-	}
-
-    private void Start()
+namespace Simulator.UI.Menu
+{
+    [RequireComponent(typeof(Dropdown))]
+    public class MenuDropDown : MonoBehaviour
     {
-        foreach(RectTransform content in _contents)
+
+        Dropdown _dropdown;
+        [SerializeField] ScrollRect _scrollRect;
+
+        [SerializeField] RectTransform[] _contents;
+
+        void Awake()
         {
-            content.gameObject.SetActive(false);
+            _dropdown = GetComponent<Dropdown>();
+            _dropdown.AddOptions(_contents.ToList().Select(c => c.name).ToList());
+            _dropdown.onValueChanged.AddListener(delegate { OnValueChanged(); });
         }
-        _contents[_dropdown.value].gameObject.SetActive(true);
-    }
 
-    private void OnValueChanged()
-    {
-        _scrollRect.content.gameObject.SetActive(false);
-        _scrollRect.content = _contents[_dropdown.value];
-        _scrollRect.content.gameObject.SetActive(true);
+        private void Start()
+        {
+            foreach (RectTransform content in _contents)
+            {
+                content.gameObject.SetActive(false);
+            }
+            _contents[_dropdown.value].gameObject.SetActive(true);
+        }
+
+        private void OnValueChanged()
+        {
+            _scrollRect.content.gameObject.SetActive(false);
+            _scrollRect.content = _contents[_dropdown.value];
+            _scrollRect.content.gameObject.SetActive(true);
+        }
     }
 }

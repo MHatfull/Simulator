@@ -1,14 +1,20 @@
-﻿using System;
+﻿using Simulator.Abilities;
+using Simulator.UI.Health;
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyNavigation))]
-[RequireComponent(typeof(EnemyAbilityController))]
-[RequireComponent(typeof(HealthBar))]
-public abstract class Enemy : Character {
-    public Character Hunting;
-
-    public new void Awake()
+namespace Simulator.Characters.AI
+{
+    [RequireComponent(typeof(EnemyNavigation))]
+    [RequireComponent(typeof(EnemyAbilityController))]
+    [RequireComponent(typeof(HealthBar))]
+    public abstract class Enemy : Character
     {
-        base.Awake();
+        public Character Hunting;
+
+        public new void Awake()
+        {
+            base.Awake();
+        }
     }
 }

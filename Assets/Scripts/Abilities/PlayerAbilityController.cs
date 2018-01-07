@@ -1,24 +1,30 @@
-﻿using System.Linq;
+﻿using Simulator.Characters.Player;
+using Simulator.Input;
+using Simulator.Items;
+using System.Linq;
 using UnityEngine;
 
-public class PlayerAbilityController : AbilityController
+namespace Simulator.Abilities
 {
-    private Transform _owner;
-
-    private new void Awake()
+    public class PlayerAbilityController : AbilityController
     {
-        base.Awake();
-    }
+        private Transform _owner;
 
-    private void Start()
-    {
-        InputManager.HotKeyDown += HandleCombat;
-    }
+        private new void Awake()
+        {
+            base.Awake();
+        }
 
-    public void HandleCombat(KeyCode hotkey)
-    {
-        var ability = HotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == hotkey);
-        var casting = AvailableAbilities[ability.Ability];
-        casting.PerformAbility(PlayerCharacter.Me);
+        private void Start()
+        {
+            InputManager.HotKeyDown += HandleCombat;
+        }
+
+        public void HandleCombat(KeyCode hotkey)
+        {
+            var ability = HotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == hotkey);
+            var casting = AvailableAbilities[ability.Ability];
+            casting.PerformAbility(PlayerCharacter.Me);
+        }
     }
 }

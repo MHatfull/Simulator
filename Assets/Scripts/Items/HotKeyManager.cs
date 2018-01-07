@@ -1,43 +1,50 @@
-﻿using System.Linq;
+﻿using Simulator.Abilities;
+using Simulator.UI;
+using Simulator.UI.Slots;
+using System.Linq;
 using UnityEngine;
 
-public class HotKeyManager : MonoBehaviour {
-    [System.Serializable]
-    public struct HotKeyMapping
+namespace Simulator.Items
+{
+    public class HotKeyManager : MonoBehaviour
     {
-        public KeyCode Key;
-        public AbilityController.Ability Ability;
-        public Sprite Icon;
-        public Color Color;
-    }
-
-    [SerializeField] private HotKeyMapping[] _hotKeyMaps;
-
-    public static HotKeyMapping[] HotKeyMaps;
-
-    AbilityIcon[] _uiIcons;
-
-    public static KeyCode[] HotKeys { get; private set; }
-
-    [SerializeField] AbilityController _ownAbilities;
-
-    private void Awake()
-    {
-        HotKeyMaps = _hotKeyMaps;
-    }
-
-    private void Start()
-    {
-        _uiIcons = FindObjectsOfType<AbilityIcon>();
-        HotKeys = _uiIcons.Select(icon => icon.Key).ToArray();
-        foreach (AbilityIcon icon in _uiIcons)
+        [System.Serializable]
+        public struct HotKeyMapping
         {
-            HotKeyMapping? mapping = _hotKeyMaps.ToList().Find(m => m.Key == icon.Key);
-            if (mapping.HasValue)
+            public KeyCode Key;
+            public AbilityController.Ability Ability;
+            public Sprite Icon;
+            public Color Color;
+        }
+
+        [SerializeField] private HotKeyMapping[] _hotKeyMaps;
+
+        public static HotKeyMapping[] HotKeyMaps;
+
+        AbilityIcon[] _uiIcons;
+
+        public static KeyCode[] HotKeys { get; private set; }
+
+        [SerializeField] AbilityController _ownAbilities;
+
+        private void Awake()
+        {
+            HotKeyMaps = _hotKeyMaps;
+        }
+
+        private void Start()
+        {
+            _uiIcons = FindObjectsOfType<AbilityIcon>();
+            HotKeys = _uiIcons.Select(icon => icon.Key).ToArray();
+            foreach (AbilityIcon icon in _uiIcons)
             {
-                _ownAbilities.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
-                icon.SetIcon(mapping.Value.Icon, mapping.Value.Color);
-                icon.SetCooldown(_ownAbilities.AvailableAbilities[mapping.Value.Ability].Cooldown);
+                HotKeyMapping? mapping = _hotKeyMaps.ToList().Find(m => m.Key == icon.Key);
+                if (mapping.HasValue)
+                {
+                    _ownAbilities.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
+                    icon.SetIcon(mapping.Value.Icon, mapping.Value.Color);
+                    icon.SetCooldown(_ownAbilities.AvailableAbilities[mapping.Value.Ability].Cooldown);
+                }
             }
         }
     }

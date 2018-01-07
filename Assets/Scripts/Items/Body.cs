@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Body : Equipment {
+namespace Simulator.Items
+{
+    public class Body : Equipment
+    {
 
+    }
 }

@@ -1,16 +1,20 @@
-﻿using System.Collections;
+﻿using Simulator.Items;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EquipmentSlot : ItemSlot
+namespace Simulator.UI.Slots
 {
-    protected override void OnRightClick()
+    public abstract class EquipmentSlot : ItemSlot
     {
-        Debug.Log("right clicked");
-        InventoryManager.AddToInventory(Content);
-        Content.gameObject.SetActive(false);
-        EmptySlot();
-    }
+        protected override void OnRightClick()
+        {
+            Debug.Log("right clicked");
+            InventoryManager.AddToInventory(Content);
+            Content.gameObject.SetActive(false);
+            EmptySlot();
+        }
 
-    protected abstract void Unequip();
+        protected abstract void Unequip();
+    }
 }

@@ -1,27 +1,32 @@
-﻿using UnityEngine;
+﻿using Simulator.Characters;
+using UnityEngine;
 
-public abstract class CombatAbility {
-
-    public delegate void AbilityCastHanlder();
-    public event AbilityCastHanlder AbilityCast;
-
-    public virtual bool PerformAbility(Character caster)
+namespace Simulator.Abilities
+{
+    public abstract class CombatAbility
     {
-        if (isOnCooldown()) return false;
-        if (AbilityCast != null)
+
+        public delegate void AbilityCastHanlder();
+        public event AbilityCastHanlder AbilityCast;
+
+        public virtual bool PerformAbility(Character caster)
         {
-            AbilityCast();
+            if (isOnCooldown()) return false;
+            if (AbilityCast != null)
+            {
+                AbilityCast();
+            }
+            _lastFireTime = Time.time;
+            return true;
         }
-        _lastFireTime = Time.time;
-        return true;
-    }
 
-    public abstract float Range { get; }
-    public abstract float Cooldown { get; }
+        public abstract float Range { get; }
+        public abstract float Cooldown { get; }
 
-    private float _lastFireTime = -Mathf.Infinity;
-    public bool isOnCooldown()
-    {
-        return Time.time - _lastFireTime < Cooldown;
+        private float _lastFireTime = -Mathf.Infinity;
+        public bool isOnCooldown()
+        {
+            return Time.time - _lastFireTime < Cooldown;
+        }
     }
 }

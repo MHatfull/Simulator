@@ -1,20 +1,25 @@
-﻿using UnityEngine;
+﻿using Simulator.Characters.Player;
+using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class Collectable : MonoBehaviour {
-    public Sprite Icon;
-
-    protected virtual void Awake()
+namespace Simulator.Items
+{
+    [RequireComponent(typeof(Collider))]
+    public class Collectable : MonoBehaviour
     {
-        GetComponent<Collider>().isTrigger = true;
-    }
+        public Sprite Icon;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.transform == PlayerCharacter.Me.transform)
+        protected virtual void Awake()
         {
-            InventoryManager.AddToInventory(this);
-            gameObject.SetActive(false);
+            GetComponent<Collider>().isTrigger = true;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.transform == PlayerCharacter.Me.transform)
+            {
+                InventoryManager.AddToInventory(this);
+                gameObject.SetActive(false);
+            }
         }
     }
 }

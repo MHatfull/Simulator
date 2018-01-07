@@ -1,5 +1,8 @@
-﻿public abstract class Equipment : Collectable
+﻿namespace Simulator.Items
 {
-    public float Damage;
-    public float DamageReduction;
+    public abstract class Equipment : Collectable
+    {
+        public float Damage;
+        public float DamageReduction;
+    }
 }

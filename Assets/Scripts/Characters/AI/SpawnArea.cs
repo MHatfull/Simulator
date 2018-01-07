@@ -3,38 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavArea))]
-
-public class SpawnArea : MonoBehaviour
+namespace Simulator.Characters.AI
 {
-    public float SpawnRadius;
-    public int Quantity;
-    public Enemy ToSpawn;
+    [RequireComponent(typeof(NavArea))]
 
-    private NavArea _navArea;
-    private List<Enemy> _mobs = new List<Enemy>();
-
-    private void OnDrawGizmos()
+    public class SpawnArea : MonoBehaviour
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, SpawnRadius);
-    }
+        public float SpawnRadius;
+        public int Quantity;
+        public Enemy ToSpawn;
 
-    public void Start()
-    {
-        _navArea = GetComponent<NavArea>();
-        while(_mobs.Count < Quantity)
+        private NavArea _navArea;
+        private List<Enemy> _mobs = new List<Enemy>();
+
+        private void OnDrawGizmos()
         {
-            CreateMob();
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, SpawnRadius);
         }
-    }
 
-    private void CreateMob()
-    {
-        var newMob = Instantiate(ToSpawn);
-        newMob.GetComponent<NavMeshAgent>().Warp(_navArea.GetNextPoint());
-        newMob.OnDeath += CreateMob;
-        newMob.GetComponent<EnemyNavigation>().NavArea = _navArea;
-        _mobs.Add(newMob);
+        public void Start()
+        {
+            _navArea = GetComponent<NavArea>();
+            while (_mobs.Count < Quantity)
+            {
+                CreateMob();
+            }
+        }
+
+        private void CreateMob()
+        {
+            var newMob = Instantiate(ToSpawn);
+            newMob.GetComponent<NavMeshAgent>().Warp(_navArea.GetNextPoint());
+            newMob.OnDeath += CreateMob;
+            newMob.GetComponent<EnemyNavigation>().NavArea = _navArea;
+            _mobs.Add(newMob);
+        }
     }
 }

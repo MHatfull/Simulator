@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodySlot : EquipmentSlot
+namespace Simulator.UI.Slots
 {
-    protected override void Unequip()
+    public class BodySlot : EquipmentSlot
     {
-        throw new System.NotImplementedException();
+        protected override void Unequip()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

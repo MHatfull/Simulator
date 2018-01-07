@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GizmoDisplay : MonoBehaviour {
-    private void OnDrawGizmos()
+namespace Simulator.UI
+{
+    public class GizmoDisplay : MonoBehaviour
     {
-        Gizmos.DrawSphere(transform.position, .5f);
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawSphere(transform.position, .5f);
+        }
     }
 }

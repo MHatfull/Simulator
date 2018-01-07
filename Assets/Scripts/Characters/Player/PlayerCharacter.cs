@@ -1,41 +1,46 @@
-﻿using UnityEngine;
+﻿using Simulator.Abilities;
+using Simulator.Items;
+using UnityEngine;
 
-[RequireComponent(typeof(PlayerAbilityController))]
-public class PlayerCharacter : Character
+namespace Simulator.Characters.Player
 {
-    public static PlayerCharacter Me;
-    public static readonly Vector3 WeaponOffset = Vector3.forward;
-    protected override void Awake()
+    [RequireComponent(typeof(PlayerAbilityController))]
+    public class PlayerCharacter : Character
     {
-        base.Awake();
-        Me = this;
-    }
-
-    public override Vector3 FoculPoint
-    {
-        get
+        public static PlayerCharacter Me;
+        public static readonly Vector3 WeaponOffset = Vector3.forward;
+        protected override void Awake()
         {
-            return Camera.main.transform.position;
+            base.Awake();
+            Me = this;
         }
-    }
 
-    public override Vector3 AimDirection()
-    {
-        return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1)) - Camera.main.transform.position;
-    }
+        public override Vector3 FoculPoint
+        {
+            get
+            {
+                return Camera.main.transform.position;
+            }
+        }
 
-    public override void DealDamage(float damage, Character source)
-    {
-        base.DealDamage(Mathf.Clamp(damage - EquipmentManager.DamageReduction(), 0, Mathf.Infinity), source);
-    }
+        public override Vector3 AimDirection()
+        {
+            return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1)) - Camera.main.transform.position;
+        }
 
-    internal override float DamageBonus()
-    {
-        return EquipmentManager.Damage();
-    }
+        public override void DealDamage(float damage, Character source)
+        {
+            base.DealDamage(Mathf.Clamp(damage - EquipmentManager.DamageReduction(), 0, Mathf.Infinity), source);
+        }
 
-    public override void PlayWeaponAttackAnimation()
-    {
-        Debug.Log("should be animating swing weapon");
+        internal override float DamageBonus()
+        {
+            return EquipmentManager.Damage();
+        }
+
+        public override void PlayWeaponAttackAnimation()
+        {
+            Debug.Log("should be animating swing weapon");
+        }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-public class PlayerHealth : HealthDisplay
+namespace Simulator.UI.Health
 {
-    [SerializeField] Text _text;
-
-    protected override void RenderHealth()
+    public class PlayerHealth : HealthDisplay
     {
-        _text.text = _currentHealth + "/" + _maxHealth;
+        [SerializeField] Text _text;
+
+        protected override void RenderHealth()
+        {
+            _text.text = _currentHealth + "/" + _maxHealth;
+        }
     }
 }
