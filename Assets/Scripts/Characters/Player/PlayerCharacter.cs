@@ -8,18 +8,22 @@ namespace Simulator.Characters.Player
     public class PlayerCharacter : Character
     {
         public static PlayerCharacter Me;
-        public static readonly Vector3 WeaponOffset = Vector3.forward;
+        [SerializeField] Transform _rightHand;
+        public static Transform RightHand;
+
         protected override void Awake()
         {
             base.Awake();
             Me = this;
+            RightHand = _rightHand;
         }
 
+        [SerializeField] Transform _foculPoint;
         public override Vector3 FoculPoint
         {
             get
             {
-                return Camera.main.transform.position;
+                return _foculPoint.transform.position;
             }
         }
 
@@ -40,7 +44,7 @@ namespace Simulator.Characters.Player
 
         public override void PlayWeaponAttackAnimation()
         {
-            Debug.Log("should be animating swing weapon");
+            _animator.SetTrigger("SwingSword");
         }
     }
 }

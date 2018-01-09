@@ -17,16 +17,15 @@ namespace Simulator.Input
         [SerializeField] private float m_GravityMultiplier;
         [SerializeField] private MouseLook m_MouseLook;
         [SerializeField] private bool m_UseFovKick;
-        [SerializeField] private FOVKick m_FovKick = new FOVKick();
         [SerializeField] private bool m_UseHeadBob;
-        [SerializeField] private CurveControlledBob m_HeadBob = new CurveControlledBob();
         [SerializeField] private LerpControlledBob m_JumpBob = new LerpControlledBob();
         [SerializeField] private float m_StepInterval;
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+        [SerializeField] private Transform m_Camera;
+        [SerializeField] private Animator _animator;
 
-        private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
         private Vector2 m_Input;
@@ -44,10 +43,7 @@ namespace Simulator.Input
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
-            m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
-            m_FovKick.Setup(m_Camera);
-            m_HeadBob.Setup(m_Camera, m_StepInterval);
             m_StepCycle = 0f;
             m_NextStep = m_StepCycle / 2f;
             m_Jumping = false;
@@ -125,8 +121,8 @@ namespace Simulator.Input
             }
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
+            _animator.SetFloat("MoveSpeed", speed * desiredMove.magnitude / m_RunSpeed);
             ProgressStepCycle(speed);
-            UpdateCameraPosition(speed);
         }
 
 
@@ -173,30 +169,6 @@ namespace Simulator.Input
         }
 
 
-        private void UpdateCameraPosition(float speed)
-        {
-            Vector3 newCameraPosition;
-            if (!m_UseHeadBob)
-            {
-                return;
-            }
-            if (m_CharacterController.velocity.magnitude > 0 && m_CharacterController.isGrounded)
-            {
-                m_Camera.transform.localPosition =
-                    m_HeadBob.DoHeadBob(m_CharacterController.velocity.magnitude +
-                                      (speed * (m_IsWalking ? 1f : m_RunstepLenghten)));
-                newCameraPosition = m_Camera.transform.localPosition;
-                newCameraPosition.y = m_Camera.transform.localPosition.y - m_JumpBob.Offset();
-            }
-            else
-            {
-                newCameraPosition = m_Camera.transform.localPosition;
-                newCameraPosition.y = m_OriginalCameraPosition.y - m_JumpBob.Offset();
-            }
-            m_Camera.transform.localPosition = newCameraPosition;
-        }
-
-
         private void GetInput(out float speed)
         {
             // Read input
@@ -225,7 +197,6 @@ namespace Simulator.Input
             if (m_IsWalking != waswalking && m_UseFovKick && m_CharacterController.velocity.sqrMagnitude > 0)
             {
                 StopAllCoroutines();
-                StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
             }
         }
 

@@ -6,9 +6,7 @@ using UnityEngine.AI;
 
 namespace Simulator.Abilities
 {
-    [RequireComponent(typeof(EnemyNavigation))]
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(Enemy))]
     public class EnemyAbilityController : AbilityController
     {
 

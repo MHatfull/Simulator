@@ -23,12 +23,12 @@ namespace Simulator.Items
         {
             equipment.gameObject.SetActive(true);
             equipment.GetComponent<Collider>().enabled = false;
-            equipment.transform.SetParent(PlayerCharacter.Me.transform);
             if (equipment is Weapon)
             {
                 Weapon = equipment as Weapon;
-                equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
-                Debug.Log("local pos is " + equipment.transform.localPosition);
+                equipment.transform.parent = PlayerCharacter.RightHand;
+                equipment.transform.localPosition = Vector3.zero;
+                equipment.transform.localEulerAngles = Vector3.zero;
                 _weaponSlot.Add(equipment);
             }
             if (equipment is Body)

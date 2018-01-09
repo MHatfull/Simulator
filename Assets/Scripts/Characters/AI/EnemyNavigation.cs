@@ -5,7 +5,6 @@ using UnityEngine.AI;
 namespace Simulator.Characters.AI
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(Enemy))]
     [RequireComponent(typeof(Animator))]
     public class EnemyNavigation : MonoBehaviour
     {

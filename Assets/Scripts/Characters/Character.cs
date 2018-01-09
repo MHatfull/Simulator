@@ -6,20 +6,19 @@ using UnityEngine;
 namespace Simulator.Characters
 {
     [RequireComponent(typeof(HealthDisplay))]
-    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(AbilityController))]
     public abstract class Character : MonoBehaviour
     {
 
         [SerializeField] Sprite _miniMapTexture;
         [SerializeField] Color _iconColor;
+        [SerializeField] protected Animator _animator;
 
         const float MINIMAP_ICON_SCALE = 5f;
 
         public delegate void OnDeathHandler();
         public event OnDeathHandler OnDeath;
 
-        private Animator _animator;
         private HealthDisplay _healthDisplay;
 
         public abstract void PlayWeaponAttackAnimation();
@@ -44,7 +43,6 @@ namespace Simulator.Characters
 
         protected virtual void Awake()
         {
-            _animator = GetComponent<Animator>();
             _healthDisplay = GetComponent<HealthDisplay>();
         }
 

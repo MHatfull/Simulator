@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _miniMapTexture: {fileID: 21300000, guid: 41c6f94d80f9e034a9c63dcf97d30f5c, type: 3}
   _iconColor: {r: 1, g: 0, b: 0, a: 1}
+  _animator: {fileID: 95442152921957324}
   _maxHealth: 100
   Hunting: {fileID: 0}
 --- !u!114 &114265977476084412
