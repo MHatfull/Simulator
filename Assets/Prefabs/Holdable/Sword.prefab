@@ -136,6 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ff1c5e4985a9a4cac278db2009c195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 12ef7cbdfe0e143fa858a324456c8979, type: 3}
+  Icon: {fileID: 21300000, guid: 1909410604f1f0f47909baea63702f78, type: 3}
   Damage: 25
   DamageReduction: 2
