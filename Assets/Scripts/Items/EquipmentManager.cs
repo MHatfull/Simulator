@@ -23,6 +23,7 @@ public class EquipmentManager : MonoBehaviour {
         {
             Weapon = equipment as Weapon;
             equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
+            equipment.transform.localEulerAngles = Vector3.forward;
             Debug.Log("local pos is " + equipment.transform.localPosition);
             _weaponSlot.Add(equipment);
         }
