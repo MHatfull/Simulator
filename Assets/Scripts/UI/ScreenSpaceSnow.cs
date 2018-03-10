@@ -25,12 +25,30 @@ public class ScreenSpaceSnow : MonoBehaviour {
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if(_camera == null) _camera = GetComponent<Camera>();
-        _material.SetMatrix("_CamToWorld", _camera.cameraToWorldMatrix);
-        _material.SetColor("_SnowColor", SnowColor);
-        _material.SetFloat("_BottomThreshold", BottomThreshold);
-        _material.SetFloat("_TopThreshold", TopThreshold);
-        _material.SetTexture("_SnowTex", SnowTexture);
-        _material.SetFloat("_SnowTexScale", SnowTextureScale);
-        Graphics.Blit(source, destination, _material);
+        SetMaterialProperties();
+        DrawSnow(source, destination);
     }
+
+    private void DrawSnow(RenderTexture source, RenderTexture dest)
+    {
+        Graphics.Blit(source, dest, _material);
+    }
+
+    private void SetMaterialProperties()
+    {
+        Debug.Log("setting cam 2 world matrix");
+        _material.SetMatrix("_CamToWorld", _camera.cameraToWorldMatrix);
+        Debug.Log("setting snow color");
+        _material.SetColor("_SnowColor", SnowColor);
+        Debug.Log("setting bottom thresh");
+        _material.SetFloat("_BottomThreshold", BottomThreshold);
+        Debug.Log("setting top thresh");
+        _material.SetFloat("_TopThreshold", TopThreshold);
+        Debug.Log("setting snow tex");
+        _material.SetTexture("_SnowTex", SnowTexture);
+        Debug.Log("setting snow tex scale");
+        _material.SetFloat("_SnowTexScale", SnowTextureScale);
+    }
+
+
 }
