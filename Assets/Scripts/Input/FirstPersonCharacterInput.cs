@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
@@ -40,6 +41,7 @@ public class FirstPersonCharacterInput : NetworkBehaviour
     [SerializeField] private AudioSource m_AudioSource;
     [SerializeField] private Camera _minimapCamera;
     [SerializeField] private AudioListener _audioListener;
+    [SerializeField] private PlayerAbilityController _abilities;
 
     // Use this for initialization
     private void Start()
@@ -59,6 +61,7 @@ public class FirstPersonCharacterInput : NetworkBehaviour
             _minimapCamera.enabled = true;
             _audioListener.enabled = true;
             transform.position = GameObject.Find("Spawn").transform.position;
+            Object.FindObjectOfType<HotKeyManager>().OnConnect(_abilities);
         }
     }
 

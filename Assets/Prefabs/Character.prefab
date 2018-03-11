@@ -561,6 +561,7 @@ MonoBehaviour:
   m_AudioSource: {fileID: 82554754520592488}
   _minimapCamera: {fileID: 20518719755000788}
   _audioListener: {fileID: 81995693980300358}
+  _abilities: {fileID: 114460342768455962}
 --- !u!124 &124309063150136152
 Behaviour:
   m_ObjectHideFlags: 1

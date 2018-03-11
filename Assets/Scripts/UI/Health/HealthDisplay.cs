@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class HealthDisplay : MonoBehaviour {
+public abstract class HealthDisplay : NetworkBehaviour {
 
     public float CurrentHealth { get { return _currentHealth; } set { _currentHealth = value; RenderHealth(); } }
     protected float _currentHealth = 0;
