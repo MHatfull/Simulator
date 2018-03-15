@@ -20,10 +20,13 @@ public class BasicAttack : CombatAbility
         RaycastHit? firstImpact = hits.ToList().Where(hit => hit.transform != caster.transform).OrderByDescending(hit => hit.distance).LastOrDefault();
         if (firstImpact.HasValue)
         {
-            Character character = firstImpact.Value.transform.GetComponent<Character>();
-            if (character != null)
+            if (firstImpact.Value.transform != null)
             {
-                character.DealDamage(MELEE_DAMAGE + caster.DamageBonus(), caster);
+                Character character = firstImpact.Value.transform.GetComponent<Character>();
+                if (character != null)
+                {
+                    character.DealDamage(MELEE_DAMAGE + caster.DamageBonus(), caster);
+                }
             }
         }
         return true;
