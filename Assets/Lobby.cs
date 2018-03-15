@@ -16,7 +16,7 @@ public class Lobby : MonoBehaviour {
         }
         else
         {
-            manager.networkAddress = "ec2-34-244-249-255.eu-west-1.compute.amazonaws.com";
+            manager.networkAddress = "game-server.underlunchers.co.uk";
             var client = manager.StartClient();
             Debug.Log("client started " + client.isConnected);
         }

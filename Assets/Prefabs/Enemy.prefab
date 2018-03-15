@@ -28,6 +28,8 @@ GameObject:
   - component: {fileID: 114291809225669164}
   - component: {fileID: 114180374234975978}
   - component: {fileID: 95442152921957324}
+  - component: {fileID: 114825558248693822}
+  - component: {fileID: 114483994625549448}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -131,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _miniMapTexture: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
   _maxHealth: 100
+  Hunting: {fileID: 0}
 --- !u!114 &114265977476084412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,7 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NavArea: {fileID: 0}
-  HuntingTarget: {fileID: 0}
 --- !u!114 &114291809225669164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,6 +157,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022c9d3fb334d334daeeeb99a0727bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114483994625549448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1374903523633264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114825558248693822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1374903523633264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 223
+    i1: 200
+    i2: 156
+    i3: 215
+    i4: 174
+    i5: 132
+    i6: 185
+    i7: 20
+    i8: 248
+    i9: 34
+    i10: 85
+    i11: 205
+    i12: 163
+    i13: 100
+    i14: 4
+    i15: 246
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!135 &135095501501266564
 SphereCollider:
   m_ObjectHideFlags: 1

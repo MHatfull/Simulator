@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(NavArea))]
 
@@ -36,5 +37,6 @@ public class SpawnArea : MonoBehaviour
         newMob.OnDeath += CreateMob;
         newMob.GetComponent<EnemyNavigation>().NavArea = _navArea;
         _mobs.Add(newMob);
+        NetworkServer.Spawn(newMob.gameObject);
     }
 }
