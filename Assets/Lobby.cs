@@ -9,14 +9,14 @@ public class Lobby : MonoBehaviour {
     {
         var manager = GetComponent<NetworkManager>();
         manager.networkPort = 4444;
-        if (Application.platform == RuntimePlatform.LinuxPlayer)
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             manager.StartServer();
             Debug.Log("Server started");
         }
         else
         {
-            manager.networkAddress = "game-server.underlunchers.co.uk";
+            manager.networkAddress = "localhost"; // "game-server.underlunchers.co.uk";
             var client = manager.StartClient();
             Debug.Log("client started " + client.isConnected);
         }
