@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Enemy))]
-public class EnemyNavigation : MonoBehaviour {
+public class EnemyNavigation : NetworkBehaviour {
 
     public NavArea NavArea;
 
@@ -16,8 +17,11 @@ public class EnemyNavigation : MonoBehaviour {
     {
         _self = GetComponent<Enemy>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshAgent.SetDestination(NavArea.GetNextPoint());
-        InvokeRepeating("Navigate", 0, 0.1f);
+        if (isServer)
+        {
+            RpcSetDest(NavArea.GetNextPoint(), 0);
+            InvokeRepeating("Navigate", 0, 0.1f);
+        }
     }
 
     private void Navigate()
@@ -39,11 +43,10 @@ public class EnemyNavigation : MonoBehaviour {
         if(Vector3.Magnitude(targetPos - NavArea.transform.position) > NavArea.Radius)
         {
             _self.Hunting = null;
-            _navMeshAgent.SetDestination(NavArea.GetNextPoint());
+            RpcSetDest(NavArea.GetNextPoint(), 0);
             return;
         }
-        _navMeshAgent.stoppingDistance = 2;
-        _navMeshAgent.SetDestination(targetPos);
+        RpcSetDest(targetPos, 2);
     }
 
     private void HandleWandering()
@@ -54,11 +57,17 @@ public class EnemyNavigation : MonoBehaviour {
             StartCoroutine(Wait(Random.Range(0f, 5f),
                 () =>
                 {
-                    _navMeshAgent.stoppingDistance = 0;
-                    _navMeshAgent.SetDestination(NavArea.GetNextPoint());
+                    RpcSetDest(NavArea.GetNextPoint(), 0); 
                     _isNavigating = true;
                 }));
         }
+    }
+
+    [ClientRpc]
+    private void RpcSetDest(Vector3 dest, float stoppingDistance)
+    {
+        _navMeshAgent.stoppingDistance = stoppingDistance;
+        _navMeshAgent.SetDestination(dest);
     }
 
     private IEnumerator Wait(float duration, System.Action callback)
