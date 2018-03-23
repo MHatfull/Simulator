@@ -7,7 +7,7 @@ public class HealthBar : HealthDisplay {
 
     private void Awake()
     {
-        _healthBar = new GameObject();
+        _healthBar = new GameObject("Health bar");
         _healthBar.transform.SetParent(transform);
         _healthBar.transform.localPosition = Vector3.up;
         _text = _healthBar.AddComponent<TextMesh>();
