@@ -19,7 +19,7 @@ public class PlayerHealth : HealthDisplay
             {
                 SetupText(GameObject.Find("HealthDisplay").GetComponent<Text>());
             }
+            _text.text = _currentHealth + "/" + _maxHealth;
         }
-        _text.text = _currentHealth + "/" + _maxHealth;
     }
 }
