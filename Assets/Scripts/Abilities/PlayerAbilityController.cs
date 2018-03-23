@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class PlayerAbilityController : AbilityController
 {
@@ -14,12 +15,12 @@ public class PlayerAbilityController : AbilityController
     {
         if (isLocalPlayer)
         {
-            InputManager.HotKeyDown += HandleCombat;
+            InputManager.HotKeyDown += CmdHandleCombat;
         }
     }
 
     [Command]
-    public void HandleCombat(KeyCode hotkey)
+    public void CmdHandleCombat(KeyCode hotkey)
     {
         Debug.Log("handling combat for " + gameObject.name);
         var ability = HotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == hotkey);
