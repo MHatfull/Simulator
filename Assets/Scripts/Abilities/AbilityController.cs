@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class AbilityController : MonoBehaviour {
+public abstract class AbilityController : NetworkBehaviour {
     public enum Ability { BasicAttack }
     private Dictionary<Ability, System.Func<CombatAbility>> _abilityFactories = new Dictionary<Ability, System.Func<CombatAbility>>
     {

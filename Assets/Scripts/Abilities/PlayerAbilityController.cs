@@ -12,11 +12,16 @@ public class PlayerAbilityController : AbilityController
 
     private void Start()
     {
-        InputManager.HotKeyDown += HandleCombat;
+        if (isLocalPlayer)
+        {
+            InputManager.HotKeyDown += HandleCombat;
+        }
     }
 
+    [Command]
     public void HandleCombat(KeyCode hotkey)
     {
+        Debug.Log("handling combat for " + gameObject.name);
         var ability = HotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == hotkey);
         var casting = AvailableAbilities[ability.Ability];
         casting.PerformAbility(PlayerCharacter.Me);
