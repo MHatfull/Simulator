@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(HealthDisplay))]
 [RequireComponent(typeof(AbilityController))]
 [RequireComponent(typeof(Animator))]
-public abstract class Character : MonoBehaviour {
+public abstract class Character : NetworkBehaviour {
 
     [SerializeField] Sprite _miniMapTexture;
 
@@ -26,9 +27,16 @@ public abstract class Character : MonoBehaviour {
     public float CurrentHealth
     {
         get { return _currentHealth; }
-        protected set { _currentHealth = value; _healthDisplay.CurrentHealth = value; }
+        protected set { _currentHealth = value; OnHealthChanged(value); }
     }
+
+    [SyncVar(hook = "OnHealthChanged")]
     protected float _currentHealth;
+
+    private void OnHealthChanged(float value)
+    {
+        _healthDisplay.CurrentHealth = value;
+    }
 
     public abstract Vector3 FoculPoint { get; }
 

@@ -9,7 +9,7 @@ public class HealthBar : HealthDisplay {
     {
         _healthBar = new GameObject();
         _healthBar.transform.SetParent(transform);
-        _healthBar.transform.position = Vector3.up;
+        _healthBar.transform.localPosition = Vector3.up;
         _text = _healthBar.AddComponent<TextMesh>();
         _text.alignment = TextAlignment.Center;
         _text.anchor = TextAnchor.MiddleCenter;

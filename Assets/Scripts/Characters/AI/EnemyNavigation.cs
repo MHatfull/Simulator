@@ -19,7 +19,7 @@ public class EnemyNavigation : NetworkBehaviour {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         if (isServer)
         {
-            RpcSetDest(NavArea.GetNextPoint(), 0);
+            SetDest(NavArea.GetNextPoint());
             InvokeRepeating("Navigate", 0, 0.1f);
         }
     }
@@ -43,10 +43,10 @@ public class EnemyNavigation : NetworkBehaviour {
         if(Vector3.Magnitude(targetPos - NavArea.transform.position) > NavArea.Radius)
         {
             _self.Hunting = null;
-            RpcSetDest(NavArea.GetNextPoint(), 0);
+            SetDest(NavArea.GetNextPoint());
             return;
         }
-        RpcSetDest(targetPos, 2);
+        SetDest(targetPos, 2);
     }
 
     private void HandleWandering()
@@ -57,9 +57,20 @@ public class EnemyNavigation : NetworkBehaviour {
             StartCoroutine(Wait(Random.Range(0f, 5f),
                 () =>
                 {
-                    RpcSetDest(NavArea.GetNextPoint(), 0); 
+                    SetDest(NavArea.GetNextPoint()); 
                     _isNavigating = true;
                 }));
+        }
+    }
+
+    private void SetDest(Vector3 dest, float stoppingDistance = 0)
+    {
+        if (isServer)
+        {
+            _navMeshAgent.stoppingDistance = stoppingDistance;
+            _navMeshAgent.SetDestination(dest);
+
+            RpcSetDest(dest, stoppingDistance);
         }
     }
 

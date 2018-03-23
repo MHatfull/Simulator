@@ -12,6 +12,7 @@ public class PlayerHealth : HealthDisplay
 
     protected override void RenderHealth()
     {
+        if (isServer) return;
         if (isLocalPlayer)
         {
             if (!_text)

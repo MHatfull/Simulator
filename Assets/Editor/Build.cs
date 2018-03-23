@@ -26,7 +26,7 @@ public class Build : MonoBehaviour
         EditorUserBuildSettings.enableHeadlessMode = true;
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = new[] { "Assets/Scenes/main.unity" };
-        buildPlayerOptions.locationPathName = "Builds/Linux/Linux.x86_x64";
+        buildPlayerOptions.locationPathName = "Builds/Linux/Linux.x86_64";
         buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
         buildPlayerOptions.options = BuildOptions.None;
         return buildPlayerOptions;

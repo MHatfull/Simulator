@@ -9,14 +9,15 @@ public class Lobby : MonoBehaviour {
     {
         var manager = GetComponent<NetworkManager>();
         manager.networkPort = 4444;
-        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        manager.useWebSockets = true;
+        if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             manager.StartServer();
             Debug.Log("Server started");
         }
         else
         {
-            manager.networkAddress = "localhost"; // "game-server.underlunchers.co.uk";
+            manager.networkAddress = "localhost";
             var client = manager.StartClient();
             Debug.Log("client started " + client.isConnected);
         }
