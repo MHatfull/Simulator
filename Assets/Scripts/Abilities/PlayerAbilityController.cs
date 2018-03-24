@@ -2,27 +2,36 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(PlayerCharacter))]
 public class PlayerAbilityController : AbilityController
 {
-    private Transform _owner;
+    private PlayerCharacter _owner;
 
     private new void Awake()
     {
         base.Awake();
+        _owner = GetComponent<PlayerCharacter>();
     }
 
     private void Start()
     {
         if (isLocalPlayer)
         {
-            InputManager.HotKeyDown += CmdHandleCombat;
+            InputManager.HotKeyDown += HotKeyDown;
         }
     }
 
-    [Command]
-    public void CmdHandleCombat(KeyCode hotkey)
+    private void HotKeyDown(KeyCode code)
     {
-        Debug.Log("handling combat for " + gameObject.name);
+        CmdHandleCombat(code, Camera.main.transform.position, Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1)) - Camera.main.transform.position);
+        Debug.Log("should be on client");
+    }
+
+    [Command]
+    public void CmdHandleCombat(KeyCode hotkey, Vector3 focalPoint, Vector3 focalDirection)
+    {
+        Debug.Log("server handling combat for " + gameObject.name);
+        _owner.UpdateFocus(focalPoint, focalDirection);
         var ability = HotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == hotkey);
         var casting = AvailableAbilities[ability.Ability];
         casting.PerformAbility(PlayerCharacter.Me);

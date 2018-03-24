@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 public class PlayerCharacter : Character
 {
@@ -10,17 +11,29 @@ public class PlayerCharacter : Character
         Me = this;
     }
 
+    [SyncVar]
+    Vector3 _focalPoint;
+
     public override Vector3 FoculPoint
     {
         get
         {
-            return Camera.main.transform.position;
+            return _focalPoint;
         }
     }
 
+    [SyncVar]
+    Vector3 _aimDirection;
+
     public override Vector3 AimDirection()
     {
-        return Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1)) - Camera.main.transform.position;
+        return _aimDirection;
+    }
+
+    public void UpdateFocus(Vector3 point, Vector3 direction)
+    {
+        _focalPoint = point;
+        _aimDirection = direction;
     }
 
     public override void DealDamage(float damage, Character source)
