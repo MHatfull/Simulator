@@ -10,7 +10,7 @@ public class Lobby : MonoBehaviour {
         var manager = GetComponent<NetworkManager>();
         manager.networkPort = 4444;
         //manager.useWebSockets = true;
-        if (Application.platform == RuntimePlatform.WindowsPlayer) //&& false)
+        if (Application.platform == RuntimePlatform.WindowsEditor) //&& false)
         {
             manager.StartServer();
             Debug.Log("Server started");
