@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Menu : MonoBehaviour
@@ -7,15 +8,15 @@ public class Menu : MonoBehaviour
     [SerializeField] RectTransform _window;
 
     public InventorySlot[] InventorySlots { get; private set; }
-    public WeaponSlot WeaponSlot { get; private set; }
-    public BodySlot BodySlot { get; private set; }
+    public EquipmentSlot WeaponSlot { get; private set; }
+    public EquipmentSlot BodySlot { get; private set; }
 
     private void Awake()
     {
-        InventorySlots = FindObjectsOfType<InventorySlot>();
-        BodySlot = FindObjectOfType<BodySlot>();
-        WeaponSlot = FindObjectOfType<WeaponSlot>();
-        Debug.Log("weapon slot is " + WeaponSlot);
+        InventorySlots = Object.FindObjectsOfType<InventorySlot>();
+        EquipmentSlot[] equipmentSlots = Object.FindObjectsOfType<EquipmentSlot>();
+        WeaponSlot = equipmentSlots.Where(s => s.EquipmentType == EquipmentType.Weapon).First();
+        BodySlot = equipmentSlots.Where(s => s.EquipmentType == EquipmentType.Body).First();
     }
 
     void Start()

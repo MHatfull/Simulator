@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EquipmentSlot : ItemSlot
+public class EquipmentSlot : ItemSlot
 {
-    public InventoryManager Inventory;
-    public EquipmentManager EquipmentManager;
+    public EquipmentType EquipmentType;
+
+    public delegate void EquipmentUnequippedHandler(EquipmentSlot slot);
+    public event EquipmentUnequippedHandler EquipmentUnequipped;
 
     protected override void OnRightClick()
     {
         if (Content)
         {
-            EquipmentManager.Unequip(this);
-            Inventory.AddToInventory(Content);
+            if (EquipmentUnequipped != null)
+            {
+                EquipmentUnequipped(this);
+            }
             EmptySlot();
         }
     }
-
-    protected abstract void Unequip();
 }

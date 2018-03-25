@@ -1,13 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(PlayerCharacter))]
 public class EquipmentManager : NetworkBehaviour {
-    WeaponSlot _weaponSlot;
-    BodySlot _bodySlot;
+    public Dictionary<EquipmentType, EquipmentSlot> EquipmentSlots = new Dictionary<EquipmentType, EquipmentSlot>();
 
-    public Weapon Weapon { get; private set; }
-    public Body Body { get; private set; }
+    public Dictionary<EquipmentType, Equipment> Equipped = new Dictionary<EquipmentType, Equipment>();
 
     private PlayerCharacter _player;
     private InventoryManager _inventory;
@@ -16,26 +15,22 @@ public class EquipmentManager : NetworkBehaviour {
     {
         if (localPlayerAuthority)
         {
-            _weaponSlot = FindObjectOfType<Menu>().WeaponSlot;
-            _bodySlot = FindObjectOfType<Menu>().BodySlot;
+            EquipmentSlots.Add(EquipmentType.Weapon, FindObjectOfType<Menu>().WeaponSlot);
+            EquipmentSlots.Add(EquipmentType.Body, FindObjectOfType<Menu>().BodySlot);
             _player = GetComponent<PlayerCharacter>();
             _inventory = GetComponent<InventoryManager>();
-            _weaponSlot.Inventory = _inventory;
-            _bodySlot.Inventory = _inventory;
-            _weaponSlot.EquipmentManager = this;
-            _bodySlot.EquipmentManager = this;
+            foreach (EquipmentSlot slot in EquipmentSlots.Values)
+            {
+                slot.EquipmentUnequipped += Unequip;
+            }
         }
     }
 
     public void Equip(Equipment equipment)
     {
-        if(equipment is Weapon && Weapon)
+        if (equipment)
         {
-            Weapon.NetworkSetActive(false);
-        }
-        if(equipment is Body && Body)
-        {
-            Body.NetworkSetActive(false);
+            equipment.NetworkSetActive(false);
         }
         CmdEquip(equipment.netId);
     }
@@ -57,48 +52,25 @@ public class EquipmentManager : NetworkBehaviour {
 
     public void Unequip(EquipmentSlot slot)
     {
-        if(slot is WeaponSlot)
-        {
-            CmdUnequipWeapon();
-        }
-        if(slot is BodySlot)
-        {
-            CmdUnequipBody();
-        }
+        _inventory.AddToInventory(slot.Content);
+        CmdUnequip(slot.EquipmentType);
     }
 
     [Command]
-    void CmdUnequipWeapon()
+    void CmdUnequip(EquipmentType type)
     {
-        if (Weapon)
+        if (Equipped[type] != null)
         {
-            Weapon.NetworkSetActive(false);
+            Equipped[type].NetworkSetActive(false);
         }
-        Weapon = null;
-        RpcUnequipWeapon();
+        Equipped[type] = null;
+        RpcUnequip(type);
     }
 
     [ClientRpc]
-    void RpcUnequipWeapon()
+    void RpcUnequip(EquipmentType type)
     {
-        Weapon = null;
-    }
-
-    [Command]
-    void CmdUnequipBody()
-    {
-        if (Body)
-        {
-            Body.NetworkSetActive(false);
-        }
-        Body = null;
-        RpcUnequipBody();
-    }
-
-    [ClientRpc]
-    void RpcUnequipBody()
-    {
-        Body = null;
+        Equipped[type] = null;
     }
 
     private void SetupEquipment(Equipment equipment)
@@ -107,33 +79,43 @@ public class EquipmentManager : NetworkBehaviour {
         equipment.GetComponent<Collider>().enabled = false;
         equipment.transform.SetParent(_player.transform);
         equipment.transform.localEulerAngles = Vector3.forward;
-        if (equipment is Weapon)
+        if (Equipped.ContainsKey(equipment.EquipmentType))
         {
-            Weapon = equipment as Weapon;
-            equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
-            _weaponSlot.Add(equipment);
+            Equipped[equipment.EquipmentType] = equipment;
         }
-        if (equipment is Body)
+        else
         {
-            Body = equipment as Body;
-            equipment.transform.localPosition = Vector3.zero;
-            _bodySlot.Add(equipment);
+            Equipped.Add(equipment.EquipmentType, equipment);
+        }
+        EquipmentSlots[equipment.EquipmentType].Add(equipment);
+        switch (equipment.EquipmentType)
+        {
+            case (EquipmentType.Weapon):
+                equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
+                break;
+            case (EquipmentType.Body):
+                equipment.transform.localPosition = Vector3.zero;
+                break;
         }
     }
 
     public float Damage()
     {
         float dmg = 0f;
-        dmg += Weapon ? Weapon.Damage : 0;
-        dmg += Body ? Body.Damage : 0;
+        foreach (Equipment equipment in Equipped.Values)
+        {
+            dmg += equipment.Damage;
+        }
         return dmg;
     }
 
     public float DamageReduction()
     {
         float dmgReduction = 0f;
-        dmgReduction += Weapon ? Weapon.DamageReduction : 0;
-        dmgReduction += Body ? Body.DamageReduction : 0;
+        foreach (Equipment equipment in Equipped.Values)
+        {
+            dmgReduction += equipment.DamageReduction;
+        }
         return dmgReduction;
     }
 }

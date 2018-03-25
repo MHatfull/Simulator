@@ -53,12 +53,6 @@ public class PlayerCharacter : Character
 
     public override void PlayWeaponAttackAnimation()
     {
-        RpcPlayWeaponAttack();
-    }
-
-    [ClientRpc]
-    private void RpcPlayWeaponAttack()
-    {
-        if(_equipmentManager.Weapon) _equipmentManager.Weapon.Swing();
+        Debug.LogWarning("Cannot play weapon attack");
     }
 }

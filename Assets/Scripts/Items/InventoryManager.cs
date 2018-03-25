@@ -10,8 +10,8 @@ public class InventoryManager : NetworkBehaviour {
     private void Awake()
     {
         _equipmentManager = GetComponent<EquipmentManager>();
-        _inventorySlots = Object.FindObjectOfType<Menu>().InventorySlots.ToList();
-        _inventorySlots.ForEach((s) => s.EquipmentManager = _equipmentManager);
+        _inventorySlots = FindObjectOfType<Menu>().InventorySlots.ToList();
+        _inventorySlots.ForEach((s) => s.EquipmentEquiped += _equipmentManager.Equip);
     }
 
     [ClientRpc]

@@ -1,12 +1,15 @@
 ﻿public class InventorySlot : ItemSlot
 {
-    public EquipmentManager EquipmentManager;
-
+    public delegate void EquipmentEquippedHanlder(Equipment equipment);
+    public EquipmentEquippedHanlder EquipmentEquiped;
     protected override void OnRightClick()
     {
         if(Content is Equipment)
         {
-            EquipmentManager.Equip((Equipment)Content);
+            if (EquipmentEquiped != null)
+            {
+                EquipmentEquiped(Content as Equipment);
+            }
             EmptySlot();
         } 
     }

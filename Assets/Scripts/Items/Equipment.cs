@@ -1,5 +1,7 @@
-﻿public abstract class Equipment : Collectable
+﻿public enum EquipmentType { Weapon, Body}
+public class Equipment : Collectable
 {
     public float Damage;
     public float DamageReduction;
+    public EquipmentType EquipmentType;
 }
