@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(EquipmentManager))]
+[RequireComponent(typeof(InventoryManager))]
 public class PlayerCharacter : Character
 {
-    public static PlayerCharacter Me;
     public static readonly Vector3 WeaponOffset = Vector3.forward;
+
+    EquipmentManager _equipmentManager;
+    public InventoryManager Inventory;
     protected override void Awake()
     {
         base.Awake();
-        Me = this;
+        _equipmentManager = GetComponent<EquipmentManager>();
+        Inventory = GetComponent<InventoryManager>();
     }
 
     [SyncVar]
@@ -38,16 +43,22 @@ public class PlayerCharacter : Character
 
     public override void DealDamage(float damage, Character source)
     {
-        base.DealDamage(Mathf.Clamp(damage - EquipmentManager.DamageReduction(), 0, Mathf.Infinity), source);
+        base.DealDamage(Mathf.Clamp(damage - _equipmentManager.DamageReduction(), 0, Mathf.Infinity), source);
     }
 
     internal override float DamageBonus()
     {
-        return EquipmentManager.Damage();
+        return _equipmentManager.Damage();
     }
 
     public override void PlayWeaponAttackAnimation()
     {
-        if(EquipmentManager.Weapon) EquipmentManager.Weapon.Swing();
+        RpcPlayWeaponAttack();
+    }
+
+    [ClientRpc]
+    private void RpcPlayWeaponAttack()
+    {
+        if(_equipmentManager.Weapon) _equipmentManager.Weapon.Swing();
     }
 }

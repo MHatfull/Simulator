@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 95491998806082368}
   - component: {fileID: 65043179331846812}
   - component: {fileID: 114011410919876160}
+  - component: {fileID: 114334351165740100}
   m_Layer: 0
   m_Name: moo
   m_TagString: Untagged
@@ -128,3 +129,35 @@ MonoBehaviour:
   Icon: {fileID: 21300012, guid: feda0c18015b3284cabbc0da85254f9a, type: 3}
   Damage: 5
   DamageReduction: 2
+--- !u!114 &114334351165740100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1432791659443042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 157
+    i1: 4
+    i2: 253
+    i3: 49
+    i4: 31
+    i5: 168
+    i6: 101
+    i7: 4
+    i8: 9
+    i9: 26
+    i10: 63
+    i11: 175
+    i12: 77
+    i13: 242
+    i14: 164
+    i15: 115
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

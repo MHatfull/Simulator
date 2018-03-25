@@ -1,52 +1,83 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class EquipmentManager : MonoBehaviour {
-    static WeaponSlot _weaponSlot;
-    static BodySlot _bodySlot;
+[RequireComponent(typeof(PlayerCharacter))]
+public class EquipmentManager : NetworkBehaviour {
+    WeaponSlot _weaponSlot;
+    BodySlot _bodySlot;
 
-    public static Weapon Weapon { get; private set; }
+    public Weapon Weapon { get; private set; }
+    public Body Body { get; private set; }
+
+    private PlayerCharacter _player;
+    private InventoryManager _inventory;
 
     private void Awake()
     {
-        _weaponSlot = FindObjectOfType<WeaponSlot>();
-        _bodySlot = FindObjectOfType<BodySlot>();
+        if (localPlayerAuthority)
+        {
+            _weaponSlot = FindObjectOfType<Menu>().WeaponSlot;
+            _bodySlot = FindObjectOfType<Menu>().BodySlot;
+            _player = GetComponent<PlayerCharacter>();
+            _inventory = GetComponent<InventoryManager>();
+            _weaponSlot.Inventory = _inventory;
+            _bodySlot.Inventory = _inventory;
+        }
     }
 
-    public static void Equip(Equipment equipment)
+    public void Equip(Equipment equipment)
+    {
+        CmdEquip(equipment.netId);
+    }
+
+    [Command]
+    void CmdEquip(NetworkInstanceId id)
+    {
+        RpcEquip(id);
+        GameObject equipment = NetworkServer.FindLocalObject(id);
+        SetupEquipment(equipment.GetComponent<Equipment>());
+    }
+
+    [ClientRpc]
+    void RpcEquip(NetworkInstanceId id)
+    {
+        GameObject equipment = ClientScene.FindLocalObject(id);
+        SetupEquipment(equipment.GetComponent<Equipment>());
+    }
+
+    private void SetupEquipment(Equipment equipment)
     {
         equipment.gameObject.SetActive(true);
         equipment.GetComponent<Collider>().enabled = false;
-        equipment.transform.SetParent(PlayerCharacter.Me.transform);
+        equipment.transform.SetParent(_player.transform);
+        equipment.transform.localEulerAngles = Vector3.forward;
         if (equipment is Weapon)
         {
             Weapon = equipment as Weapon;
             equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
-            equipment.transform.localEulerAngles = Vector3.forward;
-            Debug.Log("local pos is " + equipment.transform.localPosition);
             _weaponSlot.Add(equipment);
         }
-        if(equipment is Body)
+        if (equipment is Body)
         {
+            Body = equipment as Body;
             equipment.transform.localPosition = Vector3.zero;
             _bodySlot.Add(equipment);
         }
     }
 
-    public static float Damage()
+    public float Damage()
     {
         float dmg = 0f;
-        dmg += _weaponSlot.Content ? ((Equipment)_weaponSlot.Content).Damage : 0;
-        dmg += _bodySlot.Content ? ((Equipment)_bodySlot.Content).Damage : 0;
+        dmg += Weapon ? Weapon.Damage : 0;
+        dmg += Body ? Body.Damage : 0;
         return dmg;
     }
 
-    public static float DamageReduction()
+    public float DamageReduction()
     {
         float dmgReduction = 0f;
-        dmgReduction += _weaponSlot.Content ? ((Equipment)_weaponSlot.Content).DamageReduction : 0;
-        dmgReduction += _bodySlot.Content ? ((Equipment)_bodySlot.Content).DamageReduction : 0;
+        dmgReduction += Weapon ? Weapon.DamageReduction : 0;
+        dmgReduction += Body ? Body.DamageReduction : 0;
         return dmgReduction;
     }
 }

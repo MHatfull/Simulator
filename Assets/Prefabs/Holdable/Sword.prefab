@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4730610500912754}
   - component: {fileID: 65011024065762258}
   - component: {fileID: 114385727475052740}
+  - component: {fileID: 114513591395735068}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -139,3 +140,35 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 1909410604f1f0f47909baea63702f78, type: 3}
   Damage: 25
   DamageReduction: 2
+--- !u!114 &114513591395735068
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1994786789010976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 238
+    i1: 61
+    i2: 94
+    i3: 76
+    i4: 15
+    i5: 240
+    i6: 231
+    i7: 20
+    i8: 41
+    i9: 243
+    i10: 53
+    i11: 82
+    i12: 177
+    i13: 2
+    i14: 188
+    i15: 189
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

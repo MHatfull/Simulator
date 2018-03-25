@@ -46,9 +46,10 @@ public class FirstPersonCharacterInput : NetworkBehaviour
     // Use this for initialization
     private void Start()
     {
+        m_CharacterController.enabled = true;
+
         if (isLocalPlayer)
         {
-            m_CharacterController.enabled = true;
             m_Camera.enabled = true;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
             m_FovKick.Setup(m_Camera);

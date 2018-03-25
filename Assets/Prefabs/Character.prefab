@@ -79,6 +79,8 @@ GameObject:
   - component: {fileID: 95041009787347428}
   - component: {fileID: 114286906737728920}
   - component: {fileID: 114734684185359940}
+  - component: {fileID: 114184522403771560}
+  - component: {fileID: 114193377957152694}
   m_Layer: 10
   m_Name: Character
   m_TagString: Untagged
@@ -415,6 +417,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2af0fe2befa43741a549564d1110110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114184522403771560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520626977166748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79dacc9843a6f2144a1bc5be35f68acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114193377957152694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520626977166748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba6992eb1e9454744ad65b011686e74b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114286906737728920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -472,7 +496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _miniMapTexture: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
   _maxHealth: 100
-  _focalPoint: {fileID: 4716100452371856}
+  Inventory: {fileID: 0}
 --- !u!114 &114734684185359940
 MonoBehaviour:
   m_ObjectHideFlags: 1

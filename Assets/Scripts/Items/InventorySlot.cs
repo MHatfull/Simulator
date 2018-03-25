@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class InventorySlot : ItemSlot
+﻿public class InventorySlot : ItemSlot
 {
+    public EquipmentManager EquipmentManager;
+
     protected override void OnRightClick()
     {
         if(Content is Equipment)
         {
             EquipmentManager.Equip((Equipment)Content);
             EmptySlot();
-        }
+        } 
     }
 }

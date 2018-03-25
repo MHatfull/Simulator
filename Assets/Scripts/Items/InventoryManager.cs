@@ -1,16 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class InventoryManager : MonoBehaviour {
-    static List<InventorySlot> _inventorySlots;
+public class InventoryManager : NetworkBehaviour {
+    List<InventorySlot> _inventorySlots;
+    EquipmentManager _equipmentManager;
 
     private void Awake()
     {
-        _inventorySlots = FindObjectsOfType<InventorySlot>().ToList();
+        _equipmentManager = GetComponent<EquipmentManager>();
+        _inventorySlots = Object.FindObjectOfType<Menu>().InventorySlots.ToList();
+        _inventorySlots.ForEach((s) => s.EquipmentManager = _equipmentManager);
     }
 
-    public static void AddToInventory(Collectable collectable)
+    [ClientRpc]
+    public void RpcAddToInventory(NetworkInstanceId id)
+    {
+        GameObject collectable = ClientScene.FindLocalObject(id);
+        AddToInventory(collectable.GetComponent<Collectable>());
+    }
+
+    public void AddToInventory(Collectable collectable)
     {
         var freeSlot = _inventorySlots.First(slot => slot.IsEmpty);
         if (freeSlot != null) freeSlot.Add(collectable);

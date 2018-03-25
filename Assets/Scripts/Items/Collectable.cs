@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
+[RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(Collider))]
-public class Collectable : MonoBehaviour {
+public class Collectable : NetworkBehaviour {
     public Sprite Icon;
 
     protected virtual void Awake()
@@ -11,10 +13,21 @@ public class Collectable : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform == PlayerCharacter.Me.transform)
+        if (isServer)
         {
-            InventoryManager.AddToInventory(this);
-            gameObject.SetActive(false);
+            PlayerCharacter player = other.GetComponent<PlayerCharacter>();
+            if (player)
+            {
+                player.Inventory.RpcAddToInventory(this.netId); 
+                RpcDeactivate();
+                gameObject.SetActive(false);
+            }
         }
+    }
+
+    [ClientRpc]
+    private void RpcDeactivate()
+    {
+        gameObject.SetActive(false);
     }
 }
