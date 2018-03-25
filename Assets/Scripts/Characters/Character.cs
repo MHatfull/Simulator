@@ -70,9 +70,15 @@ public abstract class Character : NetworkBehaviour {
 
     public virtual void DealDamage(float damage, Character source)
     {
-        _animator.SetTrigger("TakeDamage");
+        RpcDealDamage();
         CurrentHealth -= damage;
         CheckForDeath();
+    }
+
+    [ClientRpc]
+    void RpcDealDamage()
+    {
+        _animator.SetTrigger("TakeDamage");
     }
 
     private void CheckForDeath()
@@ -80,7 +86,7 @@ public abstract class Character : NetworkBehaviour {
         if (CurrentHealth <= 0)
         {
             Die();
-            Destroy(gameObject);
+            Network.Destroy(gameObject);
         }
     }
 }
