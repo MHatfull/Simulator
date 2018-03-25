@@ -19,15 +19,36 @@ public class Collectable : NetworkBehaviour {
             if (player)
             {
                 player.Inventory.RpcAddToInventory(this.netId); 
-                RpcDeactivate();
+                NetworkSetActive(false);
                 gameObject.SetActive(false);
             }
         }
     }
 
-    [ClientRpc]
-    private void RpcDeactivate()
+    public void NetworkSetActive(bool active)
     {
-        gameObject.SetActive(false);
+        if(isClient)
+        {
+            Debug.Log("client setting active " + active);
+            CmdSetActive(active);
+        }
+        else
+        {
+            Debug.Log("server setting active " + active);
+            RpcSetActive(active);
+        }
+    }
+
+    [Command]
+    private void CmdSetActive(bool active)
+    {
+        gameObject.SetActive(active);
+        RpcSetActive(active);
+    }
+
+    [ClientRpc]
+    private void RpcSetActive(bool active)
+    {
+        gameObject.SetActive(active);
     }
 }

@@ -22,16 +22,26 @@ public class EquipmentManager : NetworkBehaviour {
             _inventory = GetComponent<InventoryManager>();
             _weaponSlot.Inventory = _inventory;
             _bodySlot.Inventory = _inventory;
+            _weaponSlot.EquipmentManager = this;
+            _bodySlot.EquipmentManager = this;
         }
     }
 
     public void Equip(Equipment equipment)
     {
+        if(equipment is Weapon && Weapon)
+        {
+            Weapon.NetworkSetActive(false);
+        }
+        if(equipment is Body && Body)
+        {
+            Body.NetworkSetActive(false);
+        }
         CmdEquip(equipment.netId);
     }
 
     [Command]
-    void CmdEquip(NetworkInstanceId id)
+    private void CmdEquip(NetworkInstanceId id)
     {
         RpcEquip(id);
         GameObject equipment = NetworkServer.FindLocalObject(id);
@@ -39,10 +49,56 @@ public class EquipmentManager : NetworkBehaviour {
     }
 
     [ClientRpc]
-    void RpcEquip(NetworkInstanceId id)
+    private void RpcEquip(NetworkInstanceId id)
     {
         GameObject equipment = ClientScene.FindLocalObject(id);
         SetupEquipment(equipment.GetComponent<Equipment>());
+    }
+
+    public void Unequip(EquipmentSlot slot)
+    {
+        if(slot is WeaponSlot)
+        {
+            CmdUnequipWeapon();
+        }
+        if(slot is BodySlot)
+        {
+            CmdUnequipBody();
+        }
+    }
+
+    [Command]
+    void CmdUnequipWeapon()
+    {
+        if (Weapon)
+        {
+            Weapon.NetworkSetActive(false);
+        }
+        Weapon = null;
+        RpcUnequipWeapon();
+    }
+
+    [ClientRpc]
+    void RpcUnequipWeapon()
+    {
+        Weapon = null;
+    }
+
+    [Command]
+    void CmdUnequipBody()
+    {
+        if (Body)
+        {
+            Body.NetworkSetActive(false);
+        }
+        Body = null;
+        RpcUnequipBody();
+    }
+
+    [ClientRpc]
+    void RpcUnequipBody()
+    {
+        Body = null;
     }
 
     private void SetupEquipment(Equipment equipment)

@@ -5,13 +5,16 @@ using UnityEngine;
 public abstract class EquipmentSlot : ItemSlot
 {
     public InventoryManager Inventory;
+    public EquipmentManager EquipmentManager;
 
     protected override void OnRightClick()
     {
-        Debug.Log("right clicked");
-        Inventory.AddToInventory(Content);
-        Content.gameObject.SetActive(false);
-        EmptySlot();
+        if (Content)
+        {
+            EquipmentManager.Unequip(this);
+            Inventory.AddToInventory(Content);
+            EmptySlot();
+        }
     }
 
     protected abstract void Unequip();
