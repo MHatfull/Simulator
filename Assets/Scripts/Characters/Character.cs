@@ -86,7 +86,8 @@ public abstract class Character : NetworkBehaviour {
         if (CurrentHealth <= 0)
         {
             Die();
-            Network.Destroy(gameObject);
+
+            NetworkServer.Destroy(gameObject);
         }
     }
 }
