@@ -15,14 +15,13 @@ public class EquipmentManager : NetworkBehaviour {
     {
         if (localPlayerAuthority)
         {
-            EquipmentSlots.Add(EquipmentType.Weapon, FindObjectOfType<Menu>().WeaponSlot);
-            EquipmentSlots.Add(EquipmentType.Body, FindObjectOfType<Menu>().BodySlot);
-            _player = GetComponent<PlayerCharacter>();
-            _inventory = GetComponent<InventoryManager>();
-            foreach (EquipmentSlot slot in EquipmentSlots.Values)
+            foreach(EquipmentSlot slot in FindObjectOfType<Menu>().EquipmentSlots)
             {
+                EquipmentSlots.Add(slot.EquipmentType, slot);
                 slot.EquipmentUnequipped += Unequip;
             }
+            _player = GetComponent<PlayerCharacter>();
+            _inventory = GetComponent<InventoryManager>();
         }
     }
 
@@ -90,12 +89,17 @@ public class EquipmentManager : NetworkBehaviour {
         EquipmentSlots[equipment.EquipmentType].Add(equipment);
         switch (equipment.EquipmentType)
         {
-            case (EquipmentType.Weapon):
+            case EquipmentType.Weapon:
                 equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
                 break;
-            case (EquipmentType.Body):
+            case EquipmentType.Body:
                 equipment.transform.localPosition = Vector3.zero;
                 break;
+            case EquipmentType.Offhand:
+                equipment.transform.localPosition = PlayerCharacter.WeaponOffset + Vector3.left;
+                break;
+            default:
+                throw new System.Exception("Not set equipment offset");
         }
     }
 

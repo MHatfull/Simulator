@@ -8,15 +8,12 @@ public class Menu : MonoBehaviour
     [SerializeField] RectTransform _window;
 
     public InventorySlot[] InventorySlots { get; private set; }
-    public EquipmentSlot WeaponSlot { get; private set; }
-    public EquipmentSlot BodySlot { get; private set; }
+    public EquipmentSlot[] EquipmentSlots { get; private set; }
 
     private void Awake()
     {
         InventorySlots = Object.FindObjectsOfType<InventorySlot>();
-        EquipmentSlot[] equipmentSlots = Object.FindObjectsOfType<EquipmentSlot>();
-        WeaponSlot = equipmentSlots.Where(s => s.EquipmentType == EquipmentType.Weapon).First();
-        BodySlot = equipmentSlots.Where(s => s.EquipmentType == EquipmentType.Body).First();
+        EquipmentSlots = Object.FindObjectsOfType<EquipmentSlot>();
     }
 
     void Start()

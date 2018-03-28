@@ -1,4 +1,4 @@
-﻿public enum EquipmentType { Weapon, Body}
+﻿public enum EquipmentType { Weapon, Body, Offhand}
 public class Equipment : Collectable
 {
     public float Damage;

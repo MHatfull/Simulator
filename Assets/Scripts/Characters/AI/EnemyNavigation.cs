@@ -49,17 +49,23 @@ public class EnemyNavigation : NetworkBehaviour {
         SetDest(targetPos, 2);
     }
 
+    float _prevStopTime = 0;
+    float _waitTime = 0;
     private void HandleWandering()
     {
-        if (_navMeshAgent.remainingDistance < 1 && _isNavigating)
+        if (_navMeshAgent.remainingDistance < 1)
         {
-            _isNavigating = false;
-            StartCoroutine(Wait(Random.Range(0f, 5f),
-                () =>
-                {
-                    SetDest(NavArea.GetNextPoint()); 
-                    _isNavigating = true;
-                }));
+            if (_isNavigating)
+            {
+                _prevStopTime = Time.time;
+                _waitTime = Random.Range(0f, 5f);
+                _isNavigating = false;
+            }
+            else if(Time.time - _prevStopTime > _waitTime)
+            {
+                SetDest(NavArea.GetNextPoint());
+                _isNavigating = true;
+            }
         }
     }
 
@@ -77,8 +83,16 @@ public class EnemyNavigation : NetworkBehaviour {
     [ClientRpc]
     private void RpcSetDest(Vector3 dest, float stoppingDistance)
     {
-        _navMeshAgent.stoppingDistance = stoppingDistance;
-        _navMeshAgent.SetDestination(dest);
+        if (_navMeshAgent)
+        {
+            _navMeshAgent.stoppingDistance = stoppingDistance;
+            _navMeshAgent.SetDestination(dest);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("Destroying " + GetHashCode());
     }
 
     private IEnumerator Wait(float duration, System.Action callback)
