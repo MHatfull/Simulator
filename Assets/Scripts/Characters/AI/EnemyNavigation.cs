@@ -90,11 +90,6 @@ public class EnemyNavigation : NetworkBehaviour {
         }
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("Destroying " + GetHashCode());
-    }
-
     private IEnumerator Wait(float duration, System.Action callback)
     {
         yield return new WaitForSeconds(duration);
