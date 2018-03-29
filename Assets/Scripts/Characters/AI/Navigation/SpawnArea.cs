@@ -4,39 +4,41 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(NavArea))]
-
-public class SpawnArea : MonoBehaviour
+namespace Underlunchers.Characters.AI.Navigation
 {
-    public float SpawnRadius;
-    public int Quantity;
-    public Enemy ToSpawn;
-
-    private NavArea _navArea;
-    private List<Enemy> _mobs = new List<Enemy>();
-
-    private void OnDrawGizmos()
+    [RequireComponent(typeof(NavArea))]
+    public class SpawnArea : MonoBehaviour
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, SpawnRadius);
-    }
+        public float SpawnRadius;
+        public int Quantity;
+        public Enemy ToSpawn;
 
-    public void Start()
-    {
-        _navArea = GetComponent<NavArea>();
-        while(_mobs.Count < Quantity)
+        private NavArea _navArea;
+        private List<Enemy> _mobs = new List<Enemy>();
+
+        private void OnDrawGizmos()
         {
-            CreateMob();
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, SpawnRadius);
         }
-    }
 
-    private void CreateMob()
-    {
-        var newMob = Instantiate(ToSpawn);
-        newMob.GetComponent<NavMeshAgent>().Warp(_navArea.GetNextPoint());
-        newMob.OnDeath += CreateMob;
-        newMob.GetComponent<EnemyNavigation>().NavArea = _navArea;
-        _mobs.Add(newMob);
-        NetworkServer.Spawn(newMob.gameObject);
+        public void Start()
+        {
+            _navArea = GetComponent<NavArea>();
+            while (_mobs.Count < Quantity)
+            {
+                CreateMob();
+            }
+        }
+
+        private void CreateMob()
+        {
+            var newMob = Instantiate(ToSpawn);
+            newMob.GetComponent<NavMeshAgent>().Warp(_navArea.GetNextPoint());
+            newMob.OnDeath += CreateMob;
+            newMob.GetComponent<EnemyNavigation>().NavArea = _navArea;
+            _mobs.Add(newMob);
+            NetworkServer.Spawn(newMob.gameObject);
+        }
     }
 }

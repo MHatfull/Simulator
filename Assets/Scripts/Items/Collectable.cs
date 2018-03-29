@@ -1,54 +1,59 @@
-﻿using UnityEngine;
+﻿using Underlunchers.Characters.Player;
+using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(NetworkIdentity))]
-[RequireComponent(typeof(Collider))]
-public class Collectable : NetworkBehaviour {
-    public Sprite Icon;
-
-    protected virtual void Awake()
+namespace Underlunchers.Items
+{
+    [RequireComponent(typeof(NetworkIdentity))]
+    [RequireComponent(typeof(Collider))]
+    public class Collectable : NetworkBehaviour
     {
-        GetComponent<Collider>().isTrigger = true;
-    }
+        public Sprite Icon;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isServer)
+        protected virtual void Awake()
         {
-            PlayerCharacter player = other.GetComponent<PlayerCharacter>();
-            if (player)
+            GetComponent<Collider>().isTrigger = true;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (isServer)
             {
-                player.Inventory.RpcAddToInventory(this.netId); 
-                NetworkSetActive(false);
-                gameObject.SetActive(false);
+                PlayerCharacter player = other.GetComponent<PlayerCharacter>();
+                if (player)
+                {
+                    player.Inventory.RpcAddToInventory(this.netId);
+                    NetworkSetActive(false);
+                    gameObject.SetActive(false);
+                }
             }
         }
-    }
 
-    public void NetworkSetActive(bool active)
-    {
-        if(isClient)
+        public void NetworkSetActive(bool active)
         {
-            Debug.Log("client setting active " + active);
-            CmdSetActive(active);
+            if (isClient)
+            {
+                Debug.Log("client setting active " + active);
+                CmdSetActive(active);
+            }
+            else
+            {
+                Debug.Log("server setting active " + active);
+                RpcSetActive(active);
+            }
         }
-        else
+
+        [Command]
+        private void CmdSetActive(bool active)
         {
-            Debug.Log("server setting active " + active);
+            gameObject.SetActive(active);
             RpcSetActive(active);
         }
-    }
 
-    [Command]
-    private void CmdSetActive(bool active)
-    {
-        gameObject.SetActive(active);
-        RpcSetActive(active);
-    }
-
-    [ClientRpc]
-    private void RpcSetActive(bool active)
-    {
-        gameObject.SetActive(active);
+        [ClientRpc]
+        private void RpcSetActive(bool active)
+        {
+            gameObject.SetActive(active);
+        }
     }
 }

@@ -1,16 +1,21 @@
-﻿public class InventorySlot : ItemSlot
+﻿using Underlunchers.Items.Equipment;
+
+namespace Underlunchers.UI.Slots
 {
-    public delegate void EquipmentEquippedHanlder(Equipment equipment);
-    public EquipmentEquippedHanlder EquipmentEquiped;
-    protected override void OnRightClick()
+    public class InventorySlot : ItemSlot
     {
-        if(Content is Equipment)
+        public delegate void EquipmentEquippedHanlder(Equipment equipment);
+        public EquipmentEquippedHanlder EquipmentEquiped;
+        protected override void OnRightClick()
         {
-            if (EquipmentEquiped != null)
+            if (Content is Equipment)
             {
-                EquipmentEquiped(Content as Equipment);
+                if (EquipmentEquiped != null)
+                {
+                    EquipmentEquiped(Content as Equipment);
+                }
+                EmptySlot();
             }
-            EmptySlot();
-        } 
+        }
     }
 }

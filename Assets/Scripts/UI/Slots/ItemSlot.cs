@@ -1,40 +1,45 @@
-﻿using UnityEngine;
+﻿using Underlunchers.Items;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(EventTrigger))]
-public abstract class ItemSlot : UISlot {
-    public bool IsEmpty { get { return Content == null; } }
-    public Collectable Content { get; protected set; }
-
-    protected override void Awake()
+namespace Underlunchers.UI.Slots
+{
+    [RequireComponent(typeof(EventTrigger))]
+    public abstract class ItemSlot : UISlot
     {
-        base.Awake();
-        var trigger = GetComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerClick;
-        entry.callback.AddListener((data) => OnPointerClick((PointerEventData)data));
-        trigger.triggers.Add(entry);
-    }
+        public bool IsEmpty { get { return Content == null; } }
+        public Collectable Content { get; protected set; }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if(eventData.button == PointerEventData.InputButton.Right)
+        protected override void Awake()
         {
-            OnRightClick();
+            base.Awake();
+            var trigger = GetComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerClick;
+            entry.callback.AddListener((data) => OnPointerClick((PointerEventData)data));
+            trigger.triggers.Add(entry);
         }
-    }
 
-    internal void Add(Collectable collectable)
-    {
-        Content = collectable;
-        SetIcon(collectable.Icon);
-    }
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                OnRightClick();
+            }
+        }
 
-    protected void EmptySlot()
-    {
-        Content = null;
-        SetIcon(null);
-    }
+        internal void Add(Collectable collectable)
+        {
+            Content = collectable;
+            SetIcon(collectable.Icon);
+        }
 
-    protected abstract void OnRightClick();
+        protected void EmptySlot()
+        {
+            Content = null;
+            SetIcon(null);
+        }
+
+        protected abstract void OnRightClick();
+    }
 }

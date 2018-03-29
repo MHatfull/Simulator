@@ -3,96 +3,100 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(Enemy))]
-public class EnemyNavigation : NetworkBehaviour {
-
-    public NavArea NavArea;
-
-    private NavMeshAgent _navMeshAgent;
-    private bool _isNavigating = true;
-    private Enemy _self;
-
-    private void Start()
+namespace Underlunchers.Characters.AI.Navigation
+{
+    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(Enemy))]
+    public class EnemyNavigation : NetworkBehaviour
     {
-        _self = GetComponent<Enemy>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        if (isServer)
-        {
-            SetDest(NavArea.GetNextPoint());
-            InvokeRepeating("Navigate", 0, 0.1f);
-        }
-    }
 
-    private void Navigate()
-    {
-        switch(_self.Hunting == null)
-        {
-            case true:
-                HandleWandering();
-                break;
-            case false:
-                HandleFollow();
-                break;
-        }
-    }
+        public NavArea NavArea;
 
-    private void HandleFollow()
-    {
-        var targetPos = _self.Hunting.transform.position;
-        if(Vector3.Magnitude(targetPos - NavArea.transform.position) > NavArea.Radius)
-        {
-            _self.Hunting = null;
-            SetDest(NavArea.GetNextPoint());
-            return;
-        }
-        SetDest(targetPos, 2);
-    }
+        private NavMeshAgent _navMeshAgent;
+        private bool _isNavigating = true;
+        private Enemy _self;
 
-    float _prevStopTime = 0;
-    float _waitTime = 0;
-    private void HandleWandering()
-    {
-        if (_navMeshAgent.remainingDistance < 1)
+        private void Start()
         {
-            if (_isNavigating)
-            {
-                _prevStopTime = Time.time;
-                _waitTime = Random.Range(0f, 5f);
-                _isNavigating = false;
-            }
-            else if(Time.time - _prevStopTime > _waitTime)
+            _self = GetComponent<Enemy>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+            if (isServer)
             {
                 SetDest(NavArea.GetNextPoint());
-                _isNavigating = true;
+                InvokeRepeating("Navigate", 0, 0.1f);
             }
         }
-    }
 
-    private void SetDest(Vector3 dest, float stoppingDistance = 0)
-    {
-        if (isServer)
+        private void Navigate()
         {
-            _navMeshAgent.stoppingDistance = stoppingDistance;
-            _navMeshAgent.SetDestination(dest);
-
-            RpcSetDest(dest, stoppingDistance);
+            switch (_self.Hunting == null)
+            {
+                case true:
+                    HandleWandering();
+                    break;
+                case false:
+                    HandleFollow();
+                    break;
+            }
         }
-    }
 
-    [ClientRpc]
-    private void RpcSetDest(Vector3 dest, float stoppingDistance)
-    {
-        if (_navMeshAgent)
+        private void HandleFollow()
         {
-            _navMeshAgent.stoppingDistance = stoppingDistance;
-            _navMeshAgent.SetDestination(dest);
+            var targetPos = _self.Hunting.transform.position;
+            if (Vector3.Magnitude(targetPos - NavArea.transform.position) > NavArea.Radius)
+            {
+                _self.Hunting = null;
+                SetDest(NavArea.GetNextPoint());
+                return;
+            }
+            SetDest(targetPos, 2);
         }
-    }
 
-    private IEnumerator Wait(float duration, System.Action callback)
-    {
-        yield return new WaitForSeconds(duration);
-        callback();
+        float _prevStopTime = 0;
+        float _waitTime = 0;
+        private void HandleWandering()
+        {
+            if (_navMeshAgent.remainingDistance < 1)
+            {
+                if (_isNavigating)
+                {
+                    _prevStopTime = Time.time;
+                    _waitTime = Random.Range(0f, 5f);
+                    _isNavigating = false;
+                }
+                else if (Time.time - _prevStopTime > _waitTime)
+                {
+                    SetDest(NavArea.GetNextPoint());
+                    _isNavigating = true;
+                }
+            }
+        }
+
+        private void SetDest(Vector3 dest, float stoppingDistance = 0)
+        {
+            if (isServer)
+            {
+                _navMeshAgent.stoppingDistance = stoppingDistance;
+                _navMeshAgent.SetDestination(dest);
+
+                RpcSetDest(dest, stoppingDistance);
+            }
+        }
+
+        [ClientRpc]
+        private void RpcSetDest(Vector3 dest, float stoppingDistance)
+        {
+            if (_navMeshAgent)
+            {
+                _navMeshAgent.stoppingDistance = stoppingDistance;
+                _navMeshAgent.SetDestination(dest);
+            }
+        }
+
+        private IEnumerator Wait(float duration, System.Action callback)
+        {
+            yield return new WaitForSeconds(duration);
+            callback();
+        }
     }
 }

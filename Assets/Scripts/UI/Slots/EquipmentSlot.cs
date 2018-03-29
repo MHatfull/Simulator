@@ -1,23 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Underlunchers.Items.Equipment;
 using UnityEngine;
 
-public class EquipmentSlot : ItemSlot
+namespace Underlunchers.UI.Slots
 {
-    public EquipmentType EquipmentType;
-
-    public delegate void EquipmentUnequippedHandler(EquipmentSlot slot);
-    public event EquipmentUnequippedHandler EquipmentUnequipped;
-
-    protected override void OnRightClick()
+    public class EquipmentSlot : ItemSlot
     {
-        if (Content)
+        public EquipmentType EquipmentType;
+
+        public delegate void EquipmentUnequippedHandler(EquipmentSlot slot);
+        public event EquipmentUnequippedHandler EquipmentUnequipped;
+
+        protected override void OnRightClick()
         {
-            if (EquipmentUnequipped != null)
+            if (Content)
             {
-                EquipmentUnequipped(this);
+                if (EquipmentUnequipped != null)
+                {
+                    EquipmentUnequipped(this);
+                }
+                EmptySlot();
             }
-            EmptySlot();
         }
     }
 }

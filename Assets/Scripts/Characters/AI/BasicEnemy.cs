@@ -1,33 +1,36 @@
 ﻿using UnityEngine;
 
-public class BasicEnemy : Enemy
+namespace Underlunchers.Characters.AI
 {
-    public override Vector3 FoculPoint
+    public class BasicEnemy : Enemy
     {
-        get
+        public override Vector3 FoculPoint
         {
-            return transform.position;
+            get
+            {
+                return transform.position;
+            }
         }
-    }
 
-    public override void DealDamage(float damage, Character source)
-    {
-        base.DealDamage(damage, source);
-        Hunting = source;
-    }
+        public override void DealDamage(float damage, Character source)
+        {
+            base.DealDamage(damage, source);
+            Hunting = source;
+        }
 
-    public override Vector3 AimDirection()
-    {
-        return (Hunting.transform.position - transform.position).normalized;
-    }
+        public override Vector3 AimDirection()
+        {
+            return (Hunting.transform.position - transform.position).normalized;
+        }
 
-    internal override float DamageBonus()
-    {
-        return 0;
-    }
+        internal override float DamageBonus()
+        {
+            return 0;
+        }
 
-    public override void PlayWeaponAttackAnimation()
-    {
-        
+        public override void PlayWeaponAttackAnimation()
+        {
+
+        }
     }
 }

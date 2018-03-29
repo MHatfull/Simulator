@@ -1,12 +1,17 @@
 ﻿using System;
+using Underlunchers.Characters.AI.Navigation;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyNavigation))]
-public abstract class Enemy : Character {
-    public Character Hunting;
-
-    public new void Awake()
+namespace Underlunchers.Characters.AI
+{
+    [RequireComponent(typeof(EnemyNavigation))]
+    public abstract class Enemy : Character
     {
-        base.Awake();
+        public Character Hunting;
+
+        public new void Awake()
+        {
+            base.Awake();
+        }
     }
 }

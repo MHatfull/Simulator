@@ -1,7 +1,17 @@
-﻿public enum EquipmentType { Weapon, Body, Offhand}
-public class Equipment : Collectable
+﻿namespace Underlunchers.Items.Equipment
 {
-    public float Damage;
-    public float DamageReduction;
-    public EquipmentType EquipmentType;
+
+    public enum EquipmentType
+    {
+        Weapon,
+        Body,
+        Offhand
+    }
+
+    public class Equipment : Collectable
+    {
+        public float Damage;
+        public float DamageReduction;
+        public EquipmentType EquipmentType;
+    }
 }
