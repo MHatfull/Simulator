@@ -13,14 +13,13 @@ namespace Underlunchers.Characters.Abilities
     {
 
         NavMeshAgent _navMeshAgent;
-        EnemyNavigation _enemyNavigation;
+        //EnemyNavigation _enemyNavigation;
         Enemy _self;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
             _self = GetComponent<Enemy>();
-            _enemyNavigation = GetComponent<EnemyNavigation>();
+            //_enemyNavigation = GetComponent<EnemyNavigation>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
@@ -28,7 +27,7 @@ namespace Underlunchers.Characters.Abilities
         {
             if (_self.Hunting && _navMeshAgent.remainingDistance < 4)
             {
-                var cooled = AvailableAbilities.Values.Where(v => !v.isOnCooldown()).ToList();
+                var cooled = AvailableAbilities.Where(v => !v.isOnCooldown()).ToList();
                 if (cooled.Any()) cooled[0].PerformAbility(_self);
             }
         }

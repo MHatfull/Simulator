@@ -15,6 +15,10 @@ public class Lobby : MonoBehaviour {
             manager.StartServer();
             Debug.Log("Server started");
         }
+        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            manager.StartHost();
+        }
         else
         {
             manager.networkAddress = "localhost";

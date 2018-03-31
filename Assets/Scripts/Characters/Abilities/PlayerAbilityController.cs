@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Underlunchers.Characters.Player;
 using Underlunchers.Input;
+using Underlunchers.UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,11 +11,13 @@ namespace Underlunchers.Characters.Abilities
     public class PlayerAbilityController : AbilityController
     {
         private PlayerCharacter _owner;
+        HotKeyManager _hotKeys;
 
-        private new void Awake()
+        private void Awake()
         {
-            base.Awake();
             _owner = GetComponent<PlayerCharacter>();
+            _hotKeys = Object.FindObjectOfType<HotKeyManager>();
+            _hotKeys.OnConnect(this);
         }
 
         private void Start()
@@ -27,15 +30,23 @@ namespace Underlunchers.Characters.Abilities
 
         private void HotKeyDown(KeyCode code)
         {
-            var ability = HotKeyManager.HotKeyMaps.ToList().Find(m => m.Key == code).Ability;
-            CmdHandleCombat(ability, Camera.main.transform.position, Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1)) - Camera.main.transform.position);
+            var ability = _hotKeys.GetAbility(code);
+            CmdHandleCombat(ability.name, Camera.main.transform.position, Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1)) - Camera.main.transform.position);
         }
 
         [Command]
-        public void CmdHandleCombat(AbilityController.Ability casting, Vector3 focalPoint, Vector3 focalDirection)
+        public void CmdHandleCombat(string abilityName, Vector3 focalPoint, Vector3 focalDirection)
         {
             _owner.UpdateFocus(focalPoint, focalDirection);
-            AvailableAbilities[casting].PerformAbility(_owner);
+            CombatAbility casting = null;
+            foreach(var a in AvailableAbilities)
+            {
+                if(a.name == abilityName)
+                {
+                    casting = a;
+                }
+            }
+            casting.PerformAbility(_owner);
         }
     }
 }

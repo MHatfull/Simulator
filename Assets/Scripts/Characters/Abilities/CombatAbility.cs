@@ -2,14 +2,19 @@
 
 namespace Underlunchers.Characters.Abilities
 {
-    public abstract class CombatAbility
+    public abstract class CombatAbility : ScriptableObject
     {
-
         public delegate void AbilityCastHanlder();
         public event AbilityCastHanlder AbilityCast;
+        public Sprite Icon;
+        public string UniqueName;
+        public float Range;
+        public float Cooldown;
+        public float Damage;
 
         public virtual bool PerformAbility(Character caster)
         {
+            Debug.Log(caster + " performing ability");
             if (isOnCooldown()) return false;
             if (AbilityCast != null)
             {
@@ -18,9 +23,6 @@ namespace Underlunchers.Characters.Abilities
             _lastFireTime = Time.time;
             return true;
         }
-
-        public abstract float Range { get; }
-        public abstract float Cooldown { get; }
 
         private float _lastFireTime = -Mathf.Infinity;
         public bool isOnCooldown()

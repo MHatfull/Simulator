@@ -3,16 +3,14 @@ using UnityEngine;
 
 namespace Underlunchers.Characters.Abilities
 {
-    public class BasicAttack : CombatAbility
+    [CreateAssetMenu(fileName = "Data", menuName = "Combat abilities/Melee", order = 1)]
+    public class Melee : CombatAbility
     {
         public KeyCode HotKey { get { return KeyCode.Mouse0; } }
-        public override float Range { get { return 4; } }
-        public override float Cooldown { get { return 1; } }
-
-        const float MELEE_DAMAGE = 4;
 
         public override bool PerformAbility(Character caster)
         {
+            Debug.Log("meleeeeeee");
             caster.PlayWeaponAttackAnimation();
             if (!base.PerformAbility(caster)) return false;
             base.PerformAbility(caster);
@@ -27,7 +25,8 @@ namespace Underlunchers.Characters.Abilities
                     Character character = firstImpact.Value.transform.GetComponent<Character>();
                     if (character != null)
                     {
-                        character.DealDamage(MELEE_DAMAGE + caster.DamageBonus(), caster);
+                        Debug.Log(caster + " hit " + character + " for " + Damage + caster.DamageBonus());
+                        character.DealDamage(Damage + caster.DamageBonus(), caster);
                     }
                 }
             }

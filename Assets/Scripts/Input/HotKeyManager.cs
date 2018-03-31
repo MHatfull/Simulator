@@ -1,47 +1,45 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Underlunchers.Characters.Abilities;
+using Underlunchers.UI.Slots;
 using UnityEngine;
 
 namespace Underlunchers.Input
 {
     public class HotKeyManager : MonoBehaviour
     {
-        [System.Serializable]
-        public struct HotKeyMapping
-        {
-            public KeyCode Key;
-            public AbilityController.Ability Ability;
-            public Sprite Icon;
-        }
-
-        [SerializeField] private HotKeyMapping[] _hotKeyMaps;
-
-        public static HotKeyMapping[] HotKeyMaps;
-
-        AbilityIcon[] _uiIcons;
+        AbilitySlot[] _uiIcons;
 
         public static KeyCode[] HotKeys { get; private set; }
+        Dictionary<KeyCode, CombatAbility> _equippedAbilities = new Dictionary<KeyCode, CombatAbility>();
 
         private void Awake()
         {
-            HotKeyMaps = _hotKeyMaps;
             HotKeys = new KeyCode[0];
         }
 
-        public void OnConnect(AbilityController ownAbilities)
+        public void OnConnect(PlayerAbilityController ownAbilities)
         {
-            _uiIcons = FindObjectsOfType<AbilityIcon>();
+            Debug.Log("On connect with " + ownAbilities + " having " + ownAbilities.AvailableAbilities.Length);
+            _uiIcons = FindObjectsOfType<AbilitySlot>();
             HotKeys = _uiIcons.Select(icon => icon.Key).ToArray();
-            foreach (AbilityIcon icon in _uiIcons)
+            for(int i = 0; i < _uiIcons.Length; i++)
             {
-                HotKeyMapping? mapping = _hotKeyMaps.ToList().Find(m => m.Key == icon.Key);
-                if (mapping.HasValue)
+                AbilitySlot slot = _uiIcons[i];
+                if (ownAbilities.AvailableAbilities.Length > i)
                 {
-                    ownAbilities.AvailableAbilities[mapping.Value.Ability].AbilityCast += icon.ResetLoadingProgress;
-                    icon.SetIcon(mapping.Value.Icon);
-                    icon.SetCooldown(ownAbilities.AvailableAbilities[mapping.Value.Ability].Cooldown);
+                    CombatAbility ability = ownAbilities.AvailableAbilities[i];
+                    _equippedAbilities.Add(slot.Key, ability);
+                    ability.AbilityCast += _uiIcons[i].ResetLoadingProgress;
+                    slot.SetIcon(ability.Icon);
+                    slot.SetCooldown(ability.Cooldown);
                 }
             }
+        }
+
+        internal CombatAbility GetAbility(KeyCode code)
+        {
+            return _equippedAbilities[code];
         }
     }
 }
