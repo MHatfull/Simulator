@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Underlunchers.Characters.Abilities
 {
@@ -12,22 +13,39 @@ namespace Underlunchers.Characters.Abilities
         public float Cooldown;
         public float Damage;
 
-        public virtual bool PerformAbility(Character caster)
+        public void PerformAbility(Character caster)
         {
             Debug.Log(caster + " performing ability");
-            if (isOnCooldown()) return false;
+            if (IsOnCooldown(caster)) return;
+            else Debug.Log("not on cooldown continuing");
+            Execute(caster);
             if (AbilityCast != null)
             {
                 AbilityCast();
             }
-            _lastFireTime = Time.time;
-            return true;
+            if (_lastFireTimes.ContainsKey(caster))
+            {
+                _lastFireTimes[caster] = Time.time;
+            }
+            else
+            {
+                _lastFireTimes.Add(caster, Time.time);
+            }
         }
 
-        private float _lastFireTime = -Mathf.Infinity;
-        public bool isOnCooldown()
+        protected abstract void Execute(Character character);
+
+        private Dictionary<Character, float> _lastFireTimes = new Dictionary<Character, float>();
+        public bool IsOnCooldown(Character who)
         {
-            return Time.time - _lastFireTime < Cooldown;
+            if (_lastFireTimes.ContainsKey(who))
+            {
+                return Time.time - _lastFireTimes[who] < Cooldown;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Underlunchers.Characters.Abilities
         {
             if (_self.Hunting && _navMeshAgent.remainingDistance < 4)
             {
-                var cooled = AvailableAbilities.Where(v => !v.isOnCooldown()).ToList();
+                var cooled = AvailableAbilities.Where(v => !v.IsOnCooldown(_self)).ToList();
                 if (cooled.Any()) cooled[0].PerformAbility(_self);
             }
         }
