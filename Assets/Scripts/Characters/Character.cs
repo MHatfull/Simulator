@@ -1,5 +1,5 @@
-﻿using System;
-using Underlunchers.Characters.Abilities;
+﻿using Underlunchers.Characters.Abilities;
+using Underlunchers.UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -8,11 +8,9 @@ namespace Underlunchers.Characters
     [RequireComponent(typeof(HealthDisplay))]
     [RequireComponent(typeof(AbilityController))]
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(MinimapIcon))]
     public abstract class Character : NetworkBehaviour
     {
-
-        [SerializeField] Sprite _miniMapTexture;
-
         public delegate void OnDeathHandler();
         public event OnDeathHandler OnDeath;
 
@@ -56,13 +54,6 @@ namespace Underlunchers.Characters
         {
             _healthDisplay.MaxHealth = _maxHealth;
             CurrentHealth = MaxHealth;
-            var minimapIcon = new GameObject();
-            minimapIcon.transform.parent = transform;
-            minimapIcon.transform.eulerAngles = new Vector3(90, 0, 0);
-            minimapIcon.transform.localPosition = new Vector3(0, 10, 0);
-            minimapIcon.layer = LayerMask.NameToLayer("MiniMap");
-            var minimapSprite = minimapIcon.AddComponent<SpriteRenderer>();
-            minimapSprite.sprite = _miniMapTexture;
         }
 
         public abstract Vector3 AimDirection();

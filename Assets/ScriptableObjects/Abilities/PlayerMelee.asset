@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec8e754b209b67249bcc097b069be759, type: 3}
-  m_Name: PlayerMelee 1
+  m_Name: PlayerMelee
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  UniqueName: 
-  Range: 0
-  Cooldown: 0
-  Damage: 0
+  UniqueName: PlayerMelee
+  Range: 3
+  Cooldown: 1
+  Damage: 50

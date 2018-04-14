@@ -29,6 +29,7 @@ GameObject:
   - component: {fileID: 114180374234975978}
   - component: {fileID: 95442152921957324}
   - component: {fileID: 114825558248693822}
+  - component: {fileID: 114508132301205410}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbed9faa56beced4095bbcdd2d37c191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _abilities: 00000000
+  AvailableAbilities: []
 --- !u!114 &114180473653064376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1292d2dc78d119040a6b7fbcd4fa4e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _miniMapTexture: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
   _maxHealth: 100
   Hunting: {fileID: 0}
 --- !u!114 &114265977476084412
@@ -156,6 +156,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022c9d3fb334d334daeeeb99a0727bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114508132301205410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1374903523633264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208f13f62a84fda48bc8f59fdfcf5885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _miniMapTexture: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &114825558248693822
 MonoBehaviour:
   m_ObjectHideFlags: 1

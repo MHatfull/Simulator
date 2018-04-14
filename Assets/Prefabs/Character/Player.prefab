@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 114734684185359940}
   - component: {fileID: 114184522403771560}
   - component: {fileID: 114193377957152694}
+  - component: {fileID: 114367614934622682}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -471,6 +472,18 @@ MonoBehaviour:
     i15: 148
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114367614934622682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1520626977166748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208f13f62a84fda48bc8f59fdfcf5885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _miniMapTexture: {fileID: 21300000, guid: f2ad90f4370a3ce438fb3ed0711553ad, type: 3}
 --- !u!114 &114460342768455962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -483,7 +496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AvailableAbilities:
-  - {fileID: 11400000, guid: 9abfa9a943f6be746abd0779bf0cbce5, type: 2}
+  - {fileID: 11400000, guid: 189aac27324f74f498ccc057b5e6b594, type: 2}
 --- !u!114 &114589311326243206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -495,7 +508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c362d0769d60fd42aa03ba1b5ed7c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _miniMapTexture: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
   _maxHealth: 100
   Inventory: {fileID: 0}
 --- !u!114 &114734684185359940
@@ -615,7 +627,6 @@ MonoBehaviour:
   m_AudioSource: {fileID: 82554754520592488}
   _minimapCamera: {fileID: 20518719755000788}
   _audioListener: {fileID: 81995693980300358}
-  _abilities: {fileID: 114460342768455962}
 --- !u!124 &124309063150136152
 Behaviour:
   m_ObjectHideFlags: 1
