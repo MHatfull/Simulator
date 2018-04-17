@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Underlunchers.Characters.Player;
+using Underlunchers.Characters;
 using Underlunchers.UI;
 using Underlunchers.UI.Slots;
 using UnityEngine;
@@ -7,14 +7,13 @@ using UnityEngine.Networking;
 
 namespace Underlunchers.Items.Equipment
 {
-    [RequireComponent(typeof(PlayerCharacter))]
+    [RequireComponent(typeof(Character))]
     public class EquipmentManager : NetworkBehaviour
     {
         public Dictionary<EquipmentType, EquipmentSlot> EquipmentSlots = new Dictionary<EquipmentType, EquipmentSlot>();
 
         public Dictionary<EquipmentType, Equipment> Equipped = new Dictionary<EquipmentType, Equipment>();
 
-        private PlayerCharacter _player;
         private InventoryManager _inventory;
 
         private void Awake()
@@ -26,7 +25,6 @@ namespace Underlunchers.Items.Equipment
                     EquipmentSlots.Add(slot.EquipmentType, slot);
                     slot.EquipmentUnequipped += Unequip;
                 }
-                _player = GetComponent<PlayerCharacter>();
                 _inventory = GetComponent<InventoryManager>();
             }
         }
@@ -35,7 +33,7 @@ namespace Underlunchers.Items.Equipment
         {
             if (equipment)
             {
-                equipment.NetworkSetActive(false);
+                equipment.gameObject.SetActive(false);
             }
             CmdEquip(equipment.netId);
         }
@@ -64,12 +62,16 @@ namespace Underlunchers.Items.Equipment
         [Command]
         void CmdUnequip(EquipmentType type)
         {
-            if (Equipped[type] != null)
+            if (Equipped.ContainsKey(type))
             {
-                Equipped[type].NetworkSetActive(false);
+                Debug.Log("unequipping a " + Equipped[type]);
+                if (Equipped[type] != null)
+                {
+                    Equipped[type].gameObject.SetActive(false);
+                }
+                Equipped[type] = null;
+                RpcUnequip(type);
             }
-            Equipped[type] = null;
-            RpcUnequip(type);
         }
 
         [ClientRpc]
@@ -82,7 +84,7 @@ namespace Underlunchers.Items.Equipment
         {
             equipment.gameObject.SetActive(true);
             equipment.GetComponent<Collider>().enabled = false;
-            equipment.transform.SetParent(_player.transform);
+            equipment.transform.SetParent(transform);
             equipment.transform.localEulerAngles = Vector3.forward;
             if (Equipped.ContainsKey(equipment.EquipmentType))
             {
@@ -96,13 +98,13 @@ namespace Underlunchers.Items.Equipment
             switch (equipment.EquipmentType)
             {
                 case EquipmentType.Weapon:
-                    equipment.transform.localPosition = PlayerCharacter.WeaponOffset;
+                    equipment.transform.localPosition = Vector3.zero;
                     break;
                 case EquipmentType.Body:
                     equipment.transform.localPosition = Vector3.zero;
                     break;
                 case EquipmentType.Offhand:
-                    equipment.transform.localPosition = PlayerCharacter.WeaponOffset + Vector3.left;
+                    equipment.transform.localPosition = Vector3.left;
                     break;
                 default:
                     throw new System.Exception("Not set equipment offset");

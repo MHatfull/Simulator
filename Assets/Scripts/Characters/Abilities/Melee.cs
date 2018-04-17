@@ -10,11 +10,9 @@ namespace Underlunchers.Characters.Abilities
 
         protected override void Execute(Character caster)
         {
-            Debug.Log("meleeeeeee");
-            caster.PlayWeaponAttackAnimation();
-            Debug.DrawRay(caster.FoculPoint, caster.AimDirection() * Range, Color.red, 3452f, false);
+            Debug.DrawRay(caster.Focus.position, caster.Focus.forward * Range, Color.red, 3452f, false);
             RaycastHit[] hits;
-            hits = Physics.RaycastAll(caster.FoculPoint, caster.AimDirection(), Range);
+            hits = Physics.RaycastAll(caster.Focus.position, caster.Focus.forward, Range);
             RaycastHit? firstImpact = hits.ToList().Where(hit => hit.transform != caster.transform).OrderByDescending(hit => hit.distance).LastOrDefault();
             if (firstImpact.HasValue)
             {
@@ -23,7 +21,6 @@ namespace Underlunchers.Characters.Abilities
                     Character character = firstImpact.Value.transform.GetComponent<Character>();
                     if (character != null)
                     {
-                        Debug.Log(caster + " hit " + character + " for " + Damage + caster.DamageBonus());
                         character.DealDamage(Damage + caster.DamageBonus(), caster);
                     }
                 }

@@ -30,6 +30,7 @@ namespace Underlunchers.UI.Slots
 
         internal void Add(Collectable collectable)
         {
+            Debug.Log("Adding " + collectable.name + " to " + name);
             Content = collectable;
             SetIcon(collectable.Icon);
         }

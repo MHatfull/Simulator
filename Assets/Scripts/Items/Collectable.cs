@@ -1,5 +1,4 @@
-﻿using Underlunchers.Characters.Player;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Underlunchers.Items
@@ -19,10 +18,10 @@ namespace Underlunchers.Items
         {
             if (isServer)
             {
-                PlayerCharacter player = other.GetComponent<PlayerCharacter>();
-                if (player)
+                InventoryManager inventory = other.GetComponent<InventoryManager>();
+                if (inventory)
                 {
-                    player.Inventory.RpcAddToInventory(this.netId);
+                    inventory.RpcAddToInventory(netId);
                     NetworkSetActive(false);
                     gameObject.SetActive(false);
                 }

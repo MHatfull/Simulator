@@ -8,27 +8,25 @@ namespace Underlunchers.Characters.Abilities
 {
     [RequireComponent(typeof(EnemyNavigation))]
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(Enemy))]
+    [RequireComponent(typeof(Targeter))]
     public class EnemyAbilityController : AbilityController
     {
-
         NavMeshAgent _navMeshAgent;
-        //EnemyNavigation _enemyNavigation;
-        Enemy _self;
+        Targeter _targeter;
 
-        protected void Awake()
+        protected override void Awake()
         {
-            _self = GetComponent<Enemy>();
-            //_enemyNavigation = GetComponent<EnemyNavigation>();
+            base.Awake();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _targeter = GetComponent<Targeter>();
         }
 
         private void Update()
         {
-            if (_self.Hunting && _navMeshAgent.remainingDistance < 4)
+            if (_targeter.Hunting && _navMeshAgent.remainingDistance < 4)
             {
-                var cooled = AvailableAbilities.Where(v => !v.IsOnCooldown(_self)).ToList();
-                if (cooled.Any()) cooled[0].PerformAbility(_self);
+                var cooled = AvailableAbilities.Where(v => !v.IsOnCooldown(Owner)).ToList();
+                if (cooled.Any()) cooled[0].PerformAbility(Owner);
             }
         }
     }

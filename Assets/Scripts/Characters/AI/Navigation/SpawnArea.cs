@@ -11,10 +11,10 @@ namespace Underlunchers.Characters.AI.Navigation
     {
         public float SpawnRadius;
         public int Quantity;
-        public Enemy ToSpawn;
+        public Character ToSpawn;
 
         private NavArea _navArea;
-        private List<Enemy> _mobs = new List<Enemy>();
+        private List<Character> _mobs = new List<Character>();
 
         private void OnDrawGizmos()
         {

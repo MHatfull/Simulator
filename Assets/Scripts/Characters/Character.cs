@@ -1,4 +1,5 @@
 ﻿using Underlunchers.Characters.Abilities;
+using Underlunchers.Items.Equipment;
 using Underlunchers.UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,15 +10,16 @@ namespace Underlunchers.Characters
     [RequireComponent(typeof(AbilityController))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(MinimapIcon))]
-    public abstract class Character : NetworkBehaviour
+    [RequireComponent(typeof(EquipmentManager))]
+    public class Character : NetworkBehaviour
     {
         public delegate void OnDeathHandler();
         public event OnDeathHandler OnDeath;
 
         private Animator _animator;
         private HealthDisplay _healthDisplay;
+        private EquipmentManager _equipmentManager;
 
-        public abstract void PlayWeaponAttackAnimation();
 
         public float MaxHealth
         {
@@ -40,14 +42,19 @@ namespace Underlunchers.Characters
             _healthDisplay.CurrentHealth = value;
         }
 
-        public abstract Vector3 FoculPoint { get; }
+        [SerializeField] private Transform _focus;
 
-        internal abstract float DamageBonus();
+        public Transform Focus { get { return _focus; } }
 
+        internal float DamageBonus()
+        {
+            return _equipmentManager.Damage();
+        }
         protected virtual void Awake()
         {
             _animator = GetComponent<Animator>();
             _healthDisplay = GetComponent<HealthDisplay>();
+            _equipmentManager = GetComponent<EquipmentManager>();
         }
 
         public void Start()
@@ -56,17 +63,15 @@ namespace Underlunchers.Characters
             CurrentHealth = MaxHealth;
         }
 
-        public abstract Vector3 AimDirection();
-
         public virtual void Die()
         {
             if (OnDeath != null) OnDeath();
         }
 
-        public virtual void DealDamage(float damage, Character source)
+        public void DealDamage(float damage, Character source)
         {
             RpcDealDamage();
-            CurrentHealth -= damage;
+            CurrentHealth -= Mathf.Clamp(damage - _equipmentManager.DamageReduction(), 0, Mathf.Infinity);
             CheckForDeath();
         }
 
@@ -81,7 +86,6 @@ namespace Underlunchers.Characters
             if (CurrentHealth <= 0)
             {
                 Die();
-
                 NetworkServer.Destroy(gameObject);
             }
         }

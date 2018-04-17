@@ -6,19 +6,18 @@ using UnityEngine.Networking;
 namespace Underlunchers.Characters.AI.Navigation
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(Enemy))]
+    [RequireComponent(typeof(Targeter))]
     public class EnemyNavigation : NetworkBehaviour
     {
-
         public NavArea NavArea;
 
         private NavMeshAgent _navMeshAgent;
         private bool _isNavigating = true;
-        private Enemy _self;
+        private Targeter _targeter;
 
         private void Start()
         {
-            _self = GetComponent<Enemy>();
+            _targeter = GetComponent<Targeter>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             if (isServer)
             {
@@ -29,7 +28,7 @@ namespace Underlunchers.Characters.AI.Navigation
 
         private void Navigate()
         {
-            switch (_self.Hunting == null)
+            switch (_targeter.Hunting == null)
             {
                 case true:
                     HandleWandering();
@@ -42,10 +41,10 @@ namespace Underlunchers.Characters.AI.Navigation
 
         private void HandleFollow()
         {
-            var targetPos = _self.Hunting.transform.position;
+            var targetPos = _targeter.Hunting.transform.position;
             if (Vector3.Magnitude(targetPos - NavArea.transform.position) > NavArea.Radius)
             {
-                _self.Hunting = null;
+                _targeter.Hunting = null;
                 SetDest(NavArea.GetNextPoint());
                 return;
             }
