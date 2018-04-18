@@ -1,120 +1,93 @@
-﻿using System.Collections.Generic;
-using Underlunchers.Characters;
-using Underlunchers.UI;
-using Underlunchers.UI.Slots;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Underlunchers.Items.Equipment
 {
-    [RequireComponent(typeof(Character))]
-    public class EquipmentManager : NetworkBehaviour
+    public class EquipmentManager : NetworkBehaviour, IEnumerable<Equipment>
     {
-        public Dictionary<EquipmentType, EquipmentSlot> EquipmentSlots = new Dictionary<EquipmentType, EquipmentSlot>();
+        public delegate void EquipmentUpdatedHandler();
+        public event EquipmentUpdatedHandler EquipmentUpdated;
 
-        public Dictionary<EquipmentType, Equipment> Equipped = new Dictionary<EquipmentType, Equipment>();
-
-        private InventoryManager _inventory;
-
-        private void Awake()
-        {
-            if (localPlayerAuthority)
-            {
-                foreach (EquipmentSlot slot in FindObjectOfType<Menu>().EquipmentSlots)
-                {
-                    EquipmentSlots.Add(slot.EquipmentType, slot);
-                    slot.EquipmentUnequipped += Unequip;
-                }
-                _inventory = GetComponent<InventoryManager>();
-            }
-        }
-
+        [Client]
         public void Equip(Equipment equipment)
         {
-            if (equipment)
+            if (!(isServer && isClient))
             {
-                equipment.gameObject.SetActive(false);
+                if (isServer)      RpcEquip(equipment.netId);
+                else if (isClient) CmdEquip(equipment.netId);
             }
-            CmdEquip(equipment.netId);
+            LocalEquip(equipment);
         }
 
         [Command]
         private void CmdEquip(NetworkInstanceId id)
         {
-            RpcEquip(id);
             GameObject equipment = NetworkServer.FindLocalObject(id);
-            SetupEquipment(equipment.GetComponent<Equipment>());
+            LocalEquip(equipment.GetComponent<Equipment>());
         }
 
         [ClientRpc]
         private void RpcEquip(NetworkInstanceId id)
         {
             GameObject equipment = ClientScene.FindLocalObject(id);
-            SetupEquipment(equipment.GetComponent<Equipment>());
+            LocalEquip(equipment.GetComponent<Equipment>());
         }
 
-        public void Unequip(EquipmentSlot slot)
+        private void LocalEquip(Equipment equipment)
         {
-            _inventory.AddToInventory(slot.Content);
-            CmdUnequip(slot.EquipmentType);
+            if (this[equipment.EquipmentType]) this[equipment.EquipmentType].gameObject.SetActive(false);
+            this[equipment.EquipmentType] = equipment;
+            equipment.gameObject.SetActive(true);
+            equipment.GetComponent<Collider>().enabled = false;
+            equipment.transform.SetParent(transform);
+            equipment.transform.localEulerAngles = Vector3.zero;
+            equipment.transform.localPosition = Vector3.zero;
+            IssueEquipmentUpdated();
+        }
+
+        public void Unequip(EquipmentType type)
+        {
+            if (!(isServer && isClient))
+            {
+                if (isServer)      RpcUnequip(type);
+                else if (isClient) CmdUnequip(type);
+            }
+            LocalUnequip(type);
         }
 
         [Command]
         void CmdUnequip(EquipmentType type)
         {
-            if (Equipped.ContainsKey(type))
-            {
-                Debug.Log("unequipping a " + Equipped[type]);
-                if (Equipped[type] != null)
-                {
-                    Equipped[type].gameObject.SetActive(false);
-                }
-                Equipped[type] = null;
-                RpcUnequip(type);
-            }
+            LocalUnequip(type);
         }
 
         [ClientRpc]
         void RpcUnequip(EquipmentType type)
         {
-            Equipped[type] = null;
+            LocalUnequip(type);
         }
 
-        private void SetupEquipment(Equipment equipment)
+        private void LocalUnequip(EquipmentType type)
         {
-            equipment.gameObject.SetActive(true);
-            equipment.GetComponent<Collider>().enabled = false;
-            equipment.transform.SetParent(transform);
-            equipment.transform.localEulerAngles = Vector3.forward;
-            if (Equipped.ContainsKey(equipment.EquipmentType))
+            if (this[type] != null)
             {
-                Equipped[equipment.EquipmentType] = equipment;
+                this[type].gameObject.SetActive(false);
             }
-            else
-            {
-                Equipped.Add(equipment.EquipmentType, equipment);
-            }
-            EquipmentSlots[equipment.EquipmentType].Add(equipment);
-            switch (equipment.EquipmentType)
-            {
-                case EquipmentType.Weapon:
-                    equipment.transform.localPosition = Vector3.zero;
-                    break;
-                case EquipmentType.Body:
-                    equipment.transform.localPosition = Vector3.zero;
-                    break;
-                case EquipmentType.Offhand:
-                    equipment.transform.localPosition = Vector3.left;
-                    break;
-                default:
-                    throw new System.Exception("Not set equipment offset");
-            }
+            this[type] = null;
+            IssueEquipmentUpdated();
+        }
+
+        private void IssueEquipmentUpdated()
+        {
+            if (EquipmentUpdated != null) EquipmentUpdated();
         }
 
         public float Damage()
         {
             float dmg = 0f;
-            foreach (Equipment equipment in Equipped.Values)
+            foreach (Equipment equipment in this)
             {
                 dmg += equipment.Damage;
             }
@@ -124,11 +97,49 @@ namespace Underlunchers.Items.Equipment
         public float DamageReduction()
         {
             float dmgReduction = 0f;
-            foreach (Equipment equipment in Equipped.Values)
+            foreach (Equipment equipment in this)
             {
                 dmgReduction += equipment.DamageReduction;
             }
             return dmgReduction;
+        }
+
+        private Dictionary<EquipmentType, Equipment> _equipped = new Dictionary<EquipmentType, Equipment>();
+
+        public IEnumerator<Equipment> GetEnumerator()
+        {
+            return _equipped.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public Equipment this[EquipmentType type]
+        {
+            get
+            {
+                if (_equipped.ContainsKey(type))
+                {
+                    return _equipped[type];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            private set
+            {
+                if (_equipped.ContainsKey(type))
+                {
+                    _equipped[type] = value;
+                }
+                else
+                {
+                    _equipped.Add(type, value);
+                }
+            }
         }
     }
 }

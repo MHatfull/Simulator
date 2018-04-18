@@ -10,9 +10,11 @@ namespace Underlunchers.UI.Slots
         public bool IsEmpty { get { return Content == null; } }
         public Collectable Content { get; protected set; }
 
-        protected override void Awake()
+        public delegate void OnRightClickedHandler(Collectable collectable);
+        public event OnRightClickedHandler OnRightClicked;
+
+        protected virtual void Awake()
         {
-            base.Awake();
             var trigger = GetComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
@@ -20,27 +22,24 @@ namespace Underlunchers.UI.Slots
             trigger.triggers.Add(entry);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void SetContent(Collectable collectable)
         {
-            if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                OnRightClick();
-            }
-        }
-
-        internal void Add(Collectable collectable)
-        {
-            Debug.Log("Adding " + collectable.name + " to " + name);
             Content = collectable;
             SetIcon(collectable.Icon);
         }
 
-        protected void EmptySlot()
+        public void SetEmpty()
         {
             Content = null;
             SetIcon(null);
         }
 
-        protected abstract void OnRightClick();
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right && OnRightClicked != null)
+            {
+                OnRightClicked(Content);
+            }
+        }
     }
 }

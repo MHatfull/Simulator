@@ -21,7 +21,7 @@ namespace Underlunchers.Items
                 InventoryManager inventory = other.GetComponent<InventoryManager>();
                 if (inventory)
                 {
-                    inventory.RpcAddToInventory(netId);
+                    inventory.Add(this);
                     NetworkSetActive(false);
                     gameObject.SetActive(false);
                 }
@@ -32,12 +32,10 @@ namespace Underlunchers.Items
         {
             if (isClient)
             {
-                Debug.Log("client setting active " + active);
                 CmdSetActive(active);
             }
             else
             {
-                Debug.Log("server setting active " + active);
                 RpcSetActive(active);
             }
         }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class Lobby : MonoBehaviour {
@@ -15,10 +13,10 @@ public class Lobby : MonoBehaviour {
             manager.StartServer();
             Debug.Log("Server started");
         }
-        else if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            manager.StartHost();
-        }
+        //else if (Application.platform == RuntimePlatform.WindowsEditor)
+        //{
+        //    manager.StartHost();
+        //}
         else
         {
             manager.networkAddress = "localhost";

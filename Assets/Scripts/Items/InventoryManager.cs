@@ -1,8 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Underlunchers.Items.Equipment;
-using Underlunchers.UI;
-using Underlunchers.UI.Slots;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,27 +6,87 @@ namespace Underlunchers.Items
 {
     public class InventoryManager : NetworkBehaviour
     {
-        List<InventorySlot> _inventorySlots;
-        EquipmentManager _equipmentManager;
+        List<Collectable> _inventory = new List<Collectable>();
 
-        private void Awake()
+        public int Length { get { return _inventory.Count; } }
+
+        public delegate void InventoryUpdatedHandler();
+        public event InventoryUpdatedHandler InventoryUpdated;
+
+        private void IssueInventoryUpdated()
         {
-            _equipmentManager = GetComponent<EquipmentManager>();
-            _inventorySlots = FindObjectOfType<Menu>().InventorySlots.ToList();
-            _inventorySlots.ForEach((s) => s.EquipmentEquiped += _equipmentManager.Equip);
+            if(InventoryUpdated != null)
+            {
+                InventoryUpdated();
+            }
+        }
+
+        public void Add(Collectable collectable)
+        {
+            if (!(isServer && isClient))
+            {
+                if (isServer) RpcAdd(collectable.netId);
+                else if (isClient) CmdAdd(collectable.netId);
+            }
+            LocalAdd(collectable);
+        }
+
+        [Command]
+        private void CmdAdd(NetworkInstanceId id)
+        {
+            Collectable collectable = ClientScene.FindLocalObject(id).GetComponent<Collectable>();
+            LocalAdd(collectable);
         }
 
         [ClientRpc]
-        public void RpcAddToInventory(NetworkInstanceId id)
+        private void RpcAdd(NetworkInstanceId id)
         {
-            GameObject collectable = ClientScene.FindLocalObject(id);
-            AddToInventory(collectable.GetComponent<Collectable>());
+            Collectable collectable = ClientScene.FindLocalObject(id).GetComponent<Collectable>();
+            LocalAdd(collectable);
         }
 
-        public void AddToInventory(Collectable collectable)
+        private void LocalAdd(Collectable collectable)
         {
-            var freeSlot = _inventorySlots.First(slot => slot.IsEmpty);
-            if (freeSlot != null) freeSlot.Add(collectable);
+            _inventory.Add(collectable);
+            IssueInventoryUpdated();
+        }
+
+        public void Remove(Collectable collectable)
+        {
+            if (!(isServer && isClient))
+            {
+                if (isServer)      RpcRemove(collectable.netId);
+                else if (isClient) CmdRemove(collectable.netId);
+            }
+            LocalRemove(collectable);
+        }
+
+        [Command]
+        private void CmdRemove(NetworkInstanceId id)
+        {
+            Collectable collectable = ClientScene.FindLocalObject(id).GetComponent<Collectable>();
+            LocalRemove(collectable);
+        }
+
+        [ClientRpc]
+        private void RpcRemove(NetworkInstanceId id)
+        {
+            Collectable collectable = ClientScene.FindLocalObject(id).GetComponent<Collectable>();
+            LocalRemove(collectable);
+        }
+
+        private void LocalRemove(Collectable collectable)
+        {
+            _inventory.Remove(collectable);
+            IssueInventoryUpdated();
+        }
+
+        public Collectable this[int i]
+        {
+            get
+            {
+                return _inventory[i];
+            }
         }
     }
 }

@@ -13,6 +13,9 @@ namespace Underlunchers.Characters
     [RequireComponent(typeof(EquipmentManager))]
     public class Character : NetworkBehaviour
     {
+        public delegate void OnSelfJoinedHandler(Character me);
+        public static event OnSelfJoinedHandler OnSelfJoined;
+
         public delegate void OnDeathHandler();
         public event OnDeathHandler OnDeath;
 
@@ -61,6 +64,10 @@ namespace Underlunchers.Characters
         {
             _healthDisplay.MaxHealth = _maxHealth;
             CurrentHealth = MaxHealth;
+            if (isLocalPlayer && OnSelfJoined != null)
+            {
+                OnSelfJoined(this);
+            }
         }
 
         public virtual void Die()

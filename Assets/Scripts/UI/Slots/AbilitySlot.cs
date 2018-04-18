@@ -10,8 +10,8 @@ namespace Underlunchers.UI.Slots
 
         public void ResetLoadingProgress()
         {
-            _image.fillAmount = 0;
-            _image.color = new Color(.5f, .5f, .5f, .5f);
+            Image.fillAmount = 0;
+            Image.color = new Color(.5f, .5f, .5f, .5f);
         }
 
         public void SetCooldown(float cooldown)
@@ -21,10 +21,10 @@ namespace Underlunchers.UI.Slots
 
         private void Update()
         {
-            if (_image.fillAmount < 1)
+            if (Image.fillAmount < 1)
             {
-                _image.fillAmount = Mathf.Min(_image.fillAmount + Time.deltaTime / _cooldown, 1);
-                if (_image.fillAmount == 1) _image.color = new Color(1, 1, 1, 1);
+                Image.fillAmount = Mathf.Min(Image.fillAmount + Time.deltaTime / _cooldown, 1);
+                if (Image.fillAmount == 1) Image.color = new Color(1, 1, 1, 1);
             }
         }
     }

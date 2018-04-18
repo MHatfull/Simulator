@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public abstract class UISlot : MonoBehaviour
 {
-    protected Image _image;
-
-    protected virtual void Awake()
+    protected Image Image
     {
-        _image = GetComponent<Image>();
+        get
+        {
+            if (!_image) _image = GetComponent<Image>();
+            return _image;
+        }
     }
+    private Image _image;
 
     public void SetIcon(Sprite icon)
     {
-        _image.overrideSprite = icon;
+        Image.overrideSprite = icon;
     }
 }
