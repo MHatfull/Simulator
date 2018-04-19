@@ -32,6 +32,7 @@ GameObject:
   - component: {fileID: 114059969123109082}
   - component: {fileID: 114161371814513918}
   - component: {fileID: 114097481123257592}
+  - component: {fileID: 114515689542919146}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -192,6 +193,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _miniMapTexture: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &114515689542919146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1374903523633264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec7bce6717e4954b958132e6bbb0180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _drops:
+  - _dropChance: 1
+    _toDrop: {fileID: 114198706667545480, guid: e30c2d5bd14716043ad529b3b802d107,
+      type: 2}
 --- !u!114 &114825558248693822
 MonoBehaviour:
   m_ObjectHideFlags: 1

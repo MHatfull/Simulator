@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1778332663090050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 12.125102, y: -40.09944, z: -34.37986}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4382515952949228}
@@ -127,8 +127,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3249741, y: 1.2525177, z: 0.5600548}
-  m_Center: {x: 0.38118172, y: -0.9596672, z: 1.5243168}
+  m_Size: {x: 1.757205, y: 1.8340645, z: 0.5600548}
+  m_Center: {x: 0.33946276, y: -0.6688938, z: 1.5243168}
 --- !u!95 &95488246273349626
 Animator:
   serializedVersion: 3
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e11513f33045cf94d9811253904b9d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 5485e2f56028a3c4cb54f5caa167377e, type: 3}
+  Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   Damage: 50
   DamageReduction: 0
   EquipmentType: 2
