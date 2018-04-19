@@ -5,7 +5,6 @@ using Underlunchers.UI.Slots;
 using Underlunchers.Characters;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 using System.Linq;
 
 namespace Underlunchers.UI

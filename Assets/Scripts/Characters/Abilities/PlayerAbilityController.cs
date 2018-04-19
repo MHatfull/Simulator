@@ -8,17 +8,12 @@ namespace Underlunchers.Characters.Abilities
     {
         HotKeyManager _hotKeys;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            _hotKeys = Object.FindObjectOfType<HotKeyManager>();
-            _hotKeys.OnConnect(this);
-        }
-
         private void Start()
         {
             if (isLocalPlayer)
             {
+                _hotKeys = Object.FindObjectOfType<HotKeyManager>();
+                _hotKeys.OnConnect(this);
                 InputManager.HotKeyDown += HotKeyDown;
             }
         }

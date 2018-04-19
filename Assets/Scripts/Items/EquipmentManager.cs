@@ -20,7 +20,8 @@ namespace Underlunchers.Items.Equipment
 
         public void Equip(Equipment equipment)
         {
-            if (!(isServer && isClient))
+            if (this[equipment.EquipmentType]) Unequip(equipment.EquipmentType);
+            if (!(isServer && isLocalPlayer))
             {
                 if (isServer)      RpcEquip(equipment.netId);
                 else if (isClient) CmdEquip(equipment.netId);
@@ -44,7 +45,6 @@ namespace Underlunchers.Items.Equipment
 
         private void LocalEquip(Equipment equipment)
         {
-            if (this[equipment.EquipmentType]) LocalUnequip(equipment.EquipmentType);
             this[equipment.EquipmentType] = equipment;
             equipment.gameObject.SetActive(true);
             equipment.GetComponent<Collider>().enabled = false;
@@ -56,7 +56,8 @@ namespace Underlunchers.Items.Equipment
 
         public void Unequip(EquipmentType type)
         {
-            if (!(isServer && isClient))
+            _inventory.Add(this[type]);
+            if (!(isServer && isLocalPlayer))
             {
                 if (isServer)      RpcUnequip(type);
                 else if (isClient) CmdUnequip(type);
@@ -82,7 +83,6 @@ namespace Underlunchers.Items.Equipment
             {
                 this[type].gameObject.SetActive(false);
             }
-            _inventory.Add(this[type]);
             this[type] = null;
             IssueEquipmentUpdated();
         }

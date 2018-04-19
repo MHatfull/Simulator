@@ -20,7 +20,6 @@ namespace Underlunchers.Input
 
         public void OnConnect(PlayerAbilityController ownAbilities)
         {
-            Debug.Log("On connect with " + ownAbilities + " having " + ownAbilities.AvailableAbilities.Length);
             _uiIcons = FindObjectsOfType<AbilitySlot>();
             HotKeys = _uiIcons.Select(icon => icon.Key).ToArray();
             for(int i = 0; i < _uiIcons.Length; i++)

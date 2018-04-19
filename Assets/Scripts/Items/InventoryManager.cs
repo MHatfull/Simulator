@@ -23,7 +23,7 @@ namespace Underlunchers.Items
 
         public void Add(Collectable collectable)
         {
-            if (!(isServer && isClient))
+            if (!(isServer && isLocalPlayer))
             {
                 if (isServer) RpcAdd(collectable.netId);
                 else if (isClient) CmdAdd(collectable.netId);
@@ -53,7 +53,7 @@ namespace Underlunchers.Items
 
         public void Remove(Collectable collectable)
         {
-            if (!(isServer && isClient))
+            if (!(isServer && isLocalPlayer))
             {
                 if (isServer)      RpcRemove(collectable.netId);
                 else if (isClient) CmdRemove(collectable.netId);
