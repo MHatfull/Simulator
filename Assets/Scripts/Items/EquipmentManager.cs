@@ -5,12 +5,19 @@ using UnityEngine.Networking;
 
 namespace Underlunchers.Items.Equipment
 {
+    [RequireComponent(typeof(InventoryManager))]
     public class EquipmentManager : NetworkBehaviour, IEnumerable<Equipment>
     {
         public delegate void EquipmentUpdatedHandler();
         public event EquipmentUpdatedHandler EquipmentUpdated;
 
-        [Client]
+        InventoryManager _inventory;
+
+        private void Awake()
+        {
+            _inventory = GetComponent<InventoryManager>();
+        }
+
         public void Equip(Equipment equipment)
         {
             if (!(isServer && isClient))
@@ -37,7 +44,7 @@ namespace Underlunchers.Items.Equipment
 
         private void LocalEquip(Equipment equipment)
         {
-            if (this[equipment.EquipmentType]) this[equipment.EquipmentType].gameObject.SetActive(false);
+            if (this[equipment.EquipmentType]) LocalUnequip(equipment.EquipmentType);
             this[equipment.EquipmentType] = equipment;
             equipment.gameObject.SetActive(true);
             equipment.GetComponent<Collider>().enabled = false;
@@ -75,6 +82,7 @@ namespace Underlunchers.Items.Equipment
             {
                 this[type].gameObject.SetActive(false);
             }
+            _inventory.Add(this[type]);
             this[type] = null;
             IssueEquipmentUpdated();
         }

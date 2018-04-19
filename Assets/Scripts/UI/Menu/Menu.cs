@@ -6,6 +6,7 @@ using Underlunchers.Characters;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 namespace Underlunchers.UI
 {
@@ -22,7 +23,9 @@ namespace Underlunchers.UI
 
         private void Awake()
         {
-            _inventorySlots = GameObject.FindObjectsOfType<InventorySlot>();
+            var found = GameObject.FindObjectsOfType<InventorySlot>().ToList();
+            found.Sort((a, b) => (int)(b.transform.position.y - a.transform.position.y) * 100 + (int)(a.transform.position.x - b.transform.position.x));
+            _inventorySlots = found.ToArray();
             foreach (InventorySlot slot in _inventorySlots)
             {
                 slot.OnRightClicked += OnInventorySlotClicked;
@@ -40,7 +43,6 @@ namespace Underlunchers.UI
         private void OnEquipmentSlotClicked(Collectable collectable)
         {
             _equipmentManager.Unequip(((Equipment)collectable).EquipmentType);
-            _inventoryManager.Add(collectable);
         }
 
         private void OnInventorySlotClicked(Collectable collectable)
