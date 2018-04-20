@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eefaafd17887dc42a4cf981add74b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _typeName: Ball
   _maxHealth: 20
   _focus: {fileID: 4357719807808630}
 --- !u!114 &114180374234975978
@@ -205,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _drops:
-  - _dropChance: 1
+  - _dropChance: 0.38
     _toDrop: {fileID: 114198706667545480, guid: e30c2d5bd14716043ad529b3b802d107,
       type: 2}
 --- !u!114 &114825558248693822

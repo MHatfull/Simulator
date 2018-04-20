@@ -15,9 +15,7 @@ namespace Underlunchers.Characters.Abilities
 
         public void PerformAbility(Character caster)
         {
-            Debug.Log(caster + " performing ability");
             if (IsOnCooldown(caster)) return;
-            else Debug.Log("not on cooldown continuing");
             Execute(caster);
             if (AbilityCast != null)
             {

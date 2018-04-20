@@ -1,4 +1,5 @@
-﻿using Underlunchers.Characters.Abilities;
+﻿using System;
+using Underlunchers.Characters.Abilities;
 using Underlunchers.Items.Equipment;
 using Underlunchers.UI;
 using UnityEngine;
@@ -16,8 +17,13 @@ namespace Underlunchers.Characters
         public delegate void OnSelfJoinedHandler(Character me);
         public static event OnSelfJoinedHandler OnSelfJoined;
 
-        public delegate void OnDeathHandler();
-        public event OnDeathHandler OnDeath;
+        [SerializeField] string _typeName;
+
+        public delegate void DeathHandler();
+        public event DeathHandler OnDeath;
+
+        public delegate void GlobalDeathHandler(Character character);
+        public static event GlobalDeathHandler OnGlobalDeath;
 
         private Animator _animator;
         private HealthDisplay _healthDisplay;
@@ -70,9 +76,21 @@ namespace Underlunchers.Characters
             }
         }
 
+        internal bool SameType(Character compareTo)
+        {
+            return compareTo._typeName == _typeName;
+        }
+
         public virtual void Die()
         {
-            if (OnDeath != null) OnDeath();
+            if (OnDeath != null)
+            {
+                OnDeath();
+            }
+            if (OnGlobalDeath != null)
+            {
+                OnGlobalDeath(this);
+            }
         }
 
         public void DealDamage(float damage, Character source)
