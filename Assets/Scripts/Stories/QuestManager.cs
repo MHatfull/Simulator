@@ -1,18 +1,37 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Underlunchers.Stories
 {
-    [RequireComponent(typeof(Text))]
-    public class QuestManager : MonoBehaviour
+    public class QuestManager : NetworkBehaviour
     {
         [SerializeField] Quest[] _quests;
 
-        Text _text;
+        public delegate void OnDescriptionUpdatedHandler(string description);
+        public event OnDescriptionUpdatedHandler OnDescriptionUpdated;
+
+        [SyncVar(hook = "DescriptionUpdated")]
+        string _description;
+        
+        void DescriptionUpdated(string description)
+        {
+            if(OnDescriptionUpdated != null)
+            {
+                OnDescriptionUpdated(description);
+            }
+        }
 
         void Start()
         {
+            Debug.Log("starting quests");
+
+            if (!isServer)
+            {
+                Debug.Log("not server, returning");
+                return;
+            }
             foreach (Quest q in _quests)
             {
                 q.ResetQuest();
@@ -23,12 +42,12 @@ namespace Underlunchers.Stories
                 q.QuestUpdated += UpdateQuestLog;
             }
 
-            _text = GetComponent<Text>();
             UpdateQuestLog();
         }
 
         private void UpdateQuestLog()
         {
+            Debug.Log("updating log");
             string log = "Quests:\n";
             foreach (Quest q in _quests)
             {
@@ -38,6 +57,7 @@ namespace Underlunchers.Stories
                 }
             }
             _text.text = log;
+            _description = log;
         }
     }
 }
