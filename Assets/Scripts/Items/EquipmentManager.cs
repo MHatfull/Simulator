@@ -26,6 +26,10 @@ namespace Underlunchers.Items.Equipment
                 if (isServer)      RpcEquip(equipment.netId);
                 else if (isClient) CmdEquip(equipment.netId);
             }
+            else
+            {
+                RpcEquip(equipment.netId);
+            }
             LocalEquip(equipment);
         }
 
@@ -61,6 +65,9 @@ namespace Underlunchers.Items.Equipment
             {
                 if (isServer)      RpcUnequip(type);
                 else if (isClient) CmdUnequip(type);
+            } else
+            {
+                RpcUnequip(type);
             }
             LocalUnequip(type);
         }

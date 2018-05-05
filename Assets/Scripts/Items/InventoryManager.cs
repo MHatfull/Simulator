@@ -28,6 +28,10 @@ namespace Underlunchers.Items
                 if (isServer) RpcAdd(collectable.netId);
                 else if (isClient) CmdAdd(collectable.netId);
             }
+            else
+            {
+                RpcAdd(collectable.netId);
+            }
             LocalAdd(collectable);
         }
 
@@ -57,6 +61,10 @@ namespace Underlunchers.Items
             {
                 if (isServer)      RpcRemove(collectable.netId);
                 else if (isClient) CmdRemove(collectable.netId);
+            }
+            else
+            {
+                RpcRemove(collectable.netId);
             }
             LocalRemove(collectable);
         }
