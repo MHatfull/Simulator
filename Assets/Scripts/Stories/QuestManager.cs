@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -11,12 +10,14 @@ namespace Underlunchers.Stories
 
         public delegate void OnDescriptionUpdatedHandler(string description);
         public event OnDescriptionUpdatedHandler OnDescriptionUpdated;
+        [SerializeField] Text _text;
 
         [SyncVar(hook = "DescriptionUpdated")]
         string _description;
         
         void DescriptionUpdated(string description)
         {
+            _text.text = description;
             if(OnDescriptionUpdated != null)
             {
                 OnDescriptionUpdated(description);
@@ -56,8 +57,8 @@ namespace Underlunchers.Stories
                     log += q.GetDescription();
                 }
             }
-            _text.text = log;
             _description = log;
+            DescriptionUpdated(log);
         }
     }
 }

@@ -254,7 +254,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 30.103996}
+  m_AnchoredPosition: {x: 0, y: 26.664007}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &61313348
@@ -626,8 +626,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 631342544}
   m_HandleRect: {fileID: 631342543}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.8996533
+  m_Value: 0.0000011445222
+  m_Size: 0.9111199
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3241,6 +3241,8 @@ GameObject:
   - component: {fileID: 1116081235}
   - component: {fileID: 1116081234}
   - component: {fileID: 1116081238}
+  - component: {fileID: 1116081240}
+  - component: {fileID: 1116081239}
   m_Layer: 0
   m_Name: MenuCanvas
   m_TagString: Untagged
@@ -3337,6 +3339,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _window: {fileID: 1639894336}
   _dropdown: {fileID: 0}
+--- !u!114 &1116081239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1116081233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d6557efe6b12242a715bcf17aa168c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _quests:
+  - {fileID: 11400000, guid: 254b98ce884488542a0b8317fe7939f3, type: 2}
+  _text: {fileID: 1507404153}
+--- !u!114 &1116081240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1116081233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &1121838118
 GameObject:
   m_ObjectHideFlags: 0
@@ -4351,7 +4399,6 @@ GameObject:
   - component: {fileID: 1507404150}
   - component: {fileID: 1507404152}
   - component: {fileID: 1507404153}
-  - component: {fileID: 1507404151}
   - component: {fileID: 1507404154}
   m_Layer: 0
   m_Name: Quests
@@ -4378,19 +4425,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &1507404151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1507404149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d6557efe6b12242a715bcf17aa168c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _quests:
-  - {fileID: 11400000, guid: 254b98ce884488542a0b8317fe7939f3, type: 2}
 --- !u!222 &1507404152
 CanvasRenderer:
   m_ObjectHideFlags: 0
