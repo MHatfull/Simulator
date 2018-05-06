@@ -10,6 +10,11 @@ namespace Underlunchers.MapCreator
     public class Editable : MonoBehaviour
     {
 
+        [SerializeField] int _vertsAcross;
+        [SerializeField] int _vertsDeep;
+        [SerializeField] float _width;
+        [SerializeField] float _depth;
+
         MeshFilter _meshFilter;
         Mesh _mesh;
         MeshCollider _meshCollider;
@@ -24,9 +29,7 @@ namespace Underlunchers.MapCreator
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshCollider = GetComponent<MeshCollider>();
-            _verts = _meshFilter.mesh.vertices.ToList();
-            _tris = _meshFilter.mesh.triangles.ToList();
-            _uvs = _meshFilter.mesh.uv.ToList();
+            GenerateStartMesh();
             _mesh = new Mesh
             {
                 vertices = _verts.ToArray(),
@@ -36,6 +39,37 @@ namespace Underlunchers.MapCreator
             _mesh.RecalculateNormals();
             _meshFilter.mesh = _mesh;
             _meshCollider.sharedMesh = _mesh;
+        }
+
+        void GenerateStartMesh()
+        {
+            List<Vector3> verts = new List<Vector3>();
+            List<Vector2> uvs = new List<Vector2>();
+            for (int i = 0; i < _vertsAcross; i++)
+            {
+                for (int j = 0; j < _vertsDeep; j++)
+                {
+                    verts.Add(new Vector3(((float)i / _vertsAcross) * _width, 0, ((float)j / _vertsDeep) * _depth));
+                    uvs.Add(new Vector2((float)i / _vertsAcross, (float)j / _vertsDeep));
+                }
+            }
+            List<int> tris = new List<int>();
+            for (int i = 0; i < _vertsAcross - 1; i++)
+            {
+                for (int j = 0; j < _vertsDeep - 1; j++)
+                {
+                    tris.Add(j + (i * _vertsAcross));
+                    tris.Add(j + 1 + (i * _vertsAcross));
+                    tris.Add(j + 1 + ((i + 1) * _vertsAcross));
+
+                    tris.Add(j + (i * _vertsAcross));
+                    tris.Add(j + 1 + ((i + 1) * _vertsAcross));
+                    tris.Add(j + ((i + 1) * _vertsAcross));
+                }
+            }
+            _verts = verts;
+            _tris = tris;
+            _uvs = uvs;
         }
 
         private void Update()
