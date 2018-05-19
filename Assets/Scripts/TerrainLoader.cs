@@ -29,6 +29,7 @@ public class TerrainLoader : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
         GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     void GenerateStartMesh(float[] heightMap)
