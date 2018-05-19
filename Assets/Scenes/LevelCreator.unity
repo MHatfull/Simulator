@@ -187,9 +187,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1286993592}
   - component: {fileID: 1286993591}
-  - component: {fileID: 1286993590}
   - component: {fileID: 1286993593}
   - component: {fileID: 1286993594}
+  - component: {fileID: 1286993590}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -208,10 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46779d79529b6c842b0986470398de49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vertsAcross: 50
-  _vertsDeep: 50
-  _width: 20
-  _depth: 20
+  _vertsAcross: 100
+  _vertsDeep: 100
+  _width: 100
+  _depth: 100
 --- !u!33 &1286993591
 MeshFilter:
   m_ObjectHideFlags: 0

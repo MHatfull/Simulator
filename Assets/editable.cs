@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -18,9 +19,9 @@ namespace Underlunchers.MapCreator
         MeshFilter _meshFilter;
         Mesh _mesh;
         MeshCollider _meshCollider;
-        List<Vector3> _verts = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0), new Vector3(1, 0, 1) };
-        List<int> _tris = new List<int> { 0, 1, 2, 3, 2, 1 };
-        List<Vector2> _uvs = new List<Vector2> { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 0), new Vector2(1, 1) };
+        List<Vector3> _verts = new List<Vector3>();
+        List<int> _tris = new List<int>();
+        List<Vector2> _uvs = new List<Vector2>();
         int? _nearestPoint;
         Vector3 _old;
         float _dist;
@@ -53,6 +54,13 @@ namespace Underlunchers.MapCreator
                     uvs.Add(new Vector2((float)i / _vertsAcross, (float)j / _vertsDeep));
                 }
             }
+            _verts = verts;
+            _tris = CalculateTriangles();
+            _uvs = uvs;
+        }
+
+        private List<int> CalculateTriangles()
+        {
             List<int> tris = new List<int>();
             for (int i = 0; i < _vertsAcross - 1; i++)
             {
@@ -67,13 +75,23 @@ namespace Underlunchers.MapCreator
                     tris.Add(j + ((i + 1) * _vertsAcross));
                 }
             }
-            _verts = verts;
-            _tris = tris;
-            _uvs = uvs;
+
+            return tris;
         }
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Return))
+            {
+                float[] heightMap = new float[_verts.Count];
+                for(int i = 0; i < _verts.Count; i++)
+                {
+                    heightMap[i] = _verts[i].y;
+                }
+                var byteArray = new byte[heightMap.Length * 4];
+                Buffer.BlockCopy(heightMap, 0, byteArray, 0, byteArray.Length);
+                File.WriteAllBytes(Application.persistentDataPath + "/TerrainMesh.mesh", byteArray);
+            }
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {
                 GetNearestPoint();
