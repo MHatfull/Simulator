@@ -23,6 +23,17 @@ namespace Underlunchers.Scene
             CreateStartChunks();
         }
 
+        private void Update()
+        {
+            for(int i = 0; i< _chunks.Length; i++)
+            {
+                for(int j = 0; j < _chunks[i].Length; j++)
+                {
+                    _chunks[i][j].UpdateChunk();
+                }
+            }
+        }
+
         private void CreateStartChunks()
         {
             for (int i = 0; i < _numChunks.x; i++)

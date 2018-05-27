@@ -128,7 +128,7 @@ namespace Underlunchers.Scene
             _selectedPoint = null;
         }
 
-        private void Update()
+        public void UpdateChunk()
         {
             if (_selectedPoint.HasValue)
             {
