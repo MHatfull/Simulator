@@ -1,10 +1,10 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Underlunchers.Scene
 {
-    public class EditableMesh : MonoBehaviour
+    public class ChunkedTerrain : MonoBehaviour
     {
         [SerializeField] Vector2Int _chunkVerts;
         [SerializeField] Vector2 _chunkSize;
@@ -27,17 +27,27 @@ namespace Underlunchers.Scene
         {
             for(int i = 0; i< _chunks.Length; i++)
             {
-                for(int j = 0; j < _chunks[i].Length; j++)
+                if (_chunks[i] != null)
                 {
-                    _chunks[i][j].UpdateChunk();
+                    for (int j = 0; j < _chunks[i].Length; j++)
+                    {
+                        if (_chunks[i][j])
+                            _chunks[i][j].UpdateChunk();
+                    }
                 }
             }
         }
 
         private void CreateStartChunks()
         {
+            StartCoroutine(CreateStartChunksRoutine());
+        }
+
+        private IEnumerator CreateStartChunksRoutine()
+        {
             for (int i = 0; i < _numChunks.x; i++)
             {
+                yield return new WaitForEndOfFrame();
                 _chunks[i] = new Chunk[_numChunks.y];
                 for (int j = 0; j < _numChunks.y; j++)
                 {
@@ -100,11 +110,37 @@ namespace Underlunchers.Scene
         void UpdateChunks(Vector2Int pos)
         {
             float height = _heightMap[pos.x][pos.y];
-            Debug.Log("pos is " + pos.x + ", " + pos.y);
-            foreach(Chunk c in _chunksAtVerts[pos])
+            foreach (Chunk c in _chunksAtVerts[pos])
             {
                 Vector2Int chunkLocation = _chunkLocations[c];
                 c.UpdateVertex(pos - chunkLocation, height);
+            }
+            foreach (Chunk c in _chunksAtVerts[pos])
+            {
+                for(int i = 0; i < _chunkVerts.x; i++)
+                {
+                    for(int j = 0; j< _chunkVerts.y; j++)
+                    {
+                        Vector2Int chunkLocation = _chunkLocations[c];
+                        RecalculateNormals(new Vector2Int(i + chunkLocation.x, j + chunkLocation.y));
+                    }
+                }
+            }
+        }
+
+        private void RecalculateNormals(Vector2Int pos)
+        {
+            Vector3 normal = Vector3.zero;
+            foreach (Chunk c in _chunksAtVerts[pos])
+            {
+                Vector2Int chunkLocation = _chunkLocations[c];
+                normal += c.NormalAt(pos - chunkLocation);
+            }
+            foreach (Chunk c in _chunksAtVerts[pos])
+            {
+                Vector2Int chunkLocation = _chunkLocations[c];
+                c.UpdateNormal(pos - chunkLocation, normal.normalized);
+                Debug.Log("normal is " + normal);
             }
         }
     }

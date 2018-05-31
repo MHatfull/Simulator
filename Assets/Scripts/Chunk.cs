@@ -55,6 +55,13 @@ namespace Underlunchers.Scene
             _collider.sharedMesh = _mesh;
         }
 
+        private void Update()
+        {
+            for (int i = 0; i < _mesh.vertices.Length; i++) {
+                Debug.DrawRay(_mesh.vertices[i] + transform.position, _mesh.normals[i], Color.red, 0.1f, false);
+            }
+        }
+
         Mesh GenerateStartMesh()
         {
             List<Vector3> verts = new List<Vector3>();
@@ -137,9 +144,20 @@ namespace Underlunchers.Scene
             }
         }
 
+        public Vector3 NormalAt(Vector2Int vert)
+        {
+            return _mesh.normals[GetIndex(vert.x, vert.y)];
+        }
+
+        public void UpdateNormal(Vector2Int vert, Vector3 normal)
+        {
+            Vector3[] normals = _mesh.normals;
+            normals[GetIndex(vert.x, vert.y)] = normal;
+            _mesh.normals = normals;
+        }
+
         public void UpdateVertex(Vector2Int vert, float val)
         {
-            Debug.Log("updating " + vert.x + ", " + vert.y);
             UpdateVertex(GetIndex(vert.x, vert.y), val);
         }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37658748, g: 0.38558963, b: 0.36587527, a: 1}
+  m_IndirectSpecularColor: {r: 0.44902354, g: 0.4990877, b: 0.57571226, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -171,13 +171,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 114110327}
-  m_LocalRotation: {x: 0.115658954, y: 0.06616404, z: 0.85107696, w: 0.5078517}
+  m_LocalRotation: {x: 0.3066158, y: -0.20834619, z: 0.6627111, w: 0.6506864}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0.27800003, y: 15.312, z: 118.38701}
+  m_LocalEulerAnglesHint: {x: 42.467003, y: 10.566001, z: 95.164}
 --- !u!1 &1564130788
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chunkVerts: {x: 5, y: 5}
   _chunkSize: {x: 5, y: 5}
-  _numChunks: {x: 100, y: 100}
+  _numChunks: {x: 2, y: 2}
   _material: {fileID: 2100000, guid: fff0eed4d18eb6642851baac62752f44, type: 2}
 --- !u!4 &1980723640
 Transform:
