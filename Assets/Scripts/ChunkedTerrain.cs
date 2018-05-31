@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ namespace Underlunchers.Scene
 
         private void Update()
         {
-            for(int i = 0; i< _chunks.Length; i++)
+            for(int i = 0; i < _chunks.Length; i++)
             {
                 if (_chunks[i] != null)
                 {
@@ -36,6 +37,26 @@ namespace Underlunchers.Scene
                     }
                 }
             }
+            if (UnityEngine.Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                SaveMesh();
+            }
+        }
+
+        private void SaveMesh()
+        {
+            float[] flatArray = new float[_heightMap.Length * _heightMap[0].Length];
+            for(int i = 0; i < _heightMap.Length; i++)
+            {
+                for(int j = 0; j < _heightMap[0].Length; j++)
+                {
+                    flatArray[i * _heightMap.Length + j] = _heightMap[i][j];
+                }
+            }
+            var byteArray = new byte[flatArray.Length * 4];
+            Buffer.BlockCopy(flatArray, 0, byteArray, 0, byteArray.Length);
+            Debug.Log("writting bytes to " + Application.persistentDataPath + "/TerrainData.terrain");
+            System.IO.File.WriteAllBytes(Application.persistentDataPath + "/TerrainData.terrain", byteArray);
         }
 
         private void CreateStartChunks()
@@ -43,11 +64,16 @@ namespace Underlunchers.Scene
             StartCoroutine(CreateStartChunksRoutine());
         }
 
+        int n = 0;
         private IEnumerator CreateStartChunksRoutine()
         {
             for (int i = 0; i < _numChunks.x; i++)
             {
-                yield return new WaitForEndOfFrame();
+                if (n % 10 == 0)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+                n++;
                 _chunks[i] = new Chunk[_numChunks.y];
                 for (int j = 0; j < _numChunks.y; j++)
                 {

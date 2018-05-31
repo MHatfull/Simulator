@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -53,13 +54,6 @@ namespace Underlunchers.Scene
             GetComponent<MeshRenderer>().material = _material;
 
             _collider.sharedMesh = _mesh;
-        }
-
-        private void Update()
-        {
-            for (int i = 0; i < _mesh.vertices.Length; i++) {
-                Debug.DrawRay(_mesh.vertices[i] + transform.position, _mesh.normals[i], Color.red, 0.1f, false);
-            }
         }
 
         Mesh GenerateStartMesh()
