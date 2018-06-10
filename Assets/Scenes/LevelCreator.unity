@@ -288,8 +288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chunkVerts: {x: 5, y: 5}
   _chunkSize: {x: 5, y: 5}
-  _numChunks: {x: 200, y: 200}
+  _numChunks: {x: 20, y: 20}
   _material: {fileID: 2100000, guid: fff0eed4d18eb6642851baac62752f44, type: 2}
+  _loadMesh: 0
 --- !u!4 &1980723640
 Transform:
   m_ObjectHideFlags: 0

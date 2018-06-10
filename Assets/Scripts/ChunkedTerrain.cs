@@ -11,6 +11,7 @@ namespace Underlunchers.Scene
         [SerializeField] Vector2 _chunkSize;
         [SerializeField] Vector2Int _numChunks;
         [SerializeField] Material _material;
+        [SerializeField] bool _loadMesh;
 
         Chunk[][] _chunks;
         Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
@@ -20,8 +21,37 @@ namespace Underlunchers.Scene
         private void Awake()
         {
             _chunks = new Chunk[_numChunks.x][];
-            _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];
+            if (_loadMesh)
+            {
+                string metadata = System.IO.File.ReadAllText(Application.persistentDataPath + "/TerrainMetaData.terrain");
+                string[] split = metadata.Split(',');
+                _chunkVerts = new Vector2Int(int.Parse(split[0]), int.Parse(split[1]));
+                _numChunks = new Vector2Int(int.Parse(split[2]), int.Parse(split[3]));
+                _chunkSize = new Vector2(float.Parse(split[4]), float.Parse(split[5]));
+                _chunks = new Chunk[_numChunks.x][];
+                LoadMesh();
+            }
+            else
+            {
+                _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];
+            }
             CreateStartChunks();
+        }
+
+        private void LoadMesh()
+        {
+            byte[] bytes = System.IO.File.ReadAllBytes(Application.persistentDataPath + "/TerrainData.terrain");
+            var flat = new float[bytes.Length / 4];
+            Buffer.BlockCopy(bytes, 0, flat, 0, bytes.Length);
+            _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];
+            for(int i = 0; i < _heightMap.Length; i++)
+            {
+                _heightMap[i] = new float[_numChunks.y * (_chunkVerts.y - 1) + 1];
+                for(int j = 0; j < _heightMap[0].Length; j++)
+                {
+                    _heightMap[i][j] = flat[i * _heightMap.Length + j];
+                }
+            }
         }
 
         private void Update()
@@ -55,8 +85,11 @@ namespace Underlunchers.Scene
             }
             var byteArray = new byte[flatArray.Length * 4];
             Buffer.BlockCopy(flatArray, 0, byteArray, 0, byteArray.Length);
-            Debug.Log("writting bytes to " + Application.persistentDataPath + "/TerrainData.terrain");
             System.IO.File.WriteAllBytes(Application.persistentDataPath + "/TerrainData.terrain", byteArray);
+
+            string metadata = _chunkVerts.x + "," + _chunkVerts.y + "," + _numChunks.x + "," + _numChunks.y + "," + _chunkSize.x + "," + _chunkSize.y;
+
+            System.IO.File.WriteAllText(Application.persistentDataPath + "/TerrainMetaData.terrain", metadata);
         }
 
         private void CreateStartChunks()
@@ -64,16 +97,10 @@ namespace Underlunchers.Scene
             StartCoroutine(CreateStartChunksRoutine());
         }
 
-        int n = 0;
         private IEnumerator CreateStartChunksRoutine()
         {
             for (int i = 0; i < _numChunks.x; i++)
             {
-                if (n % 10 == 0)
-                {
-                    yield return new WaitForEndOfFrame();
-                }
-                n++;
                 _chunks[i] = new Chunk[_numChunks.y];
                 for (int j = 0; j < _numChunks.y; j++)
                 {
@@ -83,13 +110,32 @@ namespace Underlunchers.Scene
                     PrefillHeightmap(i, j, chunk);
                 }
             }
+            yield return new WaitForEndOfFrame();
+            for(int i = 0; i < _heightMap.Length; i++)
+            {
+                for(int j = 0; j < _heightMap[0].Length; j++)
+                {
+                    UpdateChunks(new Vector2Int(i, j));
+                }
+            }
+            yield return new WaitForEndOfFrame();
+            for (int i = 0; i < _chunks.Length; i++)
+            {
+                for (int j = 0; j < _chunks.Length; j++)
+                {
+                    _chunks[i][j].BuildNavmesh();
+                }
+            }
         }
 
         private void PrefillHeightmap(int i, int j, Chunk c)
         { 
             for (int x = 0; x < _chunkVerts.x; x++)
             {
-                _heightMap[i * (_chunkVerts.x - 1) + x] = new float[_numChunks.y * (_chunkVerts.y - 1) + 1];
+                if (!_loadMesh)
+                {
+                    _heightMap[i * (_chunkVerts.x - 1) + x] = new float[_numChunks.y * (_chunkVerts.y - 1) + 1];
+                }
                 for (int y = 0; y < _chunkVerts.y; y++)
                 {
                     Vector2Int v = new Vector2Int(i * (_chunkVerts.x - 1) + x, j * (_chunkVerts.y - 1) + y);
@@ -101,7 +147,10 @@ namespace Underlunchers.Scene
                     {
                         _chunksAtVerts[v].Add(c);
                     }
-                    _heightMap[v.x][v.y] = 0;
+                    if (!_loadMesh)
+                    {
+                        _heightMap[v.x][v.y] = 0;
+                    }
                 }
             }
         }
@@ -166,7 +215,6 @@ namespace Underlunchers.Scene
             {
                 Vector2Int chunkLocation = _chunkLocations[c];
                 c.UpdateNormal(pos - chunkLocation, normal.normalized);
-                Debug.Log("normal is " + normal);
             }
         }
     }

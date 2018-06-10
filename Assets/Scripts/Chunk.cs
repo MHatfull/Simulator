@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Underlunchers.Scene
 {
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider), typeof(NavMeshSurface))]
     public class Chunk : MonoBehaviour
     {
         public delegate void VertexUpdatedHandler(Chunk chunk, Vector2Int vert, float height);
@@ -138,6 +139,11 @@ namespace Underlunchers.Scene
             }
         }
 
+        public void BuildNavmesh()
+        {
+
+        }
+
         public Vector3 NormalAt(Vector2Int vert)
         {
             return _mesh.normals[GetIndex(vert.x, vert.y)];
@@ -161,6 +167,7 @@ namespace Underlunchers.Scene
             _verts[vert] = new Vector3(flat.x, val, flat.y);
             _mesh.vertices = _verts.ToArray();
             _mesh.RecalculateNormals();
+            _collider.sharedMesh = _mesh;
         }
 
         private int GetIndex(int x, int y)
