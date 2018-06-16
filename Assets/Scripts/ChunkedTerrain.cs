@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Underlunchers.Scene
 {
@@ -12,6 +14,8 @@ namespace Underlunchers.Scene
         [SerializeField] Vector2Int _numChunks;
         [SerializeField] Material _material;
         [SerializeField] bool _loadMesh;
+
+        const string SIGNING_URL = "https://0eigd4ij87.execute-api.us-east-1.amazonaws.com/prod";
 
         Chunk[][] _chunks;
         Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
@@ -44,10 +48,10 @@ namespace Underlunchers.Scene
             var flat = new float[bytes.Length / 4];
             Buffer.BlockCopy(bytes, 0, flat, 0, bytes.Length);
             _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];
-            for(int i = 0; i < _heightMap.Length; i++)
+            for (int i = 0; i < _heightMap.Length; i++)
             {
                 _heightMap[i] = new float[_numChunks.y * (_chunkVerts.y - 1) + 1];
-                for(int j = 0; j < _heightMap[0].Length; j++)
+                for (int j = 0; j < _heightMap[0].Length; j++)
                 {
                     _heightMap[i][j] = flat[i * _heightMap.Length + j];
                 }
@@ -56,7 +60,7 @@ namespace Underlunchers.Scene
 
         private void Update()
         {
-            for(int i = 0; i < _chunks.Length; i++)
+            for (int i = 0; i < _chunks.Length; i++)
             {
                 if (_chunks[i] != null)
                 {
@@ -76,9 +80,9 @@ namespace Underlunchers.Scene
         private void SaveMesh()
         {
             float[] flatArray = new float[_heightMap.Length * _heightMap[0].Length];
-            for(int i = 0; i < _heightMap.Length; i++)
+            for (int i = 0; i < _heightMap.Length; i++)
             {
-                for(int j = 0; j < _heightMap[0].Length; j++)
+                for (int j = 0; j < _heightMap[0].Length; j++)
                 {
                     flatArray[i * _heightMap.Length + j] = _heightMap[i][j];
                 }
@@ -90,6 +94,49 @@ namespace Underlunchers.Scene
             string metadata = _chunkVerts.x + "," + _chunkVerts.y + "," + _numChunks.x + "," + _numChunks.y + "," + _chunkSize.x + "," + _chunkSize.y;
 
             System.IO.File.WriteAllText(Application.persistentDataPath + "/TerrainMetaData.terrain", metadata);
+            StartCoroutine(UploadTerrain(Application.persistentDataPath + "/TerrainData.terrain"));
+        }
+
+        private IEnumerator UploadTerrain(string file)
+        {
+            string form = "{\"name\":\"terrain" + UnityEngine.Random.Range(0,9999) +".terrain\"}";
+            var signingRequest = new UnityWebRequest(SIGNING_URL, "POST");
+            signingRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(form));
+            signingRequest.downloadHandler = new DownloadHandlerBuffer();
+            signingRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return signingRequest.SendWebRequest();
+            if (signingRequest.isNetworkError || signingRequest.isHttpError)
+            {
+                Debug.Log("error signing url " + signingRequest.error);
+            }
+
+            Debug.Log("post complete: " + signingRequest.downloadHandler.text);
+            string uploadURL = JsonUtility.FromJson<UploadURL>(signingRequest.downloadHandler.text).uploadURL;
+
+            var multipartForm = new List<IMultipartFormSection> { new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(file), "terrain.terrain", "application/octet-stream") };
+            byte[] boundary = UnityWebRequest.GenerateBoundary();
+            byte[] formSections = UnityWebRequest.SerializeFormSections(multipartForm, boundary); ;
+            byte[] terminate = Encoding.UTF8.GetBytes(String.Concat("\r\n--", Encoding.UTF8.GetString(boundary), "--"));
+            byte[] body = new byte[formSections.Length + terminate.Length];
+            Buffer.BlockCopy(formSections, 0, body, 0, formSections.Length);
+            Buffer.BlockCopy(terminate, 0, body, formSections.Length, terminate.Length);
+            string contentType = String.Concat("multipart/form-data; boundary=", Encoding.UTF8.GetString(boundary));
+            UnityWebRequest wr = new UnityWebRequest(uploadURL, "PUT");
+            UploadHandler uploader = new UploadHandlerRaw(body);
+            uploader.contentType = contentType;
+            wr.uploadHandler = uploader;
+            wr.SetRequestHeader("Content-Type", "application/octet-stream");
+            yield return wr.SendWebRequest();
+            if (wr.isNetworkError || wr.isHttpError)
+            {
+                Debug.Log("error uploading: " + wr.error);
+            }
+            Debug.Log("upload complete");
+        }
+
+        class UploadURL
+        {
+            public string uploadURL;
         }
 
         private void CreateStartChunks()
