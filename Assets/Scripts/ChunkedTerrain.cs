@@ -15,7 +15,7 @@ namespace Underlunchers.Scene
         [SerializeField] Material _material;
         [SerializeField] bool _loadMesh;
 
-        const string SIGNING_URL = "https://0eigd4ij87.execute-api.us-east-1.amazonaws.com/prod";
+        const string SIGNING_URL = "http://localhost:8080/sign";
 
         Chunk[][] _chunks;
         Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
@@ -111,7 +111,8 @@ namespace Underlunchers.Scene
             }
 
             Debug.Log("post complete: " + signingRequest.downloadHandler.text);
-            string uploadURL = JsonUtility.FromJson<UploadURL>(signingRequest.downloadHandler.text).uploadURL;
+            Debug.Log(signingRequest.downloadHandler.text);
+            string uploadURL = signingRequest.downloadHandler.text;
 
             var multipartForm = new List<IMultipartFormSection> { new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(file), "terrain.terrain", "application/octet-stream") };
             byte[] boundary = UnityWebRequest.GenerateBoundary();
@@ -132,11 +133,6 @@ namespace Underlunchers.Scene
                 Debug.Log("error uploading: " + wr.error);
             }
             Debug.Log("upload complete");
-        }
-
-        class UploadURL
-        {
-            public string uploadURL;
         }
 
         private void CreateStartChunks()
