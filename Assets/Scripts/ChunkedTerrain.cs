@@ -12,10 +12,8 @@ namespace Underlunchers.Scene
         [SerializeField] Vector2Int _chunkVerts;
         [SerializeField] Vector2 _chunkSize;
         [SerializeField] Vector2Int _numChunks;
-        [SerializeField] Material _material;
-        [SerializeField] bool _loadMesh;
-
-        const string SIGNING_URL = "http://localhost:8080/sign";
+        [SerializeField] private Material _material;
+        [SerializeField] private bool _loadMesh;
 
         Chunk[][] _chunks;
         Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
@@ -89,50 +87,11 @@ namespace Underlunchers.Scene
             }
             var byteArray = new byte[flatArray.Length * 4];
             Buffer.BlockCopy(flatArray, 0, byteArray, 0, byteArray.Length);
-            System.IO.File.WriteAllBytes(Application.persistentDataPath + "/TerrainData.terrain", byteArray);
-
             string metadata = _chunkVerts.x + "," + _chunkVerts.y + "," + _numChunks.x + "," + _numChunks.y + "," + _chunkSize.x + "," + _chunkSize.y;
-
-            System.IO.File.WriteAllText(Application.persistentDataPath + "/TerrainMetaData.terrain", metadata);
-            StartCoroutine(UploadTerrain(Application.persistentDataPath + "/TerrainData.terrain"));
-        }
-
-        private IEnumerator UploadTerrain(string file)
-        {
-            string form = "{\"name\":\"terrain" + UnityEngine.Random.Range(0,9999) +".terrain\"}";
-            var signingRequest = new UnityWebRequest(SIGNING_URL, "POST");
-            signingRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(form));
-            signingRequest.downloadHandler = new DownloadHandlerBuffer();
-            signingRequest.SetRequestHeader("Content-Type", "application/json");
-            yield return signingRequest.SendWebRequest();
-            if (signingRequest.isNetworkError || signingRequest.isHttpError)
-            {
-                Debug.Log("error signing url " + signingRequest.error);
-            }
-
-            Debug.Log("post complete: " + signingRequest.downloadHandler.text);
-            Debug.Log(signingRequest.downloadHandler.text);
-            string uploadURL = signingRequest.downloadHandler.text;
-
-            var multipartForm = new List<IMultipartFormSection> { new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(file), "terrain.terrain", "application/octet-stream") };
-            byte[] boundary = UnityWebRequest.GenerateBoundary();
-            byte[] formSections = UnityWebRequest.SerializeFormSections(multipartForm, boundary); ;
-            byte[] terminate = Encoding.UTF8.GetBytes(String.Concat("\r\n--", Encoding.UTF8.GetString(boundary), "--"));
-            byte[] body = new byte[formSections.Length + terminate.Length];
-            Buffer.BlockCopy(formSections, 0, body, 0, formSections.Length);
-            Buffer.BlockCopy(terminate, 0, body, formSections.Length, terminate.Length);
-            string contentType = String.Concat("multipart/form-data; boundary=", Encoding.UTF8.GetString(boundary));
-            UnityWebRequest wr = new UnityWebRequest(uploadURL, "PUT");
-            UploadHandler uploader = new UploadHandlerRaw(body);
-            uploader.contentType = contentType;
-            wr.uploadHandler = uploader;
-            wr.SetRequestHeader("Content-Type", "application/octet-stream");
-            yield return wr.SendWebRequest();
-            if (wr.isNetworkError || wr.isHttpError)
-            {
-                Debug.Log("error uploading: " + wr.error);
-            }
-            Debug.Log("upload complete");
+            TerrainUploader uploader = FindObjectOfType<TerrainUploader>();
+            uploader.SaveByes(byteArray, "terrain.terrain", "myStory");
+            uploader.SaveString(metadata, "metaData.json", "myStory");
+            uploader.Upload("myStory");
         }
 
         private void CreateStartChunks()
@@ -217,7 +176,7 @@ namespace Underlunchers.Scene
             UpdateChunks(toUpdate);
         }
 
-        void UpdateChunks(List<Vector2Int> updated)
+        private void UpdateChunks(List<Vector2Int> updated)
         {
             foreach(Vector2Int pos in updated)
             {
@@ -225,7 +184,7 @@ namespace Underlunchers.Scene
             }
         }
 
-        void UpdateChunks(Vector2Int pos)
+        private void UpdateChunks(Vector2Int pos)
         {
             float height = _heightMap[pos.x][pos.y];
             foreach (Chunk c in _chunksAtVerts[pos])

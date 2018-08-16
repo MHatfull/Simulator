@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\MaxLaptop\.Rider2018.1\system\resharper-host\Local\Transient\ReSharperHost\v12\SolutionCaches\_Simulator.-806119083.00" t="ExcludeRecursive" />
+    <e p="C:\Users\MaxLaptop\Projects\Simulator" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="DebugNormals.shader" t="Include" />
+        <e p="Models" t="Include">
+          <e p="Equipment" t="Include">
+            <e p="VertexColorFarmAnimals" t="Include">
+              <e p="Shaders" t="Include">
+                <e p="VertexColorUnlit.shader" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Scenery" t="Include">
+            <e p="NatureStarterKit2" t="Include">
+              <e p="info.txt" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="CameraEffects" t="Include">
+            <e p="ScreenSpaceSnow.cs" t="Include" />
+          </e>
+          <e p="Characters" t="Include">
+            <e p="Abilities" t="Include">
+              <e p="AbilityController.cs" t="Include" />
+              <e p="EnemyAbilityController.cs" t="Include" />
+              <e p="PlayerAbilityController.cs" t="Include" />
+              <e p="ScriptableObjects" t="Include">
+                <e p="CombatAbility.cs" t="Include" />
+                <e p="Melee.cs" t="Include" />
+              </e>
+            </e>
+            <e p="AI" t="Include">
+              <e p="Navigation" t="Include">
+                <e p="EnemyNavigation.cs" t="Include" />
+                <e p="NavArea.cs" t="Include" />
+                <e p="SpawnArea.cs" t="Include" />
+              </e>
+              <e p="Targeter.cs" t="Include" />
+            </e>
+            <e p="Character.cs" t="Include" />
+            <e p="DropTable.cs" t="Include" />
+            <e p="HealthBar.cs" t="Include" />
+            <e p="HealthDisplay.cs" t="Include" />
+            <e p="PlayerHealth.cs" t="Include" />
+          </e>
+          <e p="Chunk.cs" t="Include" />
+          <e p="ChunkedTerrain.cs" t="Include" />
+          <e p="Compressor.cs" t="Include" />
+          <e p="Editor" t="Include">
+            <e p="Build.cs" t="Include" />
+            <e p="GizmoDisplay.cs" t="Include" />
+          </e>
+          <e p="Hosts.cs" t="Include" />
+          <e p="Input" t="Include">
+            <e p="CurveControlledBob.cs" t="Include" />
+            <e p="FirstPersonCharacterInput.cs" t="Include" />
+            <e p="FOVKick.cs" t="Include" />
+            <e p="HotKeyManager.cs" t="Include" />
+            <e p="InputManager.cs" t="Include" />
+            <e p="LerpControlledBob.cs" t="Include" />
+            <e p="MouseLook.cs" t="Include" />
+          </e>
+          <e p="Items" t="Include">
+            <e p="Collectable.cs" t="Include" />
+            <e p="Equipment.cs" t="Include" />
+            <e p="EquipmentManager.cs" t="Include" />
+            <e p="InventoryManager.cs" t="Include" />
+          </e>
+          <e p="Lobby.cs" t="Include" />
+          <e p="Stories" t="Include">
+            <e p="KillTask.cs" t="Include" />
+            <e p="Quest.cs" t="Include" />
+            <e p="QuestManager.cs" t="Include" />
+            <e p="Task.cs" t="Include" />
+          </e>
+          <e p="SwitchScene.cs" t="Include" />
+          <e p="TerrainUploader.cs" t="Include" />
+          <e p="UI" t="Include">
+            <e p="Menu" t="Include">
+              <e p="Menu.cs" t="Include" />
+              <e p="MenuDropDown.cs" t="Include" />
+            </e>
+            <e p="MinimapIcon.cs" t="Include" />
+            <e p="QuestUI.cs" t="Include" />
+            <e p="Slots" t="Include">
+              <e p="AbilitySlot.cs" t="Include" />
+              <e p="EquipmentSlot.cs" t="Include" />
+              <e p="InventorySlot.cs" t="Include" />
+              <e p="ItemSlot.cs" t="Include" />
+              <e p="UISlot.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Shaders" t="Include">
+          <e p="ScreenSpaceSnow.shader" t="Include" />
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Simulator.sln" t="IncludeFlat" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
