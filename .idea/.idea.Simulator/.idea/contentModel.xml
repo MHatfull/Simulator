@@ -79,6 +79,7 @@
             <e p="QuestManager.cs" t="Include" />
             <e p="Task.cs" t="Include" />
           </e>
+          <e p="StoriesDropdown.cs" t="Include" />
           <e p="SwitchScene.cs" t="Include" />
           <e p="TerrainUploader.cs" t="Include" />
           <e p="UI" t="Include">
