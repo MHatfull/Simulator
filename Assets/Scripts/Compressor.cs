@@ -73,8 +73,7 @@ namespace CmprDir
         foreach (string sFilePath in sFiles)
         {
           string sRelativePath = sFilePath.Substring(iDirLen);
-          if (progress != null)
-            progress(sRelativePath);
+          progress?.Invoke(sRelativePath);
           CompressFile(sInDir, sRelativePath, str);
         }
     }

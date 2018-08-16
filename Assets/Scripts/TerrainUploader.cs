@@ -45,7 +45,9 @@ public class TerrainUploader : MonoBehaviour
         {
             File.Delete(archiveName);
         }
-        Compressor.CompressDirectory(BaseStoryPath(storyName), archiveName, Debug.Log);
+
+        Compressor.CompressDirectory(BaseStoryPath(storyName), archiveName, null);
+        
         StartCoroutine(UploadStory(storyName));
     }
 
@@ -57,7 +59,7 @@ public class TerrainUploader : MonoBehaviour
     
     private IEnumerator UploadStory(string storyName)
         {
-            string form = "{\"name\":\"storyName.terrain\"}";
+            string form = "{\"name\":\"" + storyName + ".terrain\"}";
             UnityWebRequest signingRequest = new UnityWebRequest(SigningUrl, "POST")
             {
                 uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(form)),
@@ -74,7 +76,7 @@ public class TerrainUploader : MonoBehaviour
             Debug.Log(signingRequest.downloadHandler.text);
             string uploadUrl = signingRequest.downloadHandler.text;
 
-            var multipartForm = new List<IMultipartFormSection> { new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(storyName+".gz"), "terrain.terrain", "application/octet-stream") };
+            var multipartForm = new List<IMultipartFormSection> { new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(BaseStoryPath(storyName)+".gz"), "terrain.terrain", "application/octet-stream") };
             byte[] boundary = UnityWebRequest.GenerateBoundary();
             byte[] formSections = UnityWebRequest.SerializeFormSections(multipartForm, boundary); ;
             byte[] terminate = Encoding.UTF8.GetBytes(String.Concat("\r\n--", Encoding.UTF8.GetString(boundary), "--"));
