@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 125260954}
   - component: {fileID: 125260953}
   - component: {fileID: 125260952}
+  - component: {fileID: 125260956}
   m_Layer: 5
   m_Name: StorySelector
   m_TagString: Untagged
@@ -279,7 +280,18 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &125260954
@@ -316,6 +328,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 125260950}
   m_CullTransparentMesh: 0
+--- !u!114 &125260956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 125260950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ef289c70c7edd44881d6f029364acc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &145139970
 GameObject:
   m_ObjectHideFlags: 0

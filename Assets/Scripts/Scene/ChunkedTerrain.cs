@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Underlunchers.Networking;
+using Underlunchers.Stories;
 using UnityEngine;
 
 namespace Underlunchers.Scene
@@ -13,6 +14,7 @@ namespace Underlunchers.Scene
         [SerializeField] Vector2Int _numChunks;
         [SerializeField] private Material _material;
         [SerializeField] private bool _loadMesh;
+        [SerializeField] private string _story;
 
         Chunk[][] _chunks;
         [SerializeField] Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
@@ -21,27 +23,32 @@ namespace Underlunchers.Scene
 
         private void Awake()
         {
+            _story = StorySelector.CurrentStory;
             _chunks = new Chunk[_numChunks.x][];
             if (_loadMesh)
             {
-                string metadata = System.IO.File.ReadAllText(Application.persistentDataPath + "/TerrainMetaData.terrain");
-                string[] split = metadata.Split(',');
-                _chunkVerts = new Vector2Int(int.Parse(split[0]), int.Parse(split[1]));
-                _numChunks = new Vector2Int(int.Parse(split[2]), int.Parse(split[3]));
-                _chunkSize = new Vector2(float.Parse(split[4]), float.Parse(split[5]));
-                _chunks = new Chunk[_numChunks.x][];
-                LoadMesh();
+                gameObject.GetComponent<StoryDownloader>().DownloadStory(_story, () =>
+                {
+                    string metadata = System.IO.File.ReadAllText(Application.persistentDataPath + "/" + _story + "/metaData.json");
+                    string[] split = metadata.Split(',');
+                    _chunkVerts = new Vector2Int(int.Parse(split[0]), int.Parse(split[1]));
+                    _numChunks = new Vector2Int(int.Parse(split[2]), int.Parse(split[3]));
+                    _chunkSize = new Vector2(float.Parse(split[4]), float.Parse(split[5]));
+                    _chunks = new Chunk[_numChunks.x][];
+                    LoadMesh(_story); 
+                    CreateStartChunks();
+                });
             }
             else
             {
                 _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];
+                CreateStartChunks();
             }
-            CreateStartChunks();
         }
 
-        private void LoadMesh()
+        private void LoadMesh(string story)
         {
-            byte[] bytes = System.IO.File.ReadAllBytes(Application.persistentDataPath + "/TerrainData.terrain");
+            byte[] bytes = System.IO.File.ReadAllBytes(Application.persistentDataPath + "/" + story + "/terrain.terrain");
             var flat = new float[bytes.Length / 4];
             Buffer.BlockCopy(bytes, 0, flat, 0, bytes.Length);
             _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];

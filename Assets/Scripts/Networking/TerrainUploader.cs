@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using Underlunchers.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
+using static System.IO.File;
 
 namespace Underlunchers.Networking
 {
@@ -17,7 +17,7 @@ namespace Underlunchers.Networking
         public void SaveByes(byte[] byteArray, string location, string storyName)
         {
             CreateStoryDirectory(storyName);
-            File.WriteAllBytes(BaseStoryPath(storyName) + "/" + location, byteArray);
+            WriteAllBytes(BaseStoryPath(storyName) + "/" + location, byteArray);
         }
 
         private void CreateStoryDirectory(string storyName)
@@ -31,18 +31,18 @@ namespace Underlunchers.Networking
         public void SaveString(string content, string location, string storyName)
         {
             CreateStoryDirectory(storyName);
-            System.IO.File.WriteAllText(Application.persistentDataPath + "/" + storyName + "/" + location, content);
+            WriteAllText(Application.persistentDataPath + "/" + storyName + "/" + location, content);
         }
 
         public void Upload(string storyName)
         {
-            string archiveName = BaseStoryPath(storyName) + ".gz";
-            if (File.Exists(archiveName))
+            string archiveName = BaseStoryPath(storyName) + ".story";
+            if (Exists(archiveName))
             {
-                File.Delete(archiveName);
+                Delete(archiveName);
             }
 
-            Compressor.CompressDirectory(BaseStoryPath(storyName), archiveName, null);
+            Compressor.CompressDirectory(BaseStoryPath(storyName), archiveName);
 
             StartCoroutine(UploadStory(storyName));
         }
@@ -55,7 +55,7 @@ namespace Underlunchers.Networking
 
         private IEnumerator UploadStory(string storyName)
         {
-            string form = "{\"name\":\"" + storyName + ".terrain\"}";
+            string form = "{\"name\":\"" + storyName + ".story\"}";
             UnityWebRequest signingRequest = new UnityWebRequest(SigningUrl, "POST")
             {
                 uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(form)),
@@ -74,7 +74,7 @@ namespace Underlunchers.Networking
 
             var multipartForm = new List<IMultipartFormSection>
             {
-                new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(BaseStoryPath(storyName) + ".gz"),
+                new MultipartFormFileSection("file", ReadAllBytes(BaseStoryPath(storyName) + ".story"),
                     "terrain.terrain", "application/octet-stream")
             };
             byte[] boundary = UnityWebRequest.GenerateBoundary();

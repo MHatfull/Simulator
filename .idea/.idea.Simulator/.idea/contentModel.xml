@@ -6,7 +6,6 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="DebugNormals.shader" t="Include" />
         <e p="Models" t="Include">
           <e p="Equipment" t="Include">
             <e p="VertexColorFarmAnimals" t="Include">
@@ -68,9 +67,12 @@
             <e p="EquipmentManager.cs" t="Include" />
             <e p="InventoryManager.cs" t="Include" />
           </e>
+          <e p="LocalNavMeshBuilder.cs" t="Include" />
+          <e p="NavMeshSourceTag.cs" t="Include" />
           <e p="Networking" t="Include">
             <e p="Hosts.cs" t="Include" />
             <e p="Lobby.cs" t="Include" />
+            <e p="StoryDownloader.cs" t="Include" />
             <e p="TerrainUploader.cs" t="Include" />
           </e>
           <e p="Scene" t="Include">
@@ -83,6 +85,7 @@
             <e p="QuestManager.cs" t="Include" />
             <e p="Task.cs" t="Include" />
           </e>
+          <e p="StorySelector.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="Menu" t="Include">
               <e p="Menu.cs" t="Include" />
@@ -105,6 +108,7 @@
           </e>
         </e>
         <e p="Shaders" t="Include">
+          <e p="DebugNormals.shader" t="Include" />
           <e p="ScreenSpaceSnow.shader" t="Include" />
         </e>
       </e>

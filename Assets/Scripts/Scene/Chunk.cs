@@ -40,6 +40,7 @@ namespace Underlunchers.Scene
             newChunk._vertsDeep = vertexSize.y;
             newChunk._vertsAcross = vertexSize.x;
             newChunk._material = material;
+            newChunk.gameObject.AddComponent<NavMeshSourceTag>();
             return newChunk;
         }
 

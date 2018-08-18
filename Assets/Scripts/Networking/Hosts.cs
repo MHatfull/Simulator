@@ -9,5 +9,8 @@ namespace Underlunchers.Networking
     {
         [SerializeField] private string _storyManagement;
         public string StoryManagement => _storyManagement;
+        
+        [SerializeField] private string _storyBucket;
+        public string StoryBucket => _storyBucket;
     }
 }

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: Hosts
   m_EditorClassIdentifier: 
   _storyManagement: http://192.168.1.77:49160
+  _storyBucket: stories.underlunchers.co.uk
