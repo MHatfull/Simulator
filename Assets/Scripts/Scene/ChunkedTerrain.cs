@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using Underlunchers.Networking;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Underlunchers.Scene
 {
@@ -16,9 +15,9 @@ namespace Underlunchers.Scene
         [SerializeField] private bool _loadMesh;
 
         Chunk[][] _chunks;
-        Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
-        Dictionary<Chunk, Vector2Int> _chunkLocations = new Dictionary<Chunk, Vector2Int>();
-        float[][] _heightMap;
+        [SerializeField] Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
+        private readonly Dictionary<Chunk, Vector2Int> _chunkLocations = new Dictionary<Chunk, Vector2Int>();
+        private float[][] _heightMap;
 
         private void Awake()
         {
@@ -69,13 +68,9 @@ namespace Underlunchers.Scene
                     }
                 }
             }
-            if (UnityEngine.Input.GetKeyDown(KeyCode.KeypadEnter))
-            {
-                SaveMesh();
-            }
         }
 
-        private void SaveMesh()
+        public void SaveMesh()
         {
             float[] flatArray = new float[_heightMap.Length * _heightMap[0].Length];
             for (int i = 0; i < _heightMap.Length; i++)
@@ -89,9 +84,9 @@ namespace Underlunchers.Scene
             Buffer.BlockCopy(flatArray, 0, byteArray, 0, byteArray.Length);
             string metadata = _chunkVerts.x + "," + _chunkVerts.y + "," + _numChunks.x + "," + _numChunks.y + "," + _chunkSize.x + "," + _chunkSize.y;
             TerrainUploader uploader = FindObjectOfType<TerrainUploader>();
-            uploader.SaveByes(byteArray, "terrain.terrain", "myStory");
-            uploader.SaveString(metadata, "metaData.json", "myStory");
-            uploader.Upload("myStory");
+            uploader.SaveByes(byteArray, "terrain.terrain", name);
+            uploader.SaveString(metadata, "metaData.json", name);
+            uploader.Upload(name);
         }
 
         private void CreateStartChunks()

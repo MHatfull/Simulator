@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Underlunchers.Networking;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -44,9 +45,7 @@ public class StoriesDropdown : MonoBehaviour
 	[Serializable]
 	private class StoryList
 	{
-		[SerializeField]
-		private string[] stories;
-
+		[SerializeField] private string[] stories;
 		public IEnumerable<string> Stories => stories;
 	}
 }

@@ -3,7 +3,7 @@ using System.Text;
 using System.IO;
 using System.IO.Compression;
 
-namespace CmprDir
+namespace Underlunchers.Utils
 {
   class Compressor
   {

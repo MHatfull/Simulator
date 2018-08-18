@@ -2,62 +2,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Text;
-using CmprDir;
+using Underlunchers.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Rendering;
-using UnityEngine.XR.WSA.Persistence;
 
-public class TerrainUploader : MonoBehaviour
+namespace Underlunchers.Networking
 {
-    [SerializeField] private Hosts _hosts;
-    
-    private string SigningUrl {
-        get { return _hosts.StoryManagement + "/sign"; }
-    }
-
-    public void SaveByes(byte[] byteArray, string location, string storyName)
+    public class TerrainUploader : MonoBehaviour
     {
-        CreateStoryDirectory(storyName);
-        File.WriteAllBytes(BaseStoryPath(storyName) + "/" + location, byteArray);
-    }
+        [SerializeField] private Hosts _hosts;
+        private string SigningUrl => _hosts.StoryManagement + "/sign";
 
-    private void CreateStoryDirectory(string storyName)
-    {
-        if (!System.IO.Directory.Exists(BaseStoryPath(storyName)))
+        public void SaveByes(byte[] byteArray, string location, string storyName)
         {
-            System.IO.Directory.CreateDirectory(BaseStoryPath(storyName));
-        }
-    }
-
-    public void SaveString(string content, string location, string storyName)
-    {
-        CreateStoryDirectory(storyName);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/" + storyName + "/" + location, content);
-    }
-    
-    public void Upload(string storyName)
-    {
-        string archiveName = BaseStoryPath(storyName) + ".gz";
-        if (File.Exists(archiveName))
-        {
-            File.Delete(archiveName);
+            CreateStoryDirectory(storyName);
+            File.WriteAllBytes(BaseStoryPath(storyName) + "/" + location, byteArray);
         }
 
-        Compressor.CompressDirectory(BaseStoryPath(storyName), archiveName, null);
-        
-        StartCoroutine(UploadStory(storyName));
-    }
+        private void CreateStoryDirectory(string storyName)
+        {
+            if (!System.IO.Directory.Exists(BaseStoryPath(storyName)))
+            {
+                System.IO.Directory.CreateDirectory(BaseStoryPath(storyName));
+            }
+        }
+
+        public void SaveString(string content, string location, string storyName)
+        {
+            CreateStoryDirectory(storyName);
+            System.IO.File.WriteAllText(Application.persistentDataPath + "/" + storyName + "/" + location, content);
+        }
+
+        public void Upload(string storyName)
+        {
+            string archiveName = BaseStoryPath(storyName) + ".gz";
+            if (File.Exists(archiveName))
+            {
+                File.Delete(archiveName);
+            }
+
+            Compressor.CompressDirectory(BaseStoryPath(storyName), archiveName, null);
+
+            StartCoroutine(UploadStory(storyName));
+        }
 
 
-    private static string BaseStoryPath(string name)
-    {
-        return Application.persistentDataPath + "/" + name;
-    }
-    
-    private IEnumerator UploadStory(string storyName)
+        private static string BaseStoryPath(string name)
+        {
+            return Application.persistentDataPath + "/" + name;
+        }
+
+        private IEnumerator UploadStory(string storyName)
         {
             string form = "{\"name\":\"" + storyName + ".terrain\"}";
             UnityWebRequest signingRequest = new UnityWebRequest(SigningUrl, "POST")
@@ -76,9 +72,14 @@ public class TerrainUploader : MonoBehaviour
             Debug.Log(signingRequest.downloadHandler.text);
             string uploadUrl = signingRequest.downloadHandler.text;
 
-            var multipartForm = new List<IMultipartFormSection> { new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(BaseStoryPath(storyName)+".gz"), "terrain.terrain", "application/octet-stream") };
+            var multipartForm = new List<IMultipartFormSection>
+            {
+                new MultipartFormFileSection("file", System.IO.File.ReadAllBytes(BaseStoryPath(storyName) + ".gz"),
+                    "terrain.terrain", "application/octet-stream")
+            };
             byte[] boundary = UnityWebRequest.GenerateBoundary();
-            byte[] formSections = UnityWebRequest.SerializeFormSections(multipartForm, boundary); ;
+            byte[] formSections = UnityWebRequest.SerializeFormSections(multipartForm, boundary);
+            ;
             byte[] terminate = Encoding.UTF8.GetBytes(String.Concat("\r\n--", Encoding.UTF8.GetString(boundary), "--"));
             byte[] body = new byte[formSections.Length + terminate.Length];
             Buffer.BlockCopy(formSections, 0, body, 0, formSections.Length);
@@ -94,6 +95,8 @@ public class TerrainUploader : MonoBehaviour
             {
                 Debug.Log("error uploading: " + wr.error);
             }
+
             Debug.Log("upload complete");
         }
+    }
 }

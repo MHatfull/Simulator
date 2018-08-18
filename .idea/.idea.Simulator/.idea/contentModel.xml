@@ -49,14 +49,10 @@
             <e p="HealthDisplay.cs" t="Include" />
             <e p="PlayerHealth.cs" t="Include" />
           </e>
-          <e p="Chunk.cs" t="Include" />
-          <e p="ChunkedTerrain.cs" t="Include" />
-          <e p="Compressor.cs" t="Include" />
           <e p="Editor" t="Include">
             <e p="Build.cs" t="Include" />
             <e p="GizmoDisplay.cs" t="Include" />
           </e>
-          <e p="Hosts.cs" t="Include" />
           <e p="Input" t="Include">
             <e p="CurveControlledBob.cs" t="Include" />
             <e p="FirstPersonCharacterInput.cs" t="Include" />
@@ -72,16 +68,21 @@
             <e p="EquipmentManager.cs" t="Include" />
             <e p="InventoryManager.cs" t="Include" />
           </e>
-          <e p="Lobby.cs" t="Include" />
+          <e p="Networking" t="Include">
+            <e p="Hosts.cs" t="Include" />
+            <e p="Lobby.cs" t="Include" />
+            <e p="TerrainUploader.cs" t="Include" />
+          </e>
+          <e p="Scene" t="Include">
+            <e p="Chunk.cs" t="Include" />
+            <e p="ChunkedTerrain.cs" t="Include" />
+          </e>
           <e p="Stories" t="Include">
             <e p="KillTask.cs" t="Include" />
             <e p="Quest.cs" t="Include" />
             <e p="QuestManager.cs" t="Include" />
             <e p="Task.cs" t="Include" />
           </e>
-          <e p="StoriesDropdown.cs" t="Include" />
-          <e p="SwitchScene.cs" t="Include" />
-          <e p="TerrainUploader.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="Menu" t="Include">
               <e p="Menu.cs" t="Include" />
@@ -96,6 +97,11 @@
               <e p="ItemSlot.cs" t="Include" />
               <e p="UISlot.cs" t="Include" />
             </e>
+            <e p="StoriesDropdown.cs" t="Include" />
+            <e p="SwitchScene.cs" t="Include" />
+          </e>
+          <e p="Utils" t="Include">
+            <e p="Compressor.cs" t="Include" />
           </e>
         </e>
         <e p="Shaders" t="Include">
