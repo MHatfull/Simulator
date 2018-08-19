@@ -255,7 +255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 26.664019}
+  m_AnchoredPosition: {x: 0, y: 8.087997}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &61313348
@@ -675,7 +675,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 631342543}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9111199
+  m_Size: 0.97304
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2037,7 +2037,6 @@ MonoBehaviour:
   _numChunks: {x: 0, y: 0}
   _material: {fileID: 2100000, guid: fff0eed4d18eb6642851baac62752f44, type: 2}
   _loadMesh: 1
-  _story: 
 --- !u!4 &575962012
 Transform:
   m_ObjectHideFlags: 0
@@ -2209,7 +2208,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.9111199}
+  m_AnchorMax: {x: 1, y: 0.97304}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4487,8 +4486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662afaf2eb3586d4d9911bacb4733218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _editorMode: 1
-  _standaloneMode: 0
+  _editorMode: 0
+  _standaloneMode: 2
   _host: localhost
   _webSockets: 0
   _port: 4444

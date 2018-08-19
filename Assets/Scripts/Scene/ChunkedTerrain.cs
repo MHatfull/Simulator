@@ -14,7 +14,6 @@ namespace Underlunchers.Scene
         [SerializeField] Vector2Int _numChunks;
         [SerializeField] private Material _material;
         [SerializeField] private bool _loadMesh;
-        [SerializeField] private string _story;
 
         Chunk[][] _chunks;
         [SerializeField] Dictionary<Vector2Int, List<Chunk>> _chunksAtVerts = new Dictionary<Vector2Int, List<Chunk>>();
@@ -23,27 +22,25 @@ namespace Underlunchers.Scene
 
         private void Awake()
         {
-            _story = StorySelector.CurrentStory;
             _chunks = new Chunk[_numChunks.x][];
-            if (_loadMesh)
+            if (_loadMesh) return;
+            _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];
+            CreateStartChunks();
+        }
+
+        public void DownloadStory(string story)
+        {
+            gameObject.GetComponent<StoryDownloader>().DownloadStory(story, () =>
             {
-                gameObject.GetComponent<StoryDownloader>().DownloadStory(_story, () =>
-                {
-                    string metadata = System.IO.File.ReadAllText(Application.persistentDataPath + "/" + _story + "/metaData.json");
-                    string[] split = metadata.Split(',');
-                    _chunkVerts = new Vector2Int(int.Parse(split[0]), int.Parse(split[1]));
-                    _numChunks = new Vector2Int(int.Parse(split[2]), int.Parse(split[3]));
-                    _chunkSize = new Vector2(float.Parse(split[4]), float.Parse(split[5]));
-                    _chunks = new Chunk[_numChunks.x][];
-                    LoadMesh(_story); 
-                    CreateStartChunks();
-                });
-            }
-            else
-            {
-                _heightMap = new float[_numChunks.x * (_chunkVerts.x - 1) + 1][];
+                string metadata = System.IO.File.ReadAllText(Application.persistentDataPath + "/" + story + "/metaData.json");
+                string[] split = metadata.Split(',');
+                _chunkVerts = new Vector2Int(int.Parse(split[0]), int.Parse(split[1]));
+                _numChunks = new Vector2Int(int.Parse(split[2]), int.Parse(split[3]));
+                _chunkSize = new Vector2(float.Parse(split[4]), float.Parse(split[5]));
+                _chunks = new Chunk[_numChunks.x][];
+                LoadMesh(story);
                 CreateStartChunks();
-            }
+            });
         }
 
         private void LoadMesh(string story)
