@@ -1,6 +1,4 @@
-FROM scratch
+FROM ubuntu
 ADD Builds/Linux/ /
-
-RUN chown +x Linux/server.x86_64
-
-CMD ["./Linux/server.x86_64"]
+EXPOSE 4444
+CMD ./Linux/server.x86_64 -logfile output.log & touch output.log ; tail -f output.log
