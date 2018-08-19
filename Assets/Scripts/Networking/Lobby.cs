@@ -27,6 +27,7 @@ namespace Underlunchers.Networking
                     StartInMode(_editorMode);
                     break;
                 case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.LinuxPlayer:
                     StartInMode(_standaloneMode);
                     break;
                 default:
